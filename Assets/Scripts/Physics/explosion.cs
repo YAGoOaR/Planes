@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class explosion : MonoBehaviour
 {
-    private bool dropped = false;
+    private bool isDropped = false;
     private float timer = 0;
     public float maxTime = 0f;
 
     public void OnJointBreak2D()
     {
-        dropped = true;
+        isDropped = true;
     }
 
     public void Update()
     {
-        if (dropped)
+        if (isDropped)
         {
             timer += Time.deltaTime;
         }

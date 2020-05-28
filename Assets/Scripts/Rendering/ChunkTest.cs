@@ -6,11 +6,11 @@ public class ChunkTest : MonoBehaviour
 {
 
     private ChunkManager chunkManager;
-    public int length;
+    public int width;
 
     void OnDrawGizmos()
     {
         chunkManager = gameObject.GetComponent<ChunkManager>();
-        for (int i = 0; i < length; i++) Gizmos.DrawLine(new Vector3(-i * chunkManager.chunkSize, -100, 0), new Vector3(-i * chunkManager.chunkSize, 300, 0));
+        for (int i = 0; i < width; i++) Gizmos.DrawLine(new Vector3(-i * chunkManager.chunkSize, -100, 0), new Vector3(-i * chunkManager.chunkSize, 300, 0));
     }
 }

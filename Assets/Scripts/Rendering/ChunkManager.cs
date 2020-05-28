@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class ChunkManager : MonoBehaviour
 {
-    private Transform cam;
+    private Transform cameraTransform;
     private ChunksArray chunkArray;
     public int visibleChunks = 0;
 
     public int chunkSize = 2000;
-    private int pos = 0;
-    private int prevPos = -1;
-
+    private int position = 0;
+    private int prevPosition = -1;
+    
     class ChunksArray
     {
         public ChunksArray(int chunkSize)
@@ -38,7 +38,7 @@ public class ChunkManager : MonoBehaviour
         }
         public void createChunk(int pos)
         {
-            GameObject chunkAsset = GameAssets.i.GetChunk(pos);
+            GameObject chunkAsset = GameAssets.instance.GetChunk(pos);
             if (chunkAsset != null)
             {
                 Chunk newChunk = new Chunk(pos, GameObject.Instantiate(chunkAsset, new Vector3((-pos + .5f) * this.chunkSize, 0, 0), Quaternion.identity));
@@ -80,25 +80,25 @@ public class ChunkManager : MonoBehaviour
 
     void Start()
     {
-        cam = Camera.main.transform;
+        cameraTransform = Camera.main.transform;
         chunkArray = new ChunksArray(chunkSize);
     }
 
     void Update()
     {
-        prevPos = pos;
-        pos = -Mathf.FloorToInt(cam.position.x / chunkSize);
-        if (pos != prevPos)
+        prevPosition = position;
+        position = -Mathf.FloorToInt(cameraTransform.position.x / chunkSize);
+        if (position != prevPosition)
         {
             for (int i = -visibleChunks; i < visibleChunks; i++)
             {
-                int cpos = pos + i;
+                int cpos = position + i;
                 if (chunkArray.findByPos(cpos) == null)
                 {
                     chunkArray.createChunk(cpos);
                 }
             }
-            chunkArray.clearAround(pos, visibleChunks);
+            chunkArray.clearAround(position, visibleChunks);
         }
     }
 }

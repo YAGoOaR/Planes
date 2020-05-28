@@ -5,38 +5,36 @@ using UnityEngine.SceneManagement;
 
 public class GameHandler : MonoBehaviour
 {
+    public static GameHandler instance;
+
     public Vector2 spawnPosition;
-    public float rotation;
-    public bool flip = false;
+    public float startRotation;
+    public bool startUpsideDown = false;
     private GameObject player;
-    private PlaneBehaviour pb;
-    public static GameHandler i;
+    private PlaneBehaviour planeBehaviour;
     public infoText planeInfo;
 
 
     public struct infoText
     {
-
         public int throttle, bullets, bombs;
         public float speed;
         public bool gear;
-
     }
 
     void Awake()
     {
-        i = this;
+        instance = this;
 
-        player = GameObject.Instantiate(GameAssets.i.player);
+        player = GameObject.Instantiate(GameAssets.instance.player);
         player.AddComponent<Follow>();
-        pb = player.GetComponent<PlaneBehaviour>();
+        planeBehaviour = player.GetComponent<PlaneBehaviour>();
         player.transform.position = new Vector3(spawnPosition.x, spawnPosition.y, 0);
 
-        if (flip)
+        if (startUpsideDown)
         {
-            pb.turnOver();
+            planeBehaviour.turnOver();
         }
-
     }
 
     public Vector3 GetPlayerPosition()

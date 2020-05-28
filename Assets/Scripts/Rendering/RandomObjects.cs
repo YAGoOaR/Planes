@@ -10,8 +10,8 @@ public class RandomObjects : MonoBehaviour
 
     private int chunkSize = 200;
     private int objSize = 30;
-    private int pos = 1;
-    private int prevPos = -1;
+    private int position = 1;
+    private int prevPosition = -1;
     private List<int> chunks = new List<int>();
     private List<GameObject> chunksObj = new List<GameObject>();
 
@@ -22,15 +22,15 @@ public class RandomObjects : MonoBehaviour
 
     void Update()
     {
-        prevPos = pos;
-        pos = Mathf.FloorToInt(cam.position.x / chunkSize) * chunkSize;
+        prevPosition = position;
+        position = Mathf.FloorToInt(cam.position.x / chunkSize) * chunkSize;
 
-        if (pos != prevPos)
+        if (position != prevPosition)
         {
 
             for (int i = 0; i < chunks.Count; i++)
             {
-                if (Mathf.Abs(chunks[i] - pos) > chunkSize * visibleChunks)
+                if (Mathf.Abs(chunks[i] - position) > chunkSize * visibleChunks)
                 {
                     removeCloudChunk(i);
                 }
@@ -38,7 +38,7 @@ public class RandomObjects : MonoBehaviour
 
             for (int i = -visibleChunks; i < visibleChunks; i++)
             {
-                int iPos = i * chunkSize + pos;
+                int iPos = i * chunkSize + position;
                 int id = chunks.IndexOf(iPos);
 
                 if (id == -1)
@@ -53,7 +53,7 @@ public class RandomObjects : MonoBehaviour
     void createCloudChunk(int pos)
     {
         chunks.Add(pos);
-        chunksObj.Add(GameObject.Instantiate(GameAssets.i.pickRandomCloud(), new Vector3(pos + Random.Range(0, chunkSize - objSize), cloudHeight, 0), Quaternion.identity));
+        chunksObj.Add(GameObject.Instantiate(GameAssets.instance.pickRandomCloud(), new Vector3(pos + Random.Range(0, chunkSize - objSize), cloudHeight, 0), Quaternion.identity));
     }
 
     void removeCloudChunk(int i)

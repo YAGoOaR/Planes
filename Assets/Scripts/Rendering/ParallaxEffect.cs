@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ParallaxEffect : MonoBehaviour
 {
-//    [SerializeField] Vector2 parallaxeffectMultiplier;
     private Transform camTransform;
     private Vector3 lastCameraPos;
     private float TextureUnitSizeX;
@@ -20,9 +19,6 @@ public class ParallaxEffect : MonoBehaviour
 
     void LateUpdate()
     {
-//        Debug.Log(camTransform.position.x - transform.position.x);
-//        Vector3 deltaMovement = camTransform.position - lastCameraPos;
-//        transform.position +=new Vector3(deltaMovement.x * ParallaxEffectMultiplier);
         if (Mathf.Abs(camTransform.position.x - transform.position.x) >= TextureUnitSizeX) {
             float offset = (transform.position.x - camTransform.position.x) % TextureUnitSizeX;
             transform.position = new Vector3(camTransform.position.x + offset, transform.position.y);

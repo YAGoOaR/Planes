@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class GameAssets : MonoBehaviour
 {
-    public static GameAssets i;
+    public static GameAssets instance;
 
     void Awake()
     {
-        i = this;
+        instance = this;
     }
 
     public GameObject PlayerCam;

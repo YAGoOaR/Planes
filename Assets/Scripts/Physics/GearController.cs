@@ -4,22 +4,22 @@ using UnityEngine;
 
 public class GearController : MonoBehaviour
 {
-    public bool gearUp { get; private set; }
+    public bool isGearUp { get; private set; }
     private Animator gearAnimator;
 
     void Start()
     {
-        gearUp = false;
+        isGearUp = false;
         gearAnimator = gameObject.GetComponent<Animator>();
     }
 
     public void switchGear()
     {
-        gearAnimator.SetBool("gearUp", !gearUp);
+        gearAnimator.SetBool("gearUp", !isGearUp);
     }
     public void gearSwitched()
     {
-        gearUp = !gearUp;
-        gameObject.GetComponent<CircleCollider2D>().enabled = gearUp;
+        isGearUp = !isGearUp;
+        gameObject.GetComponent<CircleCollider2D>().enabled = isGearUp;
     }
 }

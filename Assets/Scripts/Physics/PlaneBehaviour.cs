@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlaneBehaviour : MonoBehaviour
 {
 
-    const float accuracy = 2;
+    const float shootingAccuracy = 2;
     const float gunOffset = 1.6f;
     const float jointForce = 20f;
     const float flapMotorSpeed = 20;
@@ -148,13 +148,13 @@ public class PlaneBehaviour : MonoBehaviour
     void updateInfo()
     {
 
-        GameHandler.infoText info = GameHandler.i.planeInfo;
+        GameHandler.infoText info = GameHandler.instance.planeInfo;
         info.bombs = bombs.Count;
         info.speed = planerb.velocity.magnitude;
         info.throttle = propellerMotor.num;
-        info.gear = gearCtrl.gearUp;
+        info.gear = gearCtrl.isGearUp;
         info.bullets = bullets;
-        GameHandler.i.planeInfo = info;
+        GameHandler.instance.planeInfo = info;
     }
 
     void controls()
@@ -192,14 +192,14 @@ public class PlaneBehaviour : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.Q))
             {
-                if (planerb.velocity.magnitude > 5f && gearCtrl.gearUp)
+                if (planerb.velocity.magnitude > 5f && gearCtrl.isGearUp)
                 {
                     turn();
                 }
             }
             if (Input.GetKey(KeyCode.E))
             {
-                if (planerb.velocity.magnitude > 5f && gearCtrl.gearUp)
+                if (planerb.velocity.magnitude > 5f && gearCtrl.isGearUp)
                 {
                     turnBack();
                 }
@@ -290,10 +290,10 @@ public class PlaneBehaviour : MonoBehaviour
         {
             return;
         }
-        float acc = (Random.value - .5f) * accuracy;
+        float acc = (Random.value - .5f) * shootingAccuracy;
         float rotation = transform.rotation.eulerAngles.z / 180 * Mathf.PI;
         Vector3 gunPos = new Vector2(-Mathf.Cos(rotation + gunOffsetAngle), -Mathf.Sin(rotation + gunOffsetAngle)) * gunOffset;
-        GameObject bullet = Instantiate(GameAssets.i.bullet, gunPos + transform.position, transform.rotation);
+        GameObject bullet = Instantiate(GameAssets.instance.bullet, gunPos + transform.position, transform.rotation);
         bullet.transform.Rotate(new Vector3(0, 0, acc));
         bullet.GetComponent<Rigidbody2D>().AddForce(planerb.velocity);
         bullets--;
@@ -307,7 +307,7 @@ public class PlaneBehaviour : MonoBehaviour
 
     public void AddBomb()
     {
-        GameObject bmb = GameObject.Instantiate(GameAssets.i.bomb);
+        GameObject bmb = GameObject.Instantiate(GameAssets.instance.bomb);
         bmb.transform.position += new Vector3(0, -0.5f, 0);
         bmb.GetComponent<FixedJoint2D>().connectedAnchor = new Vector3(0, -0.5f, 0);
         bmb.GetComponent<FixedJoint2D>().connectedBody = gameObject.GetComponent<Rigidbody2D>();

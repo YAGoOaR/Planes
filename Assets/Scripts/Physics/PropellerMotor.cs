@@ -6,28 +6,28 @@ public class PropellerMotor : MonoBehaviour
 {
 
     public int num { get; private set; }
-    private Rigidbody2D rb;
+    private Rigidbody2D propellerRB;
     private float force = 5f;
     private Animator propellerAnimator;
-    private bool joint = true;
+    private bool jointIsActive = true;
     private FixedJoint2D fixedJoint;
 
     void Start()
     {
         fixedJoint = gameObject.GetComponent<FixedJoint2D>();
         propellerAnimator = gameObject.GetComponent<Animator>();
-        rb = gameObject.GetComponent<Rigidbody2D>();
+        propellerRB = gameObject.GetComponent<Rigidbody2D>();
     }
 
     void OnJointBreak2D()
     {
-        joint = false;
+        jointIsActive = false;
     }
 
 
     public void throttle(int n)
     {
-        if (joint)
+        if (jointIsActive)
         {
             num += n;
 
@@ -46,13 +46,13 @@ public class PropellerMotor : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (joint)
+        if (jointIsActive)
         {
             propellerAnimator.SetFloat("Throttle", num);
-            propellerAnimator.SetFloat("Velocity", Mathf.Sqrt(rb.velocity.magnitude * num) + 5f);
+            propellerAnimator.SetFloat("Velocity", Mathf.Sqrt(propellerRB.velocity.magnitude * num) + 5f);
             float ang = (gameObject.transform.rotation.eulerAngles.z - 180) / 180 * Mathf.PI;
             Vector2 v = new Vector2(Mathf.Cos(ang) * force * num, Mathf.Sin(ang) * force * num);
-            rb.AddForce(v);
+            propellerRB.AddForce(v);
         }
         else
         {

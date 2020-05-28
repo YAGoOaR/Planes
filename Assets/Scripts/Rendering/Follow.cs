@@ -12,7 +12,7 @@ public class Follow : MonoBehaviour
     private bool android = false;
     void Awake()
     {
-        GameObject cameraObject = Instantiate(GameAssets.i.PlayerCam);
+        GameObject cameraObject = Instantiate(GameAssets.instance.PlayerCam);
         camTransform = cameraObject.transform;
         camTransform.position = new Vector3(transform.position.x, transform.position.y, camTransform.position.z);
         bg = camTransform.Find("bg");
