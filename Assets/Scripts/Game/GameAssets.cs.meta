@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f29660ef67ccb46429a9375ca01cc31f
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - plane: {fileID: 1081117711294531131, guid: d055d448def055146bf5e46d9be50514, type: 3}
+  - turnSprite: {instanceID: 0}
+  - planeSprite: {instanceID: 0}
+  - gearSprite: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

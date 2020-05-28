@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags: []
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - Items
+  - Map
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Bg
+    uniqueID: 2079131521
+    locked: 0
+  - name: Land
+    uniqueID: 2216313671
+    locked: 0
+  - name: Items2
+    uniqueID: 2816166073
+    locked: 0
+  - name: Items3
+    uniqueID: 1330265473
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Items
+    uniqueID: 753266367
+    locked: 0
+  - name: high
+    uniqueID: 2456156629
+    locked: 0
+  - name: underWater
+    uniqueID: 2697292515
+    locked: 0
+  - name: water
+    uniqueID: 2276152245
+    locked: 0
+  - name: UI
+    uniqueID: 27720793
+    locked: 0
