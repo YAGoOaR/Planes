@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class GameHandler : MonoBehaviour
 {
-    public bool android;
     public Vector2 spawnPosition;
     public float rotation;
     public bool flip = false;
@@ -33,7 +32,6 @@ public class GameHandler : MonoBehaviour
         pb = player.GetComponent<PlaneBehaviour>();
         player.transform.position = new Vector3(spawnPosition.x, spawnPosition.y, 0);
 
-        //player.transform.Rotate(new Vector3(0, 0, rotation));
         if (flip)
         {
             pb.turnOver();
