@@ -5,7 +5,8 @@ public class Button1 : MonoBehaviour
 {
     public GameObject controlsPrefab;
 
-    public void StartGame() {
+    public void StartGame()
+    {
         SceneManager.LoadScene(1);
     }
 

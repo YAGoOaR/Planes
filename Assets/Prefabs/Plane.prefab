@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 3954668917912571626}
   - component: {fileID: 8937699714619485987}
   - component: {fileID: 434100921603120859}
+  - component: {fileID: 114275327656375858}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -265,6 +266,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114275327656375858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1081117711294531131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84093e9af1fdcd3418e131b6e261e661, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2780530029292694444
 GameObject:
   m_ObjectHideFlags: 0
@@ -426,8 +439,8 @@ FixedJoint2D:
   serializedVersion: 4
   m_EnableCollision: 0
   m_ConnectedRigidBody: {fileID: 6922862073916242376}
-  m_BreakForce: 2000
-  m_BreakTorque: 1000
+  m_BreakForce: 2500
+  m_BreakTorque: 1500
   m_AutoConfigureConnectedAnchor: 0
   m_Anchor: {x: 0, y: 0}
   m_ConnectedAnchor: {x: -1.2, y: 0}
@@ -445,6 +458,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2263d39fce2f06445b0fde518995ca87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jointIsActive: 1
 --- !u!1 &3090727410126393555
 GameObject:
   m_ObjectHideFlags: 0
@@ -856,7 +870,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lift: 0
-  liftCoef: 0
+  liftForceCoef: 0.1
   upside: 1
 --- !u!61 &8481539698938498099
 BoxCollider2D:
@@ -1030,7 +1044,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lift: 1
-  liftCoef: 0.07
+  liftForceCoef: 0.1
   upside: 1
 --- !u!1 &5742726392892148802
 GameObject:
@@ -1227,7 +1241,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lift: 0
-  liftCoef: 0
+  liftForceCoef: 0.1
   upside: 1
 --- !u!61 &23611707180146069
 BoxCollider2D:
@@ -1347,7 +1361,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lift: 0
-  liftCoef: 0
+  liftForceCoef: 0.1
   upside: 1
 --- !u!1 &6180692671805555054
 GameObject:

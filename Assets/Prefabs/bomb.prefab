@@ -66,7 +66,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lift: 0
-  liftCoef: 0
+  liftForceCoef: 0.1
   upside: 1
 --- !u!1 &8067713123994682638
 GameObject:
@@ -251,7 +251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c45b9939e485a346a737ca1571e3d25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxTime: 2
+  maxTime: 1
 --- !u!95 &4944721116336124056
 Animator:
   serializedVersion: 3

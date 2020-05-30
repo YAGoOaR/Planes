@@ -359,9 +359,9 @@ public class PlaneBehaviour : MonoBehaviour
         }
     }
 
-    public void OnCollisionEnter2D()
+    public void OnCollisionEnter2D(Collision2D collision)
     {
-        if (isTurningBack) broke();
+        if (isTurningBack && collision.gameObject.layer != 8) broke();
     }
 
     public void OnTriggerEnter2D()
@@ -374,7 +374,8 @@ public class PlaneBehaviour : MonoBehaviour
         planeAnimator.enabled = false;
         planerb.isKinematic = false;
         planerb.freezeRotation = false;
-        propeller.gameObject.GetComponent<FixedJoint2D>().enabled = false;
+        if (!propellerMotor.jointIsActive) return;
+        propeller.gameObject.GetComponent<FixedJoint2D>().breakForce = 0;
     }
 
     public void setTurningBack(bool set)

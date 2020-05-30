@@ -18,7 +18,7 @@ public class OnTurnBackExit : StateMachineBehaviour
         planeCollider = planeBehaviour.gameObject.GetComponent<Collider2D>();
         planeRigidbody = planeBehaviour.gameObject.GetComponent<Rigidbody2D>();
         planeTransform = planeBehaviour.gameObject.transform;
-        animator.SetFloat("speedMultiplier", Mathf.Min(1 / planeRigidbody.velocity.magnitude * 10, 0.6f) * Mathf.Max(-Mathf.Sin(planeTransform.rotation.eulerAngles.z / 180 * Mathf.PI) + 1, 0.7f));
+        animator.SetFloat("speedMultiplier", Mathf.Min(1 / planeRigidbody.velocity.magnitude * 10, 0.3f) * Mathf.Max(-Mathf.Sin(planeTransform.rotation.eulerAngles.z / 180 * Mathf.PI) + 1, 0.7f));
         planeBehaviour.setTurningBack(true);
         planeRigidbody.isKinematic = true;
         planeRigidbody.freezeRotation = true;

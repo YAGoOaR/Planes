@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class PropellerMotor : MonoBehaviour
 {
+    const float force = 5.2f;
+
+    Rigidbody2D propellerRB;
+    Animator propellerAnimator;
+    FixedJoint2D fixedJoint;
 
     public int num { get; private set; }
-    private Rigidbody2D propellerRB;
-    private float force = 5f;
-    private Animator propellerAnimator;
-    private bool jointIsActive = true;
-    private FixedJoint2D fixedJoint;
+    public bool jointIsActive = true;
 
     void Start()
     {

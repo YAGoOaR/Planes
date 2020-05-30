@@ -29,4 +29,15 @@ public class explosion : MonoBehaviour
             gameObject.GetComponent<PointEffector2D>().enabled = true;
         }
     }
+    public void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.gameObject.tag != "water" || timer < maxTime) return;
+        GameObject water = collider.transform.parent.gameObject;
+        Rigidbody2D rigidbody = gameObject.GetComponent<Rigidbody2D>();
+        Vector2 pos = transform.position;
+        float velocity = rigidbody.velocity.magnitude;
+        float mass = rigidbody.mass;
+        water.GetComponent<Water>().Splash(pos.x, mass * 500);
+        OnCollisionEnter2D(null);
+    }
 }

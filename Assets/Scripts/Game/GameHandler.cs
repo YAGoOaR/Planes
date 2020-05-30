@@ -5,15 +5,18 @@ using UnityEngine.SceneManagement;
 
 public class GameHandler : MonoBehaviour
 {
-    public static GameHandler instance;
+    const float freezeDistance = 235;
 
+    public List<GameObject> objectsToFreeze;
+    public static GameHandler instance;
     public Vector2 spawnPosition;
     public float startRotation;
     public bool startUpsideDown = false;
-    private GameObject player;
-    private PlaneBehaviour planeBehaviour;
     public infoText planeInfo;
 
+    Transform cameraTransform;
+    GameObject player;
+    PlaneBehaviour planeBehaviour;
 
     public struct infoText
     {
@@ -34,6 +37,18 @@ public class GameHandler : MonoBehaviour
         if (startUpsideDown)
         {
             planeBehaviour.turnOver();
+        }
+    }
+
+    void Start() {
+        cameraTransform = Camera.main.transform;
+    }
+
+    void Update()
+    {
+        foreach (GameObject obj in objectsToFreeze)
+        {
+            obj.SetActive(Mathf.Abs(cameraTransform.position.x - obj.transform.position.x) < freezeDistance);
         }
     }
 
