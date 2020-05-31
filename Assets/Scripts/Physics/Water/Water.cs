@@ -11,7 +11,7 @@ public class Water : MonoBehaviour
     const float effect = 0.0001f;
     const float mass = 1;
     const float waterTopWidth = 0.1f;
-    const float edgeWidth = 15f;
+    const float edgeWidth = 10f;
     const float waveVelocity = 0.04f;
 
     public Material waterTopMaterial;
