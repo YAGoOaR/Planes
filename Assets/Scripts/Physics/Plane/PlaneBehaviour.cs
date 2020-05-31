@@ -12,12 +12,15 @@ public class PlaneBehaviour : MonoBehaviour
     Vector3 bombOffset = new Vector3(0, -0.5f, 0);
 
     public bool isPlayer = true;
-    [HideInInspector]
-    public bool isTurningBack;
-
     bool upsideDown, flaps = false;
 
-    private float pitch = 0;
+    [HideInInspector]
+    public bool isTurningBack;
+    [HideInInspector]
+    public float pitch = 0;
+    [HideInInspector]
+    public int throttle = 0;
+
     float flapAngle = 30;
     float gunOffsetAngle = -0.2f;
     int bullets = 150;
@@ -99,7 +102,7 @@ public class PlaneBehaviour : MonoBehaviour
         }
     }
 
-    void Awake()
+    void Start()
     {
         for (int a = 0; a < bombCount; a++)
         {
@@ -145,7 +148,7 @@ public class PlaneBehaviour : MonoBehaviour
     void updateInfo()
     {
         GameHandler.infoText info = GameHandler.instance.planeInfo;
-        info.Set(propellerMotor.num, bullets, bombs.Count, planerb.velocity.magnitude, gearCtrl.isGearUp);
+        info.Set(propellerMotor.throttle, bullets, bombs.Count, planerb.velocity.magnitude, gearCtrl.isGearUp);
         GameHandler.instance.planeInfo = info;
     }
 
@@ -165,12 +168,12 @@ public class PlaneBehaviour : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.W))
             {
-                propellerMotor.throttle(1);
+                throttle++;
                 throttleTimer.reset();
             }
             if (Input.GetKey(KeyCode.S))
             {
-                propellerMotor.throttle(-1);
+                throttle--;
                 throttleTimer.reset();
             }
         }
@@ -200,6 +203,10 @@ public class PlaneBehaviour : MonoBehaviour
             flapJoint.motor = reverse;
         }
         else flapJoint.motor = flapMotor;
+
+        if (throttle > 100) throttle = 100;
+        else if (throttle < 0) throttle = 0;
+        propellerMotor.throttle = throttle;
     }
 
     public void turn()

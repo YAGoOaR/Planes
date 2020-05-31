@@ -25,7 +25,7 @@ public class GameHandler : MonoBehaviour
         public void Set(int throttle, int bullets, int bombs, float speed, bool gear)
         {
             this.throttle = throttle;
-            this.bullets = throttle;
+            this.bullets = bullets;
             this.bombs = bombs;
             this.speed = speed;
             this.gear = gear;

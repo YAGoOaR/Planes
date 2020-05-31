@@ -8,7 +8,7 @@ public class PropellerMotor : MonoBehaviour
     Animator propellerAnimator;
     FixedJoint2D fixedJoint;
 
-    public int num { get; private set; }
+    public int throttle;
     public bool jointIsActive = true;
 
     void Start()
@@ -23,30 +23,14 @@ public class PropellerMotor : MonoBehaviour
         jointIsActive = false;
     }
 
-
-    public void throttle(int n)
-    {
-        if (jointIsActive)
-        {
-            num += n;
-
-            if (num > 100) num = 100;
-            else if (num < 0) num = 0;
-        }
-    }
-    public void SetThrottle(int n)
-    {
-        num = n;
-    }
-
     void FixedUpdate()
     {
         if (jointIsActive)
         {
-            propellerAnimator.SetFloat("Throttle", num);
-            propellerAnimator.SetFloat("Velocity", Mathf.Sqrt(propellerRB.velocity.magnitude * num) + 5f);
+            propellerAnimator.SetFloat("Throttle", throttle);
+            propellerAnimator.SetFloat("Velocity", Mathf.Sqrt(propellerRB.velocity.magnitude * throttle) + 5f);
             float ang = (gameObject.transform.rotation.eulerAngles.z - 180) / 180 * Mathf.PI;
-            Vector2 v = new Vector2(Mathf.Cos(ang) * force * num, Mathf.Sin(ang) * force * num);
+            Vector2 v = new Vector2(Mathf.Cos(ang) * force * throttle, Mathf.Sin(ang) * force * throttle);
             propellerRB.AddForce(v);
         }
         else
@@ -57,7 +41,7 @@ public class PropellerMotor : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collider) {
         if (collider.tag != "water" || propellerRB.velocity.magnitude < 10 || !jointIsActive) return;
-        num = 0;
+        throttle = 0;
         fixedJoint.breakForce = 0;
     }
 
