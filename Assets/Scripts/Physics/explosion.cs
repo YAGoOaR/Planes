@@ -25,15 +25,15 @@ public class explosion : MonoBehaviour
     {
         if (timer > maxTime)
         {
-            gameObject.GetComponent<Animator>().SetBool("detonated", true);
-            gameObject.GetComponent<PointEffector2D>().enabled = true;
+            GetComponent<Animator>().SetBool("detonated", true);
+            GetComponent<PointEffector2D>().enabled = true;
         }
     }
     public void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.gameObject.tag != "water" || timer < maxTime) return;
         GameObject water = collider.transform.parent.gameObject;
-        Rigidbody2D rigidbody = gameObject.GetComponent<Rigidbody2D>();
+        Rigidbody2D rigidbody = GetComponent<Rigidbody2D>();
         Vector2 pos = transform.position;
         float velocity = rigidbody.velocity.magnitude;
         float mass = rigidbody.mass;

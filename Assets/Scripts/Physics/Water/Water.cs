@@ -55,7 +55,7 @@ public class Water : MonoBehaviour
 
     public void SpawnWater()
     {
-        BoxCollider2D boxCollider = gameObject.GetComponent<BoxCollider2D>();
+        BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
         boxCollider.size = new Vector2(width, height);
         boxCollider.offset = new Vector2(0, -height / 2);
 
@@ -124,7 +124,7 @@ public class Water : MonoBehaviour
         left = position * edgeWidth - width / 2;
         if (position != prevPosition)
         {
-            gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(globalPos, -height / 2);
+            GetComponent<BoxCollider2D>().offset = new Vector2(globalPos, -height / 2);
             int delta = position - prevPosition;
             if (delta > nodeCount - 1) delta = nodeCount - 1;
             if (delta < -nodeCount + 1) delta = -nodeCount + 1;

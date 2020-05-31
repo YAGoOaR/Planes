@@ -23,6 +23,13 @@ public class GameHandler : MonoBehaviour
         public int throttle, bullets, bombs;
         public float speed;
         public bool gear;
+        public void Set(int throttle, int bullets, int bombs, float speed, bool gear){
+            this.throttle = throttle;
+            this.bullets = bullets;
+            this.bombs = bombs;
+            this.speed = speed;
+            this.gear = gear;
+        }
     }
 
     void Awake()

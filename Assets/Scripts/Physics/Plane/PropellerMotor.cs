@@ -35,10 +35,6 @@ public class PropellerMotor : MonoBehaviour
             if (num > 100) num = 100;
             else if (num < 0) num = 0;
         }
-
-        else
-        {
-        }
     }
     public void SetThrottle(int n)
     {
@@ -59,6 +55,12 @@ public class PropellerMotor : MonoBehaviour
         {
             propellerAnimator.enabled = false;
         }
+    }
+
+    public void OnTriggerEnter2D(Collider2D collider) {
+        if (collider.tag != "water" || propellerRB.velocity.magnitude < 10) return;
+        num = 0;
+        fixedJoint.breakForce = 0;
     }
 
 }

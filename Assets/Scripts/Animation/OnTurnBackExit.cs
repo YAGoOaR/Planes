@@ -14,12 +14,12 @@ public class OnTurnBackExit : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         timer = 0f;
-        planeBehaviour = animator.gameObject.GetComponent<PlaneBehaviour>();
-        planeCollider = planeBehaviour.gameObject.GetComponent<Collider2D>();
-        planeRigidbody = planeBehaviour.gameObject.GetComponent<Rigidbody2D>();
+        planeBehaviour = animator.GetComponent<PlaneBehaviour>();
+        planeCollider = planeBehaviour.GetComponent<Collider2D>();
+        planeRigidbody = planeBehaviour.GetComponent<Rigidbody2D>();
         planeTransform = planeBehaviour.gameObject.transform;
         animator.SetFloat("speedMultiplier", Mathf.Min(1 / planeRigidbody.velocity.magnitude * 10, 0.3f) * Mathf.Max(-Mathf.Sin(planeTransform.rotation.eulerAngles.z / 180 * Mathf.PI) + 1, 0.7f));
-        planeBehaviour.setTurningBack(true);
+        planeBehaviour.isTurningBack = true;
         planeRigidbody.isKinematic = true;
         planeRigidbody.freezeRotation = true;
         velocity = new Vector3(planeRigidbody.velocity.x, planeRigidbody.velocity.y, 0);
@@ -36,11 +36,12 @@ public class OnTurnBackExit : StateMachineBehaviour
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        planeBehaviour.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
+        planeBehaviour.GetComponent<Rigidbody2D>().isKinematic = false;
         planeRigidbody.freezeRotation = false;
         animator.SetBool("turningBack", false);
         planeBehaviour.switchAerofoil();
         planeBehaviour.switchBmb();
+        planeBehaviour.isTurningBack = false;
     }
 
 }
