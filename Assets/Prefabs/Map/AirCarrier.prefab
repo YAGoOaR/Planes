@@ -27,8 +27,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3254124174683113701}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 40.8, y: -10, z: 1.094601}
-  m_LocalScale: {x: 0.9090909, y: 1, z: 1}
+  m_LocalPosition: {x: 35, y: -11, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6070258799811088944}
   m_RootOrder: 1
@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84093e9af1fdcd3418e131b6e261e661, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  V: 500
 --- !u!50 &1991962756707334857
 Rigidbody2D:
   serializedVersion: 4
@@ -119,8 +120,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5819781644191939187}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -40.4, y: -10, z: 1.094601}
-  m_LocalScale: {x: 0.9090909, y: 1, z: 1}
+  m_LocalPosition: {x: -35, y: -11, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6070258799811088944}
   m_RootOrder: 0
@@ -137,6 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84093e9af1fdcd3418e131b6e261e661, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  V: 500
 --- !u!50 &4656406109441701539
 Rigidbody2D:
   serializedVersion: 4
@@ -150,7 +152,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 500
-  m_LinearDrag: 0
+  m_LinearDrag: 0.1
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
@@ -327,8 +329,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1000
-  m_LinearDrag: 0
-  m_AngularDrag: 0.07
+  m_LinearDrag: 4
+  m_AngularDrag: 3
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -350,7 +352,7 @@ FixedJoint2D:
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 44.43994, y: 10}
+  m_ConnectedAnchor: {x: 35, y: 11}
   m_DampingRatio: 0
   m_Frequency: 0
 --- !u!255 &2985845923995559228
@@ -368,7 +370,7 @@ FixedJoint2D:
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: -44.880005, y: 10}
+  m_ConnectedAnchor: {x: -35, y: 11}
   m_DampingRatio: 0
   m_Frequency: 0
 --- !u!114 &1852792301962475241

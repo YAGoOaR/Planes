@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class OnTurnBackExit : StateMachineBehaviour
 {
@@ -17,8 +15,10 @@ public class OnTurnBackExit : StateMachineBehaviour
         planeBehaviour = animator.GetComponent<PlaneBehaviour>();
         planeCollider = planeBehaviour.GetComponent<Collider2D>();
         planeRigidbody = planeBehaviour.GetComponent<Rigidbody2D>();
-        planeTransform = planeBehaviour.gameObject.transform;
-        animator.SetFloat("speedMultiplier", Mathf.Min(1 / planeRigidbody.velocity.magnitude * 10, 0.3f) * Mathf.Max(-Mathf.Sin(planeTransform.rotation.eulerAngles.z / 180 * Mathf.PI) + 1, 0.7f));
+        planeTransform = planeBehaviour.transform;
+        float velocityCoefficient = Mathf.Min(1 / planeRigidbody.velocity.magnitude * 10, 0.3f);
+        float angleCoefficient = Mathf.Max(-Mathf.Sin(planeTransform.rotation.eulerAngles.z / 180 * Mathf.PI) + 1, 0.7f);
+        animator.SetFloat("speedMultiplier", velocityCoefficient * angleCoefficient);
         planeBehaviour.isTurningBack = true;
         planeRigidbody.isKinematic = true;
         planeRigidbody.freezeRotation = true;
@@ -29,7 +29,6 @@ public class OnTurnBackExit : StateMachineBehaviour
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
         planeRigidbody.velocity = velocity * Mathf.Cos(Mathf.Max(Mathf.PI * timer - 0.3f, 0));
         timer += Time.deltaTime * stateInfo.speedMultiplier;
     }

@@ -3,6 +3,7 @@
 public class Buoyancy : MonoBehaviour
 {
     const float coefficient = 8;
+    public float V = 10;
     Collider2D waterCollider;
     int connections = 0;
 
@@ -21,9 +22,8 @@ public class Buoyancy : MonoBehaviour
         Rigidbody2D thisRigidbody = gameObject.GetComponent<Rigidbody2D>();
         GameObject waterObject = waterCollider.gameObject;
         float position = gameObject.transform.position.y;
-        float waterLevel = waterObject.transform.position.y + (waterObject.transform.localScale.y + 1) / 2;
-        float mass = thisRigidbody.mass;
-        float forceY = coefficient * mass * (waterLevel - position);
+        float waterLevel = waterObject.transform.position.y + (waterObject.transform.localScale.y) / 2;
+        float forceY = coefficient * V * (waterLevel - position);
         thisRigidbody.AddForce(new Vector2(0, forceY));
     }
 }

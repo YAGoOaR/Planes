@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class PlaneBehaviour : MonoBehaviour
@@ -10,6 +9,7 @@ public class PlaneBehaviour : MonoBehaviour
     const float flapMotorSpeed = 20;
     const float flapMaxTorque = 1000;
     const int bombCount = 1;
+    Vector3 bombOffset = new Vector3(0, -0.5f, 0);
 
     public bool isPlayer = true;
     [HideInInspector]
@@ -146,6 +146,7 @@ public class PlaneBehaviour : MonoBehaviour
     {
         GameHandler.infoText info = GameHandler.instance.planeInfo;
         info.Set(propellerMotor.num, bullets, bombs.Count, planerb.velocity.magnitude, gearCtrl.isGearUp);
+        GameHandler.instance.planeInfo = info;
     }
 
     void controls()
@@ -244,7 +245,7 @@ public class PlaneBehaviour : MonoBehaviour
         float accuracy = (Random.value - .5f) * shootingAccuracy;
         float rotation = transform.rotation.eulerAngles.z / 180 * Mathf.PI;
         Vector3 gunPos = new Vector2(-Mathf.Cos(rotation + gunOffsetAngle), -Mathf.Sin(rotation + gunOffsetAngle)) * gunOffset;
-        GameObject bullet = Instantiate(GameAssets.instance.bullet, gunPos + transform.position, transform.rotation);
+        GameObject bullet = Instantiate(GameAssets.instance.bullet, gunPos + transform.position, transform.rotation, transform);
         bullet.transform.Rotate(new Vector3(0, 0, accuracy));
         bullet.GetComponent<Rigidbody2D>().AddForce(planerb.velocity);
         bullets--;
@@ -259,10 +260,9 @@ public class PlaneBehaviour : MonoBehaviour
     public void AddBomb()
     {
         GameObject bmb = GameObject.Instantiate(GameAssets.instance.bomb);
-        bmb.transform.position += new Vector3(0, -0.5f, 0);
-        bmb.transform.localScale = new Vector3(0.6f, 0.6f, 0);
+        bmb.transform.position += bombOffset;
         FixedJoint2D joint = bmb.GetComponent<FixedJoint2D>();
-        joint.connectedAnchor = new Vector3(0, -0.5f, 0);
+        joint.connectedAnchor = bombOffset;
         joint.connectedBody = GetComponent<Rigidbody2D>();
         bombs.Enqueue(bmb);
     }
@@ -281,6 +281,11 @@ public class PlaneBehaviour : MonoBehaviour
         }
         flapJoint.limits = angle;
 
+    }
+
+    public void rotate()
+    {
+        gameObject.transform.Rotate(0, 0, 180);
     }
 
     public void turnBack()

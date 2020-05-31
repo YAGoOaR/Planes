@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GearController : MonoBehaviour
 {
@@ -20,6 +18,6 @@ public class GearController : MonoBehaviour
     public void gearSwitched()
     {
         isGearUp = !isGearUp;
-        gameObject.GetComponent<CircleCollider2D>().enabled = isGearUp;
+        gameObject.GetComponent<CircleCollider2D>().enabled = !isGearUp;
     }
 }

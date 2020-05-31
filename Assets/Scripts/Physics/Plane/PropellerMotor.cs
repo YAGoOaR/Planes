@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PropellerMotor : MonoBehaviour
 {
-    const float force = 5.2f;
+    const float force = 5.3f;
 
     Rigidbody2D propellerRB;
     Animator propellerAnimator;
@@ -58,7 +56,7 @@ public class PropellerMotor : MonoBehaviour
     }
 
     public void OnTriggerEnter2D(Collider2D collider) {
-        if (collider.tag != "water" || propellerRB.velocity.magnitude < 10) return;
+        if (collider.tag != "water" || propellerRB.velocity.magnitude < 10 || !jointIsActive) return;
         num = 0;
         fixedJoint.breakForce = 0;
     }
