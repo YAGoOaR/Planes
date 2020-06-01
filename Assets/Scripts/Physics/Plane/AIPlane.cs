@@ -88,6 +88,10 @@ public class AIPlane : MonoBehaviour
         {
             land = true;
             targetPos = fieldPos;
+            waitBeforeTurn.reset();
+            deltaPos = targetPos - pos;
+            distance = Mathf.Abs(deltaPos);
+
         }
         if (land && !PB.isTurningBack)
         {
@@ -99,10 +103,10 @@ public class AIPlane : MonoBehaviour
             else
             {
                 targetSpeed = defaultSpeed;
-            }
+            }   
             if (distance < 200)
             {
-                if (PB.gearCtrl.isGearUp)
+                if (PB.gearCtrl.isGearUp && !waitBeforeTurn.check())
                 {
                     PB.switchGear(true);
                 }

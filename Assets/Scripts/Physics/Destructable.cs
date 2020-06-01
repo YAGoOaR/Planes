@@ -10,7 +10,6 @@ public class Destructable : MonoBehaviour
 
     public void hit()
     {
-        Debug.Log("hit");
         string[] edges = { "edge1", "edge2" };
         if (HP < 1)
         {

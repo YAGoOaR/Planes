@@ -22,7 +22,7 @@ public class Info : MonoBehaviour
         "Speed: " +   Mathf.Floor(GameHandler.instance.planeInfo.speed * 6).ToString() + "\n" + 
         "Ammo: " + GameHandler.instance.planeInfo.bullets + "\n" +
         "Bombs: " + GameHandler.instance.planeInfo.bombs + "\n" +
-        "Gear: " + boolToSwitch(GameHandler.instance.planeInfo.gear) + "\n" 
+        "Gear: " + boolToSwitch(!GameHandler.instance.planeInfo.gear) + "\n" 
         ;
     }
 }
