@@ -273,7 +273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77538f96ed844524d8350506e4146cbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetALT: 40
+  targetALT: 45
   targetPos: 0
   targetSpeed: 40
   startThrottle: 90
@@ -889,7 +889,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77538f96ed844524d8350506e4146cbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetALT: 40
+  targetALT: 50
   targetPos: 0
   targetSpeed: 40
   startThrottle: 90

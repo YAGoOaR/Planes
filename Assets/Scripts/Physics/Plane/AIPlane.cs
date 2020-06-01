@@ -9,7 +9,6 @@ public class AIPlane : MonoBehaviour
     const float sensitivity = 5;
     const float trim = .2f;
 
-    [HideInInspector]
     public float targetALT = 40;
     [HideInInspector]
     public float targetPos = 0;
