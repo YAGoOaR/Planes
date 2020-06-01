@@ -25,6 +25,10 @@ public class explosion : MonoBehaviour
         {
             GetComponent<Animator>().SetBool("detonated", true);
             GetComponent<PointEffector2D>().enabled = true;
+            if (collision.gameObject.tag == "Destructable" && collision.gameObject.GetComponent<Destructable>())
+            {
+                collision.gameObject.GetComponent<Destructable>().hit();
+            }
         }
     }
     public void OnTriggerEnter2D(Collider2D collider)

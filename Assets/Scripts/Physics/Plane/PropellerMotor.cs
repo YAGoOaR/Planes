@@ -2,7 +2,7 @@
 
 public class PropellerMotor : MonoBehaviour
 {
-    const float force = 5.3f;
+    const float force = 6f;
 
     Rigidbody2D propellerRB;
     Animator propellerAnimator;

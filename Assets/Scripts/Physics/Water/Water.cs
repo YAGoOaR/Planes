@@ -8,7 +8,7 @@ public class Water : MonoBehaviour
     const float spring = 0.001f;
     const float damping = 0.006f;
     const float spread = 0.003f;
-    const float effect = 0.0001f;
+    const float effect = 0.00005f;
     const float mass = 1;
     const float waterTopWidth = 0.1f;
     const float edgeWidth = 10f;

@@ -11,9 +11,9 @@ public class GearController : MonoBehaviour
         gearAnimator = gameObject.GetComponent<Animator>();
     }
 
-    public void switchGear()
+    public void switchGear(bool on)
     {
-        gearAnimator.SetBool("gearUp", !isGearUp);
+        gearAnimator.SetBool("gearUp", on);
     }
     public void gearSwitched()
     {

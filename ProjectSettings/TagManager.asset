@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - water
+  - bullet
+  - bomb
+  - Destructable
   layers:
   - Default
   - TransparentFX

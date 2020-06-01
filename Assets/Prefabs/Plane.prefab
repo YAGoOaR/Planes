@@ -130,7 +130,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 1
+  upsideDown: 0
   isTurningBack: 0
+  pitch: 0
+  throttle: 0
+  gearCtrl: {fileID: 0}
 --- !u!60 &2442132375263519806
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -461,6 +465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2263d39fce2f06445b0fde518995ca87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  throttle: 0
   jointIsActive: 1
 --- !u!1 &3090727410126393555
 GameObject:

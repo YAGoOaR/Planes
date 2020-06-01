@@ -3,8 +3,8 @@
 public class Aerofoil : MonoBehaviour
 {
     const float stallCoef = 70f;
-    const float dragCoef = 0.001f;
-    const float stabCoef = 0.7f;
+    const float dragCoef = 0.0005f;
+    const float stabCoef = 0.8f;
     const float effectiveAngleOffset = -0.04f;
 
     Rigidbody2D rb;

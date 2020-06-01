@@ -9,13 +9,13 @@ public class GameHandler : MonoBehaviour
     public List<GameObject> objectsToFreeze;
     public static GameHandler instance;
     public Vector2 spawnPosition;
-    public float startRotation;
-    public bool startUpsideDown = false;
     public infoText planeInfo;
 
     Transform cameraTransform;
     GameObject player;
     PlaneBehaviour planeBehaviour;
+
+    public bool startInOtherHeading = false;
 
     public struct infoText
     {
@@ -36,15 +36,10 @@ public class GameHandler : MonoBehaviour
     {
         instance = this;
 
-        player = GameObject.Instantiate(GameAssets.instance.player);
+        player = GameObject.Instantiate(GameAssets.instance.player, new Vector3(spawnPosition.x, spawnPosition.y, 0), Quaternion.identity);
         player.AddComponent<Follow>();
         planeBehaviour = player.GetComponent<PlaneBehaviour>();
-        player.transform.position = new Vector3(spawnPosition.x, spawnPosition.y, 0);
-
-        if (startUpsideDown)
-        {
-            planeBehaviour.turnOver();
-        }
+        planeBehaviour.startInOtherHeading = startInOtherHeading;
     }
 
     void Start()
@@ -58,16 +53,6 @@ public class GameHandler : MonoBehaviour
         {
             obj.SetActive(Mathf.Abs(cameraTransform.position.x - obj.transform.position.x) < freezeDistance);
         }
-    }
-
-    public Vector3 GetPlayerPosition()
-    {
-        return player.transform.position;
-    }
-
-    public float GetPlayerRotation()
-    {
-        return player.transform.eulerAngles.z / 180 * Mathf.PI;
     }
 
     public static void quitGame()

@@ -23,8 +23,8 @@ public class OnTurnBackExit : StateMachineBehaviour
         planeRigidbody.isKinematic = true;
         planeRigidbody.freezeRotation = true;
         velocity = new Vector3(planeRigidbody.velocity.x, planeRigidbody.velocity.y, 0);
-        planeBehaviour.switchAerofoil();
-        planeBehaviour.switchBmb();
+        planeBehaviour.switchAerofoilActive();
+        planeBehaviour.switchBmbActive();
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -38,8 +38,8 @@ public class OnTurnBackExit : StateMachineBehaviour
         planeBehaviour.GetComponent<Rigidbody2D>().isKinematic = false;
         planeRigidbody.freezeRotation = false;
         animator.SetBool("turningBack", false);
-        planeBehaviour.switchAerofoil();
-        planeBehaviour.switchBmb();
+        planeBehaviour.switchAerofoilActive();
+        planeBehaviour.switchBmbActive();
         planeBehaviour.isTurningBack = false;
     }
 
