@@ -35,11 +35,12 @@ public class Timers : MonoBehaviour
 
         public bool check()
         {
-            if (curTime > maxTime) {
+            if (curTime > maxTime)
+            {
                 if (destroyAfterTimeout)
                 {
                     timers.Remove(this);
-                } 
+                }
                 return true;
             }
             return false;

@@ -8,23 +8,20 @@ public class Destructable : MonoBehaviour
     int HP = maxHP;
     float buoyancy = 500;
 
-    public void hit () {
-        if (HP < 1) {
-            transform.Find("edge2").GetComponent<Buoyancy>().V = 10;
+    public void hit()
+    {
+        Debug.Log("hit");
+        string[] edges = { "edge1", "edge2" };
+        if (HP < 1)
+        {
+            Buoyancy buoyancyComponent = transform.Find(edges[Random.Range(0, edges.Length - 1)]).GetComponent<Buoyancy>();
+            buoyancyComponent.volume = 10;
             return;
         }
         HP--;
-        transform.Find("edge2").GetComponent<Buoyancy>().V -= Mathf.Max(0.5f, Random.value) * buoyancy / 3;
-        transform.Find("edge1").GetComponent<Buoyancy>().V -= Mathf.Max(0.5f, Random.value) * buoyancy / 3;
-    }
-
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
+        foreach (string edge in edges)
+        {
+            transform.Find(edge).GetComponent<Buoyancy>().volume -= Mathf.Max(0.5f, Random.value) * buoyancy / 3;
+        }
     }
 }

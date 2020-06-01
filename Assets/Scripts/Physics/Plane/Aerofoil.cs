@@ -6,14 +6,11 @@ public class Aerofoil : MonoBehaviour
     const float dragCoef = 0.0005f;
     const float stabCoef = 0.8f;
     const float effectiveAngleOffset = -0.04f;
-
     Rigidbody2D rb;
     Vector2 rotationVector;
-
     public bool lift = false;
     public float liftForceCoef = 0.1f;
     public int upside = 1;
-
     float angle;
     float stabilisation = 1f;
 

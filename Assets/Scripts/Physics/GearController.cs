@@ -15,6 +15,7 @@ public class GearController : MonoBehaviour
     {
         gearAnimator.SetBool("gearUp", on);
     }
+
     public void gearSwitched()
     {
         isGearUp = !isGearUp;

@@ -2,12 +2,10 @@
 
 public class PropellerMotor : MonoBehaviour
 {
-    const float force = 6f;
-
+    const float force = 5.5f;
     Rigidbody2D propellerRB;
     Animator propellerAnimator;
     FixedJoint2D fixedJoint;
-
     public int throttle;
     public bool jointIsActive = true;
 
@@ -39,7 +37,8 @@ public class PropellerMotor : MonoBehaviour
         }
     }
 
-    public void OnTriggerEnter2D(Collider2D collider) {
+    public void OnTriggerEnter2D(Collider2D collider)
+    {
         if (collider.tag != "water" || propellerRB.velocity.magnitude < 10 || !jointIsActive) return;
         throttle = 0;
         fixedJoint.breakForce = 0;

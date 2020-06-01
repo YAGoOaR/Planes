@@ -8,7 +8,6 @@ public class AIPlane : MonoBehaviour
     const float defaultALT = 40;
     const float sensitivity = 5;
     const float trim = .2f;
-
     public float targetALT = 40;
     [HideInInspector]
     public float targetPos = 0;
@@ -16,7 +15,6 @@ public class AIPlane : MonoBehaviour
     public float targetSpeed = defaultSpeed;
     [HideInInspector]
     public int startThrottle = 0;
-
     float targetAngle = -15;
     bool land = false;
     bool idle = false;
