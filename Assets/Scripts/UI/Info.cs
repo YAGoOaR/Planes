@@ -11,15 +11,16 @@ public class Info : MonoBehaviour
         infoText = transform.Find("InfoText").GetComponent<Text>();
     }
 
-    string boolToSwitch(bool value) {
+    string boolToSwitch(bool value)
+    {
         if (value) return "on";
         else return "off";
     }
 
     void LateUpdate()
     {
-        infoText.text = "Throttle: " + GameHandler.instance.planeInfo.throttle.ToString() + "\n" + 
-        "Speed: " +   Mathf.Floor(GameHandler.instance.planeInfo.speed * SPEED_MULTIPLIER).ToString() + "\n" + 
+        infoText.text = "Throttle: " + GameHandler.instance.planeInfo.throttle.ToString() + "\n" +
+        "Speed: " + Mathf.Floor(GameHandler.instance.planeInfo.speed * SPEED_MULTIPLIER).ToString() + "\n" +
         "Ammo: " + GameHandler.instance.planeInfo.bullets + "\n" +
         "Bombs: " + GameHandler.instance.planeInfo.bombs + "\n" +
         "Gear: " + boolToSwitch(!GameHandler.instance.planeInfo.gear) + "\n";

@@ -2,7 +2,8 @@
 
 public class CloseButton : MonoBehaviour
 {
-    public void close() {
+    public void close()
+    {
         Object.Destroy(transform.parent.gameObject);
     }
 }
