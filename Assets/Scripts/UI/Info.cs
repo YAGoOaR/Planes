@@ -20,10 +20,13 @@ public class Info : MonoBehaviour
 
     void LateUpdate()
     {
-        infoText.text = "Throttle: " + GameHandler.instance.planeInfo.throttle.ToString() + "\n" +
-        "Speed: " + Mathf.Floor(GameHandler.instance.planeInfo.speed * SPEED_MULTIPLIER).ToString() + "\n" +
-        "Ammo: " + GameHandler.instance.planeInfo.bullets + "\n" +
-        "Bombs: " + GameHandler.instance.planeInfo.bombs + "\n" +
-        "Gear: " + boolToSwitch(!GameHandler.instance.planeInfo.gear) + "\n";
+        GameHandler.infoText info = GameHandler.instance.planeInfo;
+        infoText.text = "Throttle: " + info.throttle.ToString() + "\n" +
+        "Speed: " + Mathf.Floor(info.speed * SPEED_MULTIPLIER).ToString() + "\n" +
+        "ALT: " + Mathf.Floor(info.altitude).ToString() + "\n" +
+        "Ammo: " + info.bullets + "\n" +
+        "Bombs: " + info.bombs + "\n" +
+        "Gear: " + boolToSwitch(!info.gear) + "\n" +
+        "Brakes: " + boolToSwitch(!info.brakes) + "\n";
     }
 }

@@ -240,6 +240,8 @@ MonoBehaviour:
   - {fileID: 6164303364026640226, guid: 8e6dfc816da1faa4bb67069c929df4f1, type: 3}
   - {fileID: 4819153108685600106, guid: 4245e09bf72f0c344bcda724f7ff84f7, type: 3}
   - {fileID: 6890857973555073979, guid: 9d4f16a0bf9e28249ac701e894202986, type: 3}
+  wheelMaterial: {fileID: 6200000, guid: 39300bf03c0862d449eea4fb4399b7d0, type: 2}
+  wheelBrakeMaterial: {fileID: 6200000, guid: 26e910343b10b2745ba7b6f7bc6191f0, type: 2}
 --- !u!4 &216855325
 Transform:
   m_ObjectHideFlags: 0

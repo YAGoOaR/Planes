@@ -3,13 +3,18 @@
 //A script to controll plane landing gear
 public class GearController : MonoBehaviour
 {
-    public bool isGearUp { get; private set; }
-    private Animator gearAnimator;
+    public bool isGearUp = false;
+    Animator gearAnimator;
+    CircleCollider2D wheel;
+    PhysicsMaterial2D wheelMaterial;
+    PhysicsMaterial2D wheelBrakeMaterial;
 
     void Start()
     {
-        isGearUp = false;
-        gearAnimator = gameObject.GetComponent<Animator>();
+        wheel = GetComponent<CircleCollider2D>();
+        wheelMaterial = GameAssets.instance.wheelMaterial;
+        wheelBrakeMaterial = GameAssets.instance.wheelBrakeMaterial;
+        gearAnimator = GetComponent<Animator>();
     }
 
     public void switchGear(bool on)
@@ -21,5 +26,10 @@ public class GearController : MonoBehaviour
     {
         isGearUp = !isGearUp;
         gameObject.GetComponent<CircleCollider2D>().enabled = !isGearUp;
+    }
+
+    public void switchBrakes(bool on) {
+        if (!on) wheel.sharedMaterial = wheelMaterial;
+        else wheel.sharedMaterial = wheelBrakeMaterial;
     }
 }

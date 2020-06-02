@@ -19,6 +19,8 @@ public class GameAssets : MonoBehaviour
     public Sprite gearSprite;
     public GameObject bullet;
     public GameObject[] clouds;
+    public PhysicsMaterial2D wheelMaterial;
+    public PhysicsMaterial2D wheelBrakeMaterial;
 
     public GameObject pickRandomCloud()
     {

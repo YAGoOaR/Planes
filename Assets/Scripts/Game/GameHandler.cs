@@ -22,15 +22,17 @@ public class GameHandler : MonoBehaviour
     public struct infoText
     {
         public int throttle, bullets, bombs;
-        public float speed;
-        public bool gear;
-        public void Set(int throttle, int bullets, int bombs, float speed, bool gear)
+        public float speed, altitude;
+        public bool gear, brakes;
+        public void Set(int throttle, int bullets, int bombs, float altitude, float speed, bool gear, bool brakes)
         {
             this.throttle = throttle;
             this.bullets = bullets;
             this.bombs = bombs;
             this.speed = speed;
             this.gear = gear;
+            this.brakes = brakes;
+            this.altitude = altitude;
         }
     }
 

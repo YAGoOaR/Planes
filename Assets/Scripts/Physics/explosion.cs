@@ -24,9 +24,8 @@ public class explosion : MonoBehaviour
     {
         if (timer > minDetonationTime)
         {
-            GetComponent<Animator>().SetBool("detonated", true);
-            GetComponent<PointEffector2D>().enabled = true;
-            if (collision.gameObject.tag == "Destructable" && collision.gameObject.GetComponent<Destructable>())
+            detonated();
+            if (collision.gameObject.tag == "Destructable")
             {
                 collision.gameObject.GetComponent<Destructable>().hit();
             }
@@ -42,6 +41,12 @@ public class explosion : MonoBehaviour
         float velocity = rigidbody.velocity.magnitude;
         float mass = rigidbody.mass;
         water.GetComponent<Water>().Splash(position.x, mass * EXPLOSION_FORCE_COEF);
-        OnCollisionEnter2D(null);
+        detonated();
+    }
+
+    void detonated()
+    {
+        GetComponent<Animator>().SetBool("detonated", true);
+        GetComponent<PointEffector2D>().enabled = true;
     }
 }
