@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlaneBehaviour : MonoBehaviour
 {
-    int HP = 4;
+    public AeroPlane plane;
 
     public bool startInOtherHeading = false;
     const float SHOOTING_ACCURACY = 2;
@@ -28,7 +28,10 @@ public class PlaneBehaviour : MonoBehaviour
     float flapAngle = 30;
     float gunOffsetAngle = -0.2f;
     int bullets = 150;
-
+    PlanePart elevator;
+    PlanePart gear;
+    PlanePart propeller;
+    PlanePart flap;
     Rigidbody2D planerb;
     JointMotor2D hingemotor = new JointMotor2D();
     JointMotor2D flapMotor = new JointMotor2D();
@@ -39,26 +42,50 @@ public class PlaneBehaviour : MonoBehaviour
     PropellerMotor propellerMotor;
     Animator gearAnimator, planeAnimator;
     SpriteRenderer spriteRenderer;
-    PlanePart wing;
-    PlanePart tail;
-    PlanePart propeller;
-    PlanePart gear;
-    PlanePart elevator;
-    PlanePart flap;
+    string[] partNames = { "gear", "wing", "flap", "tail", "elevator", "propeller" };
     Timers.CooldownTimer turnTimer;
     Timers.CooldownTimer throttleTimer;
     Timers.CooldownTimer shootingTimer;
     Aerofoil[] Alist;
     public Queue<GameObject> bombs = new Queue<GameObject>();
-
-    PlanePart createPart(string name)
+    // Find part in the plane
+    GameObject findPart(string name)
     {
-        return new PlanePart(transform.Find(name).gameObject);
+        return transform.Find(name).gameObject;
     }
-
-    class PlanePart
+    //the plane
+    public class AeroPlane
     {
-        public bool isBroken;
+        //health points of a plane
+        public int HP = 4;
+        public string[] partNames;
+        public PlanePart[] parts;
+
+        public AeroPlane(string[] partNames, GameObject[] gameObjects)
+        {
+            this.partNames = partNames;
+            int count = partNames.Length;
+            parts = new PlanePart[count];
+            for (int i = 0; i < count; i++)
+            {
+                parts[i] = new PlanePart(partNames[i], gameObjects[i]);
+            }
+        }
+
+        public PlanePart getPart(string partName)
+        {
+            for (int i = 0; i < partName.Length; i++)
+            {
+                if (partNames[i] == partName) return parts[i];
+            }
+            return null;
+        }
+    }
+    //Any physical plane part
+    public class PlanePart
+    {
+        public string name;
+        public bool isBroken = false;
         public GameObject gameObject { private set; get; }
         public bool isConnected
         {
@@ -69,27 +96,47 @@ public class PlaneBehaviour : MonoBehaviour
             }
         }
 
-        public PlanePart(GameObject obj)
+        public PlanePart(string name, GameObject gameObject)
         {
-            isBroken = false;
-            this.gameObject = obj;
+            this.name = name;
+            this.gameObject = gameObject;
+        }
+
+        public T GetComponent<T>()
+        {
+            return gameObject.GetComponent<T>();
         }
     }
 
+    //Called once when this object initializes
     void Start()
     {
-        for (int a = 0; a < bombCount; a++)
+        addAllComponents();
+        planeSetup();
+    }
+
+    //Called once per frame
+    void Update()
+    {
+        controls();
+        updateInfo();
+        updateControls();
+    }
+
+    //Set Unity components
+    void addAllComponents()
+    {
+        GameObject[] partObjects = new GameObject[partNames.Length];
+        for (int i = 0; i < partNames.Length; i++)
         {
-            AddBomb();
+            partObjects[i] = findPart(partNames[i]);
         }
+        plane = new AeroPlane(partNames, partObjects);
 
-        gear = createPart("gear");
-        wing = createPart("wing");
-        flap = createPart("flap");
-        tail = createPart("tail");
-        elevator = createPart("elevator");
-        propeller = createPart("propeller");
-
+        elevator = plane.getPart("elevator");
+        gear = plane.getPart("gear");
+        propeller = plane.getPart("propeller");
+        flap = plane.getPart("flap");
 
         planeAnimator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -97,16 +144,22 @@ public class PlaneBehaviour : MonoBehaviour
         hinge = GetComponent<HingeJoint2D>();
         Alist = gameObject.GetComponentsInChildren<Aerofoil>();
 
-        gearCtrl = gear.gameObject.GetComponent<GearController>();
-        propellerMotor = propeller.gameObject.GetComponent<PropellerMotor>();
-        gearAnimator = gear.gameObject.GetComponent<Animator>();
-        flapJoint = flap.gameObject.GetComponent<HingeJoint2D>();
+        gearCtrl = gear.GetComponent<GearController>();
+        propellerMotor = propeller.GetComponent<PropellerMotor>();
+        gearAnimator = gear.GetComponent<Animator>();
+        flapJoint = flap.GetComponent<HingeJoint2D>();
 
-        flapAngle = flapJoint.limits.min;
         throttleTimer = new Timers.CooldownTimer(0.01f);
         turnTimer = new Timers.CooldownTimer(1f);
         shootingTimer = new Timers.CooldownTimer(0.1f);
+    }
 
+    //Set variables
+    void planeSetup()
+    {
+        reloadBombs();
+
+        flapAngle = flapJoint.limits.min;
         hingemotor.maxMotorTorque = 100;
         flapMotor.maxMotorTorque = FLAP_MAX_TORQUE;
         flapMotor.motorSpeed = -FLAP_MOTOR_SPEED;
@@ -117,21 +170,17 @@ public class PlaneBehaviour : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        controls();
-        updateInfo();
-        updateControls();
-    }
-
     void updateControls()
     {
+        //applying throttle to propeller
         propellerMotor.throttle = throttle;
+        //Plane pitch
         if (!elevator.isBroken)
         {
             hingemotor.motorSpeed = (pitch * 15 - hinge.jointAngle) * JOINT_FORCE;
             hinge.motor = hingemotor;
         }
+        //Changing controls if animation puts plane upside down
         if (upsideDown)
         {
             JointMotor2D reverse = new JointMotor2D();
@@ -142,6 +191,7 @@ public class PlaneBehaviour : MonoBehaviour
         else flapJoint.motor = flapMotor;
     }
 
+    //Information about plane that will be taken by UI 
     void updateInfo()
     {
         if (!isPlayer) return;
@@ -153,11 +203,11 @@ public class PlaneBehaviour : MonoBehaviour
     void controls()
     {
         if (!isPlayer) return;
-        if (Input.GetKeyDown(KeyCode.Escape)) GameHandler.quitGame();
-        if (Input.GetKeyDown(KeyCode.R)) GameHandler.restartGame();
+        // Shooting
         if (Input.GetMouseButton(0) && bullets > 0) shoot();
-
+        // Turning plane flaps
         if (Input.GetKeyDown(KeyCode.F)) switchFlaps();
+        // Checking time cooldown to adjust throttle
         if (throttleTimer.check())
         {
             if (Input.GetKey(KeyCode.W))
@@ -171,13 +221,18 @@ public class PlaneBehaviour : MonoBehaviour
                 throttleTimer.reset();
             }
         }
-
+        //Checking if turning animation is ended
         if (turnTimer.check())
         {
+            //Performing a half of barrel roll
             if (Input.GetKey(KeyCode.Q) && planerb.velocity.magnitude > 10f && gearCtrl.isGearUp) turn();
+            //Performing simple turn
             if (Input.GetKey(KeyCode.E) && planerb.velocity.magnitude > 5f && gearCtrl.isGearUp) turnBack();
+            //Landing gear
             if (Input.GetKey(KeyCode.G)) switchGear();
+            //Throwing a bomb
             if (Input.GetKeyDown(KeyCode.Space)) throwBomb();
+            //Controlling elevator
             if (Input.GetKey(KeyCode.A)) pitch = -1;
             else if (Input.GetKey(KeyCode.D)) pitch = 1;
             else pitch = 0;
@@ -187,6 +242,7 @@ public class PlaneBehaviour : MonoBehaviour
         else if (throttle < 0) throttle = 0;
     }
 
+    // A half of barrel roll
     public void turn()
     {
         turnOver();
@@ -194,6 +250,7 @@ public class PlaneBehaviour : MonoBehaviour
         turnTimer.reset();
     }
 
+    //Place a plane upside down
     public void turnOver()
     {
         gunOffsetAngle = -gunOffsetAngle;
@@ -207,6 +264,7 @@ public class PlaneBehaviour : MonoBehaviour
         turnFlaps();
     }
 
+    // throw a bomb from the plane
     public void throwBomb()
     {
         if (bombs.Count > 0)
@@ -216,16 +274,19 @@ public class PlaneBehaviour : MonoBehaviour
         }
     }
 
+    //Landing gear switch
     public void switchGear()
     {
         if (planerb.velocity.magnitude > 5f) gearCtrl.switchGear(!gearCtrl.isGearUp);
     }
 
+    //Turn the gear on/off
     public void switchGear(bool on)
     {
         if (planerb.velocity.magnitude > 5f) gearCtrl.switchGear(!on);
     }
 
+    //Shoot bullets
     public void shoot()
     {
         if (!shootingTimer.check()) return;
@@ -239,11 +300,13 @@ public class PlaneBehaviour : MonoBehaviour
         shootingTimer.reset();
     }
 
+    //Update if part breaks
     public void OnJointBreak2D(Joint2D thejoint)
     {
         if (thejoint.connectedBody.gameObject.transform.name == "elevator") elevator.isBroken = true;
     }
 
+    //Adding bomb GameObjects
     public void AddBomb()
     {
         GameObject bmb = GameObject.Instantiate(GameAssets.instance.bomb, bombOffset + transform.position, Quaternion.identity);
@@ -253,6 +316,7 @@ public class PlaneBehaviour : MonoBehaviour
         bombs.Enqueue(bmb);
     }
 
+    //Switching plane flaps physics after animation
     public void turnFlaps()
     {
         JointAngleLimits2D angle = new JointAngleLimits2D();
@@ -268,11 +332,13 @@ public class PlaneBehaviour : MonoBehaviour
         flapJoint.limits = angle;
     }
 
+    //Turn plane 180 degrees
     public void rotate()
     {
         gameObject.transform.Rotate(0, 0, 180);
     }
 
+    //Simple turn animation
     public void turnBack()
     {
         turnOver();
@@ -280,6 +346,7 @@ public class PlaneBehaviour : MonoBehaviour
         turnTimer.reset();
     }
 
+    //Turn off aerofoil(is needed during animation)
     public void switchAerofoilActive()
     {
         foreach (Aerofoil aerofoil in Alist)
@@ -288,6 +355,7 @@ public class PlaneBehaviour : MonoBehaviour
         }
     }
 
+    //Hide bomb textures(is needed during animation)
     public void switchBombsActive()
     {
         foreach (GameObject bomb in bombs)
@@ -296,27 +364,32 @@ public class PlaneBehaviour : MonoBehaviour
         }
     }
 
+    //If plane collides something(during animation)
     public void OnCollisionEnter2D(Collision2D collision)
     {
         if (isTurningBack && collision.gameObject.layer != 8) broke();
-        if (collision.gameObject.tag == "bullet" && collision.relativeVelocity.magnitude > 5f) HP--;
-        if (HP < 1)
+        if (collision.gameObject.tag == "bullet" && collision.relativeVelocity.magnitude > 5f) plane.HP--;
+        if (plane.HP < 1)
         {
             fullDestruction();
         }
     }
 
+    //If plane collides a trigger(during animation)
     public void OnTriggerEnter2D()
     {
         if (isTurningBack) broke();
     }
 
+    //Break a plane
     void broke()
     {
         planeAnimator.enabled = planerb.isKinematic = planerb.freezeRotation = false;
         if (!propellerMotor.jointIsActive) return;
-        propeller.gameObject.GetComponent<FixedJoint2D>().breakForce = 0;
+        propeller.GetComponent<FixedJoint2D>().breakForce = 0;
     }
+
+    //Totally break a plane
     void fullDestruction()
     {
         broke();
@@ -326,21 +399,36 @@ public class PlaneBehaviour : MonoBehaviour
             joint.breakForce = 0;
         }
     }
+
+    //Perform a turn without animation
     void forceTurnBack()
     {
         rotate();
         turnOver();
     }
+
+    //Turning plane flaps
     void switchFlaps()
     {
         flaps = !flaps;
         if (flaps) flapMotor.motorSpeed = FLAP_MOTOR_SPEED;
         else flapMotor.motorSpeed = -FLAP_MOTOR_SPEED;
     }
+
+    //Switching on/off
     public void switchFlaps(bool on)
     {
         flaps = on;
         if (flaps) flapMotor.motorSpeed = FLAP_MOTOR_SPEED;
         else flapMotor.motorSpeed = -FLAP_MOTOR_SPEED;
+    }
+
+    //Reload
+    void reloadBombs()
+    {
+        for (int a = 0; a < bombCount; a++)
+        {
+            AddBomb();
+        }
     }
 }

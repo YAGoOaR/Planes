@@ -8,6 +8,7 @@ public class Destructable : MonoBehaviour
     int HP = maxHP;
     float buoyancy = 500;
 
+    //if bomb hits this object
     public void hit()
     {
         string[] edges = { "edge1", "edge2" };
