@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+//A script that makes the attached object to float
 public class Buoyancy : MonoBehaviour
 {
     const float FORCE_COEFFICIENT = 8;

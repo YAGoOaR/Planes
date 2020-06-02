@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+//Kick attached object after initialization
 public class StartKick : MonoBehaviour
 {
     public Vector2 velocity;

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+//Script that places random visible chunks of clouds
 public class RandomObjects : MonoBehaviour
 {
     private Transform cameraTransform;

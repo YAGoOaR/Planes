@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+//A script that makes camera follow player
 public class Follow : MonoBehaviour
 {
     Vector3 startPosition = new Vector3(0, 0, 21);
@@ -10,6 +11,7 @@ public class Follow : MonoBehaviour
     private Transform background;
     private bool android = false;
 
+    //Called instantly after initialization
     void Awake()
     {
         GameObject cameraObject = Instantiate(GameAssets.instance.PlayerCam);
@@ -19,11 +21,13 @@ public class Follow : MonoBehaviour
         Cam = cameraObject.GetComponent<Camera>();
     }
 
+    //Called after "Awake"
     void Start()
     {
         background.transform.localPosition = startPosition;
     }
 
+    //Called once per frame
     void Update()
     {
         float size = Cam.orthographicSize;

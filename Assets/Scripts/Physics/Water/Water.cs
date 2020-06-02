@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+//My water physics script
 public class Water : MonoBehaviour
 {
     const float TOP_POSITION = 0;
@@ -41,6 +42,7 @@ public class Water : MonoBehaviour
     Mesh[] meshes = new Mesh[edgeCount];
     GameObject[] meshObjects = new GameObject[edgeCount];
 
+    //A vertex of the water surface
     class WaterNode
     {
         public static float ZPosition = -1;
@@ -59,6 +61,7 @@ public class Water : MonoBehaviour
         }
     }
 
+    //create our water Gameobject
     public void SpawnWater()
     {
         BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
@@ -79,7 +82,7 @@ public class Water : MonoBehaviour
         }
         for (int i = 0; i < edgeCount; i++)
         {
-            createMesh(i);
+            createFace(i);
         }
     }
 
@@ -88,7 +91,8 @@ public class Water : MonoBehaviour
         nodes[i] = new WaterNode(leftPosition + WIDTH * i / edgeCount, TOP_POSITION);
     }
 
-    void createMesh(int i)
+    //Create water texture and collider
+    void createFace(int i)
     {
         Vector2[] UVs = new Vector2[UV_COUNT];
         UVs[0] = new Vector2(0, 1);
@@ -122,6 +126,7 @@ public class Water : MonoBehaviour
         nodes[i].buoyancyCollider = water;
     }
 
+    //Update water when camera position changes
     void UpdatePosition()
     {
         float globalPos = followedTransform.position.x;
@@ -163,7 +168,7 @@ public class Water : MonoBehaviour
                 nodes[index].destroy();
                 Object.Destroy(meshObjects[index]);
                 Object.Destroy(meshes[index]);
-                createMesh(index);
+                createFace(index);
             }
         }
     }
@@ -226,7 +231,7 @@ public class Water : MonoBehaviour
 
         }
     }
-
+    //Create a splash when an object hits water
     public void Splash(float xpos, float velocity)
     {
         if (xpos >= nodes[0].position.x && xpos <= nodes[nodes.Length - 1].position.x)
@@ -239,6 +244,7 @@ public class Water : MonoBehaviour
         }
     }
 
+    //Called when water initializes
     void Start()
     {
         followedTransform = Camera.main.transform;
@@ -246,7 +252,7 @@ public class Water : MonoBehaviour
         waterLevel = transform.position.y + 1;
     }
 
-
+    //Called once per frame
     void FixedUpdate()
     {
         UpdatePosition();
@@ -254,7 +260,7 @@ public class Water : MonoBehaviour
         UpdatePhysics();
         generateWaves();
     }
-
+    //Create an offset in node and face arrays
     void moveNodesInArray(int offset)
     {
         WaterNode[] newArr = new WaterNode[nodes.Length];
@@ -288,7 +294,7 @@ public class Water : MonoBehaviour
         meshes = meshArr;
         meshObjects = meshObjectsArr;
     }
-
+    //Random wave generation
     void generateWaves()
     {
         int i = Random.Range(0, edgeCount);

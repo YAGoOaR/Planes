@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+//A script that visualizes chunk bounds in editor
 public class ChunkTest : MonoBehaviour
 {
     const float OFFSET = 200;

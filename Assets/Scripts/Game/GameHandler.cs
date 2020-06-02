@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+//Main script of the game
 public class GameHandler : MonoBehaviour
 {
     const float FREEZE_DISTANCE = 235;

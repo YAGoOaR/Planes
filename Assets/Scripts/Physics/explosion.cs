@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
-
+//Script for a bomb
 public class explosion : MonoBehaviour
 {
     float EXPLOSION_FORCE_COEF = 500;
     private bool isDropped = false;
     private float timer = 0;
-    public float maxTime = 0f;
+    public float minDetonationTime = 0f;
 
     public void OnJointBreak2D()
     {
@@ -22,7 +22,7 @@ public class explosion : MonoBehaviour
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        if (timer > maxTime)
+        if (timer > minDetonationTime)
         {
             GetComponent<Animator>().SetBool("detonated", true);
             GetComponent<PointEffector2D>().enabled = true;
@@ -35,7 +35,7 @@ public class explosion : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.gameObject.tag != "water" || timer < maxTime) return;
+        if (collider.gameObject.tag != "water" || timer < minDetonationTime) return;
         GameObject water = collider.transform.parent.gameObject;
         Rigidbody2D rigidbody = GetComponent<Rigidbody2D>();
         Vector2 position = transform.position;

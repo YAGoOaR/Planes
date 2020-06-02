@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
+//A script for destructable objects
 public class Destructable : MonoBehaviour
 {
     const float DESTROYED_OBJECT_VOLUME = 10;

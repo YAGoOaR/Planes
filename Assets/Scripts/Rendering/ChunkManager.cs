@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+//A script that places game chunks
 public class ChunkManager : MonoBehaviour
 {
     const float HALF = 0.5f;

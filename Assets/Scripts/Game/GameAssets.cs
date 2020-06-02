@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+//Here are the main assets of the game
 public class GameAssets : MonoBehaviour
 {
     public static GameAssets instance;

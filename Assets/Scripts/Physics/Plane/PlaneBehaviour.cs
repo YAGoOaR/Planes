@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-
+//A script that controls a plane
 public class PlaneBehaviour : MonoBehaviour
 {
     public AeroPlane plane;

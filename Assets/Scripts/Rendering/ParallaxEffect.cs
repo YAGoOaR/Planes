@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+//(this script is not used now)
 public class ParallaxEffect : MonoBehaviour
 {
     private Transform camTransform;

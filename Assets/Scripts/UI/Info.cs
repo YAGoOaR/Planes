@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+//Show info about plane to UI
 public class Info : MonoBehaviour
 {
     const float SPEED_MULTIPLIER = 6;

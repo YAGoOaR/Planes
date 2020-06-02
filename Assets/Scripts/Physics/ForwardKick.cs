@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+//A script that kicks attached gameobject into its heading
 public class ForwardKick : MonoBehaviour
 {
     public float force;

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+//Destroy the attached object after timeout
 public class SelfDestroy : MonoBehaviour
 {
     float curTime = 0;

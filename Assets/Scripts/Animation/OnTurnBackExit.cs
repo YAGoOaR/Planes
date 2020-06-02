@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+//A scripts that changes plane physics when it's performing a turn
 public class OnTurnBackExit : StateMachineBehaviour
 {
     const float MAX_VELOCITY_COEF = 0.3f;

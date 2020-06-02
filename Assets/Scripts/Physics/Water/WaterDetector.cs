@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//A script that detects objects that collide water
 public class WaterDetector : MonoBehaviour
 {
     void OnTriggerEnter2D(Collider2D hit)
