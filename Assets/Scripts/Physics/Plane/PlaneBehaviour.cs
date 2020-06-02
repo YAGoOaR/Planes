@@ -6,12 +6,12 @@ public class PlaneBehaviour : MonoBehaviour
     int HP = 4;
 
     public bool startInOtherHeading = false;
-    const float shootingAccuracy = 2;
-    const float gunOffset = 1.6f;
-    const float jointForce = 20f;
-    const float flapMotorSpeed = 20;
-    const float flapMaxTorque = 1000;
-    const int bombCount = 1;
+    const float SHOOTING_ACCURACY = 2;
+    const float GUN_OFFSET = 1.6f;
+    const float JOINT_FORCE = 20f;
+    const float FLAP_MOTOR_SPEED = 20;
+    const float FLAP_MAX_TORQUE = 1000;
+    public int bombCount = 1;
     Vector3 bombOffset = new Vector3(0, -0.5f, 0);
 
     public bool isPlayer = true;
@@ -108,8 +108,8 @@ public class PlaneBehaviour : MonoBehaviour
         shootingTimer = new Timers.CooldownTimer(0.1f);
 
         hingemotor.maxMotorTorque = 100;
-        flapMotor.maxMotorTorque = flapMaxTorque;
-        flapMotor.motorSpeed = -flapMotorSpeed;
+        flapMotor.maxMotorTorque = FLAP_MAX_TORQUE;
+        flapMotor.motorSpeed = -FLAP_MOTOR_SPEED;
 
         if (startInOtherHeading)
         {
@@ -129,14 +129,14 @@ public class PlaneBehaviour : MonoBehaviour
         propellerMotor.throttle = throttle;
         if (!elevator.isBroken)
         {
-            hingemotor.motorSpeed = (pitch * 15 - hinge.jointAngle) * jointForce;
+            hingemotor.motorSpeed = (pitch * 15 - hinge.jointAngle) * JOINT_FORCE;
             hinge.motor = hingemotor;
         }
         if (upsideDown)
         {
             JointMotor2D reverse = new JointMotor2D();
             reverse.motorSpeed = -flapMotor.motorSpeed;
-            reverse.maxMotorTorque = flapMaxTorque;
+            reverse.maxMotorTorque = FLAP_MAX_TORQUE;
             flapJoint.motor = reverse;
         }
         else flapJoint.motor = flapMotor;
@@ -229,9 +229,9 @@ public class PlaneBehaviour : MonoBehaviour
     public void shoot()
     {
         if (!shootingTimer.check()) return;
-        float accuracy = (Random.value - .5f) * shootingAccuracy;
+        float accuracy = (Random.value - .5f) * SHOOTING_ACCURACY;
         float rotation = transform.rotation.eulerAngles.z / 180 * Mathf.PI;
-        Vector3 gunPos = new Vector2(-Mathf.Cos(rotation + gunOffsetAngle), -Mathf.Sin(rotation + gunOffsetAngle)) * gunOffset;
+        Vector3 gunPos = new Vector2(-Mathf.Cos(rotation + gunOffsetAngle), -Mathf.Sin(rotation + gunOffsetAngle)) * GUN_OFFSET;
         GameObject bullet = Instantiate(GameAssets.instance.bullet, gunPos + transform.position, transform.rotation);
         bullet.transform.Rotate(new Vector3(0, 0, accuracy));
         bullet.GetComponent<Rigidbody2D>().velocity = planerb.velocity;
@@ -288,7 +288,7 @@ public class PlaneBehaviour : MonoBehaviour
         }
     }
 
-    public void switchBmbActive()
+    public void switchBombsActive()
     {
         foreach (GameObject bomb in bombs)
         {
@@ -334,13 +334,13 @@ public class PlaneBehaviour : MonoBehaviour
     void switchFlaps()
     {
         flaps = !flaps;
-        if (flaps) flapMotor.motorSpeed = flapMotorSpeed;
-        else flapMotor.motorSpeed = -flapMotorSpeed;
+        if (flaps) flapMotor.motorSpeed = FLAP_MOTOR_SPEED;
+        else flapMotor.motorSpeed = -FLAP_MOTOR_SPEED;
     }
     public void switchFlaps(bool on)
     {
         flaps = on;
-        if (flaps) flapMotor.motorSpeed = flapMotorSpeed;
-        else flapMotor.motorSpeed = -flapMotorSpeed;
+        if (flaps) flapMotor.motorSpeed = FLAP_MOTOR_SPEED;
+        else flapMotor.motorSpeed = -FLAP_MOTOR_SPEED;
     }
 }

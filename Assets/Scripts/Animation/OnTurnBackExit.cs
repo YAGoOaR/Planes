@@ -24,7 +24,7 @@ public class OnTurnBackExit : StateMachineBehaviour
         planeRigidbody.freezeRotation = true;
         velocity = new Vector3(planeRigidbody.velocity.x, planeRigidbody.velocity.y, 0);
         planeBehaviour.switchAerofoilActive();
-        planeBehaviour.switchBmbActive();
+        planeBehaviour.switchBombsActive();
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -39,7 +39,7 @@ public class OnTurnBackExit : StateMachineBehaviour
         planeRigidbody.freezeRotation = false;
         animator.SetBool("turningBack", false);
         planeBehaviour.switchAerofoilActive();
-        planeBehaviour.switchBmbActive();
+        planeBehaviour.switchBombsActive();
         planeBehaviour.isTurningBack = false;
     }
 

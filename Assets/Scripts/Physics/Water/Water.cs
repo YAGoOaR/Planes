@@ -2,30 +2,30 @@
 
 public class Water : MonoBehaviour
 {
-    const float top = 0;
-    const float width = 600;
-    const float height = 130;
-    const float spring = 0.001f;
-    const float damping = 0.006f;
-    const float spread = 0.003f;
-    const float effect = 0.00005f;
-    const float mass = 1;
-    const float waterTopWidth = 0.1f;
-    const float edgeWidth = 10f;
-    const float waveVelocity = 0.04f;
+    const float TOP_POSITION = 0;
+    const float WIDTH = 600;
+    const float HEIGHT = 130;
+    const float SPRING = 0.001f;
+    const float DAMPING = 0.006f;
+    const float SPREAD = 0.003f;
+    const float EFFECT = 0.00005f;
+    const float MASS = 1;
+    const float TOP_WIDTH = 0.1f;
+    const float EDGE_WIDTH = 10f;
+    const float WAVE_VELOCITY = 0.04f;
 
     public Material waterTopMaterial;
     public GameObject waterMesh;
     public GameObject waterCollider;
 
-    static int edgeCount = Mathf.RoundToInt(width / edgeWidth);
+    static int edgeCount = Mathf.RoundToInt(WIDTH / EDGE_WIDTH);
     static int nodeCount = edgeCount + 1;
 
     int position = 0;
     int prevPosition = 0;
 
-    float left = -width / 2;
-    float bottom = top - height;
+    float left = -WIDTH / 2;
+    float bottom = TOP_POSITION - HEIGHT;
 
     float waterLevel = 0;
 
@@ -56,15 +56,15 @@ public class Water : MonoBehaviour
     public void SpawnWater()
     {
         BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
-        boxCollider.size = new Vector2(width, height);
-        boxCollider.offset = new Vector2(0, -height / 2);
+        boxCollider.size = new Vector2(WIDTH, HEIGHT);
+        boxCollider.offset = new Vector2(0, -HEIGHT / 2);
 
         body = gameObject.AddComponent<LineRenderer>();
         body.material = waterTopMaterial;
         body.material.renderQueue = 1000;
         body.positionCount = nodeCount;
-        body.startWidth = waterTopWidth;
-        body.endWidth = waterTopWidth;
+        body.startWidth = TOP_WIDTH;
+        body.endWidth = TOP_WIDTH;
 
         for (int i = 0; i < nodeCount; i++)
         {
@@ -79,7 +79,7 @@ public class Water : MonoBehaviour
 
     void createNode(int i)
     {
-        nodes[i] = new WaterNode(left + width * i / edgeCount, top);
+        nodes[i] = new WaterNode(left + WIDTH * i / edgeCount, TOP_POSITION);
     }
 
     void createMesh(int i)
@@ -111,8 +111,8 @@ public class Water : MonoBehaviour
         obj.transform.parent = transform;
 
         GameObject water = GameObject.Instantiate(waterCollider, transform);
-        water.transform.position = new Vector3(left + width * (i + 0.5f) / edgeCount, (bottom + top) / 2, 0);
-        water.transform.localScale = new Vector3(width / edgeCount, top - bottom, 1);
+        water.transform.position = new Vector3(left + WIDTH * (i + 0.5f) / edgeCount, (bottom + TOP_POSITION) / 2, 0);
+        water.transform.localScale = new Vector3(WIDTH / edgeCount, TOP_POSITION - bottom, 1);
         nodes[i].buoyancyCollider = water;
     }
 
@@ -120,11 +120,11 @@ public class Water : MonoBehaviour
     {
         float globalPos = followedTransform.position.x;
         prevPosition = position;
-        position = Mathf.FloorToInt(globalPos / edgeWidth);
-        left = position * edgeWidth - width / 2;
+        position = Mathf.FloorToInt(globalPos / EDGE_WIDTH);
+        left = position * EDGE_WIDTH - WIDTH / 2;
         if (position != prevPosition)
         {
-            GetComponent<BoxCollider2D>().offset = new Vector2(globalPos, -height / 2);
+            GetComponent<BoxCollider2D>().offset = new Vector2(globalPos, -HEIGHT / 2);
             int delta = position - prevPosition;
             if (delta > nodeCount - 1) delta = nodeCount - 1;
             if (delta < -nodeCount + 1) delta = -nodeCount + 1;
@@ -179,11 +179,11 @@ public class Water : MonoBehaviour
     {
         for (int i = 0; i < nodes.Length; i++)
         {
-            float force = spring * (nodes[i].position.y - top) + nodes[i].velocity * damping;
-            nodes[i].acceleration = -force / mass;
+            float force = SPRING * (nodes[i].position.y - TOP_POSITION) + nodes[i].velocity * DAMPING;
+            nodes[i].acceleration = -force / MASS;
             nodes[i].position.y += nodes[i].velocity;
             nodes[i].velocity += nodes[i].acceleration;
-            body.SetPosition(i, nodes[i].position + Vector3.down * waterTopWidth / 2);
+            body.SetPosition(i, nodes[i].position + Vector3.down * TOP_WIDTH / 2);
         }
 
         for (int j = 0; j < 1; j++)
@@ -192,12 +192,12 @@ public class Water : MonoBehaviour
             {
                 if (i > 0)
                 {
-                    nodes[i].leftDelta = spread * (nodes[i].position.y - nodes[i - 1].position.y);
+                    nodes[i].leftDelta = SPREAD * (nodes[i].position.y - nodes[i - 1].position.y);
                     nodes[i - 1].velocity += nodes[i].leftDelta;
                 }
                 if (i < nodes.Length - 1)
                 {
-                    nodes[i].rightDelta = spread * (nodes[i].position.y - nodes[i + 1].position.y);
+                    nodes[i].rightDelta = SPREAD * (nodes[i].position.y - nodes[i + 1].position.y);
                     nodes[i + 1].velocity += nodes[i].rightDelta;
                 }
             }
@@ -216,7 +216,7 @@ public class Water : MonoBehaviour
         }
         for (int i = 0; i < edgeCount; i++)
         {
-            nodes[i].buoyancyCollider.transform.position = nodes[i].position + new Vector3(width / (nodes.Length - 1) / 2, bottom / 2, 0);
+            nodes[i].buoyancyCollider.transform.position = nodes[i].position + new Vector3(WIDTH / (nodes.Length - 1) / 2, bottom / 2, 0);
 
         }
     }
@@ -229,7 +229,7 @@ public class Water : MonoBehaviour
 
             int index = Mathf.RoundToInt((nodes.Length - 1) * (xpos / (nodes[nodes.Length - 1].position.x - nodes[0].position.x)));
 
-            nodes[index].velocity += velocity * effect;
+            nodes[index].velocity += velocity * EFFECT;
         }
     }
 
@@ -286,9 +286,9 @@ public class Water : MonoBehaviour
     {
         int i = Random.Range(0, edgeCount);
         float v = nodes[i].velocity;
-        if (Mathf.Abs(v) < waveVelocity)
+        if (Mathf.Abs(v) < WAVE_VELOCITY)
         {
-            v += (waveVelocity - Mathf.Abs(v)) * Mathf.Sign(v);
+            v += (WAVE_VELOCITY - Mathf.Abs(v)) * Mathf.Sign(v);
             nodes[i].velocity = v;
         }
     }

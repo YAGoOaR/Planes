@@ -2,23 +2,26 @@
 
 public class AIPlane : MonoBehaviour
 {
-    const float fieldPos = -900;
-    const float landingALT = 25;
-    const float defaultSpeed = 40;
-    const float defaultALT = 40;
-    const float sensitivity = 5;
-    const float trim = .2f;
-    public float targetALT = 40;
+    const float FIELD_POSITION = -900;
+    const float LANDING_ALTITUDE = 25;
+    const float DEFAULT_SPEED = 40;
+    const float DEFAULT_ALTITUDE = 40;
+    const float SENSITIVITY = 5;
+    const float TRIM = .2f;
+    const float BOMB_THROW_ACCURACY = 0.5f;
+    const float BOMB_OFFSET = 18;
+    public float targetAltitude = 40;
+    float maxTargetAngle = 15;
     [HideInInspector]
-    public float targetPos = 0;
+    public float targetPosition = 0;
     [HideInInspector]
-    public float targetSpeed = defaultSpeed;
+    public float targetSpeed = DEFAULT_SPEED;
     [HideInInspector]
     public int startThrottle = 0;
     float targetAngle = -15;
     bool land = false;
     bool idle = false;
-    PlaneBehaviour PB;
+    PlaneBehaviour planeBehaviour;
     Timers.CooldownTimer cooldownTimer;
     Timers.CooldownTimer waitBeforeTurn;
 
@@ -26,93 +29,92 @@ public class AIPlane : MonoBehaviour
     {
         cooldownTimer = new Timers.CooldownTimer(10);
         waitBeforeTurn = new Timers.CooldownTimer(1, true);
-        PB = GetComponent<PlaneBehaviour>();
-        PB.isPlayer = false;
-        PB.throttle = startThrottle;
+        planeBehaviour = GetComponent<PlaneBehaviour>();
+        planeBehaviour.isPlayer = false;
+        planeBehaviour.throttle = startThrottle;
     }
 
     void Update()
     {
         if (idle) return;
         float velocity = GetComponent<Rigidbody2D>().velocity.magnitude;
-        float alt = transform.position.y;
+        float altitude = transform.position.y;
         float rotation = transform.rotation.eulerAngles.z;
         float deltaAngle = targetAngle - rotation;
-        float pos = transform.position.x;
-        float deltaPos = targetPos - pos;
-        float deltaALT = targetALT - alt;
-        float distance = Mathf.Abs(deltaPos);
+        float position= transform.position.x;
+        float deltaPosition = targetPosition - position;
+        float deltaAltitude = targetAltitude - altitude;
+        float distance = Mathf.Abs(deltaPosition);
 
         if (cooldownTimer.check() && velocity > 30)
         {
-            if (!PB.upsideDown && pos < targetPos)
+            if (!planeBehaviour.upsideDown && position < targetPosition)
             {
-                PB.turnBack();
+                planeBehaviour.turnBack();
                 cooldownTimer.reset();
             }
-            if (PB.upsideDown && pos > targetPos)
+            if (planeBehaviour.upsideDown && position > targetPosition)
             {
-                PB.turnBack();
+                planeBehaviour.turnBack();
                 cooldownTimer.reset();
             }
         }
 
         int sign = 1;
-        if (PB.upsideDown)
+        if (planeBehaviour.upsideDown)
         {
             sign = -1;
             deltaAngle += 180;
         }
         float deltaSpeed = targetSpeed - Mathf.Abs(velocity);
-        if (!PB.isTurningBack)
+        if (!planeBehaviour.isTurningBack)
         {
-            if (deltaSpeed > 2) PB.throttle = 100;
-            else if (deltaSpeed < -2) PB.throttle = 0;
+            if (deltaSpeed > 2) planeBehaviour.throttle = 100;
+            else if (deltaSpeed < -2) planeBehaviour.throttle = 0;
             else
             {
-                PB.throttle = 50;
+                planeBehaviour.throttle = 50;
             }
         }
-        float pitch = -Mathf.Sin(deltaAngle / 180 * Mathf.PI) * sensitivity + sign * trim;
-        PB.pitch = MathUtils.clamp(pitch, 1);
-        if (!PB.gearCtrl.isGearUp && alt > 30) { PB.switchGear(); }
-        targetAngle = -MathUtils.clamp(targetALT - alt, 15) * sign * MathUtils.clamp(velocity / 30, 2);
-        float timeToCollision = Mathf.Sqrt(alt / 9.8f);
-        float targetDistance = Mathf.Abs(timeToCollision * GetComponent<Rigidbody2D>().velocity.x) + 18;
-        if (Mathf.Abs(targetDistance - Mathf.Abs(deltaPos)) < .5f)
+        float pitch = -Mathf.Sin(deltaAngle / 180 * Mathf.PI) * SENSITIVITY + sign * TRIM;
+        planeBehaviour.pitch = MathUtils.clamp(pitch, 1);
+        if (!planeBehaviour.gearCtrl.isGearUp && altitude > 30) { planeBehaviour.switchGear(); }
+        targetAngle = -MathUtils.clamp(targetAltitude - altitude, maxTargetAngle) * sign * MathUtils.clamp(velocity / 30, 2);
+        float timeToCollision = Mathf.Sqrt(altitude / 9.8f);
+        float targetDistance = Mathf.Abs(timeToCollision * GetComponent<Rigidbody2D>().velocity.x) + BOMB_OFFSET;
+        if (Mathf.Abs(targetDistance - Mathf.Abs(deltaPosition)) < BOMB_THROW_ACCURACY)
         {
-            PB.throwBomb();
+            planeBehaviour.throwBomb();
             waitBeforeTurn.reset();
         }
-        if (PB.bombs.Count == 0 && waitBeforeTurn.check())
+        if (planeBehaviour.bombs.Count == 0 && waitBeforeTurn.check())
         {
             land = true;
-            targetPos = fieldPos;
+            targetPosition = FIELD_POSITION;
             waitBeforeTurn.reset();
-            deltaPos = targetPos - pos;
-            distance = Mathf.Abs(deltaPos);
-
+            deltaPosition = targetPosition - position;
+            distance = Mathf.Abs(deltaPosition);
         }
-        if (land && !PB.isTurningBack)
+        if (land && !planeBehaviour.isTurningBack)
         {
-            targetALT = MathUtils.clamp(Mathf.Abs(deltaPos / 1000), 1) * (defaultALT - landingALT) + landingALT;
-            if (deltaALT < 2)
+            targetAltitude = MathUtils.clamp(Mathf.Abs(deltaPosition / 1000), 1) * (DEFAULT_ALTITUDE - LANDING_ALTITUDE) + LANDING_ALTITUDE;
+            if (deltaAltitude < 2)
             {
-                targetSpeed = MathUtils.clamp(Mathf.Abs(deltaPos / 500), 1) * defaultSpeed;
+                targetSpeed = MathUtils.clamp(Mathf.Abs(deltaPosition / 500), 1) * DEFAULT_SPEED;
             }
             else
             {
-                targetSpeed = defaultSpeed;
+                targetSpeed = DEFAULT_SPEED;
             }   
             if (distance < 200)
             {
-                if (PB.gearCtrl.isGearUp && !waitBeforeTurn.check())
+                if (planeBehaviour.gearCtrl.isGearUp && !waitBeforeTurn.check())
                 {
-                    PB.switchGear(true);
+                    planeBehaviour.switchGear(true);
                 }
-                if (!PB.flaps && distance < 100)
+                if (!planeBehaviour.flaps && distance < 100)
                 {
-                    PB.switchFlaps(true);
+                    planeBehaviour.switchFlaps(true);
                 }
                 if (distance < 100)
                 {

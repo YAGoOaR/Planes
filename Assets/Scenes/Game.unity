@@ -273,8 +273,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77538f96ed844524d8350506e4146cbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetALT: 45
-  targetPos: 0
+  targetAltitude: 45
+  targetPosition: 0
   targetSpeed: 40
   startThrottle: 90
 --- !u!4 &268082245 stripped
@@ -782,8 +782,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77538f96ed844524d8350506e4146cbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetALT: 40
-  targetPos: 0
+  targetAltitude: 40
+  targetPosition: 0
   targetSpeed: 40
   startThrottle: 90
 --- !u!1001 &859229578
@@ -889,8 +889,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77538f96ed844524d8350506e4146cbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetALT: 50
-  targetPos: 0
+  targetAltitude: 50
+  targetPosition: 0
   targetSpeed: 40
   startThrottle: 90
 --- !u!1 &1002289165
