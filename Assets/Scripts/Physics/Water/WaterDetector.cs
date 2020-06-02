@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//A script that detects objects that collide water
 public class WaterDetector : MonoBehaviour
 {
-
     void OnTriggerEnter2D(Collider2D hit)
     {
         if (hit.GetComponent<Rigidbody2D>() != null && hit.tag != "Map")
@@ -11,5 +11,4 @@ public class WaterDetector : MonoBehaviour
             transform.parent.GetComponent<Water>().Splash(transform.position.x, hit.GetComponent<Rigidbody2D>().velocity.y * hit.GetComponent<Rigidbody2D>().mass);
         }
     }
-
 }

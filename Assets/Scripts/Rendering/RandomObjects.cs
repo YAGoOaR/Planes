@@ -1,28 +1,28 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+//Script that places random visible chunks of clouds
 public class RandomObjects : MonoBehaviour
 {
-    private Transform cam;
+    private Transform cameraTransform;
     public int visibleChunks = 0;
     public int cloudHeight = 80;
-
-    private int chunkSize = 200;
-    private int objSize = 30;
-    private int position = 1;
-    private int prevPosition = -1;
-    private List<int> chunks = new List<int>();
-    private List<GameObject> chunksObj = new List<GameObject>();
+    int chunkSize = 200;
+    int objectSize = 30;
+    int position = 1;
+    int prevPosition = -1;
+    List<int> chunks = new List<int>();
+    List<GameObject> chunksObj = new List<GameObject>();
 
     void Start()
     {
-        cam = Camera.main.transform;
+        cameraTransform = Camera.main.transform;
     }
 
     void Update()
     {
         prevPosition = position;
-        position = Mathf.FloorToInt(cam.position.x / chunkSize) * chunkSize;
+        position = Mathf.FloorToInt(cameraTransform.position.x / chunkSize) * chunkSize;
 
         if (position != prevPosition)
         {
@@ -37,12 +37,12 @@ public class RandomObjects : MonoBehaviour
 
             for (int i = -visibleChunks; i < visibleChunks; i++)
             {
-                int iPos = i * chunkSize + position;
-                int id = chunks.IndexOf(iPos);
+                int chunkPos = i * chunkSize + position;
+                int j = chunks.IndexOf(chunkPos);
 
-                if (id == -1)
+                if (j == -1)
                 {
-                    createCloudChunk(iPos);
+                    createCloudChunk(chunkPos);
                 }
 
             }
@@ -52,7 +52,7 @@ public class RandomObjects : MonoBehaviour
     void createCloudChunk(int pos)
     {
         chunks.Add(pos);
-        chunksObj.Add(GameObject.Instantiate(GameAssets.instance.pickRandomCloud(), new Vector3(pos + Random.Range(0, chunkSize - objSize), cloudHeight, 0), Quaternion.identity));
+        chunksObj.Add(GameObject.Instantiate(GameAssets.instance.pickRandomCloud(), new Vector3(pos + Random.Range(0, chunkSize - objectSize), cloudHeight, 0), Quaternion.identity));
     }
 
     void removeCloudChunk(int i)
@@ -61,5 +61,4 @@ public class RandomObjects : MonoBehaviour
         chunksObj.RemoveAt(i);
         chunks.RemoveAt(i);
     }
-
 }

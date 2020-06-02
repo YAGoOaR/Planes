@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 
+//A script that makes the attached object to float
 public class Buoyancy : MonoBehaviour
 {
-    const float coefficient = 8;
+    const float FORCE_COEFFICIENT = 8;
     public float volume = 10;
     Collider2D waterCollider;
     int connections = 0;
@@ -27,7 +28,7 @@ public class Buoyancy : MonoBehaviour
         GameObject waterObject = waterCollider.gameObject;
         float position = gameObject.transform.position.y;
         float waterLevel = waterObject.transform.position.y + (waterObject.transform.localScale.y) / 2;
-        float forceY = coefficient * volume * (waterLevel - position);
+        float forceY = FORCE_COEFFICIENT * volume * (waterLevel - position);
         thisRigidbody.AddForce(new Vector2(0, forceY));
     }
 }
