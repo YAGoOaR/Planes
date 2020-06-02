@@ -37,10 +37,10 @@ public class explosion : MonoBehaviour
         if (collider.gameObject.tag != "water" || timer < maxTime) return;
         GameObject water = collider.transform.parent.gameObject;
         Rigidbody2D rigidbody = GetComponent<Rigidbody2D>();
-        Vector2 pos = transform.position;
+        Vector2 position = transform.position;
         float velocity = rigidbody.velocity.magnitude;
         float mass = rigidbody.mass;
-        water.GetComponent<Water>().Splash(pos.x, mass * EXPLOSION_FORCE_COEF);
+        water.GetComponent<Water>().Splash(position.x, mass * EXPLOSION_FORCE_COEF);
         OnCollisionEnter2D(null);
     }
 }

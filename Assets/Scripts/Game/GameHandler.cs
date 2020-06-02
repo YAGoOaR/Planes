@@ -51,9 +51,9 @@ public class GameHandler : MonoBehaviour
     void Update()
     {
         //freeze objects if they are too far from camera
-        foreach (GameObject obj in objectsToFreeze)
+        foreach (GameObject gameobject in objectsToFreeze)
         {
-            obj.SetActive(Mathf.Abs(cameraTransform.position.x - obj.transform.position.x) < FREEZE_DISTANCE);
+            gameobject.SetActive(Mathf.Abs(cameraTransform.position.x - gameobject.transform.position.x) < FREEZE_DISTANCE);
         }
         controls();
     }

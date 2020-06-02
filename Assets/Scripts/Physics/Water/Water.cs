@@ -30,20 +30,20 @@ public class Water : MonoBehaviour
     int position = 0;
     int prevPosition = 0;
 
-    float left = -WIDTH / 2;
-    float bottom = TOP_POSITION - HEIGHT;
+    float leftPosition = -WIDTH / 2;
+    float bottomPosition = TOP_POSITION - HEIGHT;
 
     float waterLevel = 0;
 
     Transform followedTransform;
-    LineRenderer body;
+    LineRenderer lineBody;
     WaterNode[] nodes = new WaterNode[nodeCount];
     Mesh[] meshes = new Mesh[edgeCount];
     GameObject[] meshObjects = new GameObject[edgeCount];
 
     class WaterNode
     {
-        public static float startZ = -1;
+        public static float ZPosition = -1;
         public float velocity = 0;
         public float acceleration = 0;
         public float leftDelta, rightDelta = 0;
@@ -51,7 +51,7 @@ public class Water : MonoBehaviour
         public GameObject buoyancyCollider;
         public WaterNode(float x, float y)
         {
-            position.Set(x, y, startZ);
+            position.Set(x, y, ZPosition);
         }
         public void destroy()
         {
@@ -65,17 +65,17 @@ public class Water : MonoBehaviour
         boxCollider.size = new Vector2(WIDTH, HEIGHT);
         boxCollider.offset = new Vector2(0, -HEIGHT / 2);
 
-        body = gameObject.AddComponent<LineRenderer>();
-        body.material = waterTopMaterial;
-        body.material.renderQueue = 1000;
-        body.positionCount = nodeCount;
-        body.startWidth = TOP_WIDTH;
-        body.endWidth = TOP_WIDTH;
+        lineBody = gameObject.AddComponent<LineRenderer>();
+        lineBody.material = waterTopMaterial;
+        lineBody.material.renderQueue = 1000;
+        lineBody.positionCount = nodeCount;
+        lineBody.startWidth = TOP_WIDTH;
+        lineBody.endWidth = TOP_WIDTH;
 
         for (int i = 0; i < nodeCount; i++)
         {
             createNode(i);
-            body.SetPosition(i, nodes[i].position);
+            lineBody.SetPosition(i, nodes[i].position);
         }
         for (int i = 0; i < edgeCount; i++)
         {
@@ -85,7 +85,7 @@ public class Water : MonoBehaviour
 
     void createNode(int i)
     {
-        nodes[i] = new WaterNode(left + WIDTH * i / edgeCount, TOP_POSITION);
+        nodes[i] = new WaterNode(leftPosition + WIDTH * i / edgeCount, TOP_POSITION);
     }
 
     void createMesh(int i)
@@ -101,8 +101,8 @@ public class Water : MonoBehaviour
         Vector3[] vertices = new Vector3[4];
         vertices[0] = nodes[i].position;
         vertices[1] = nodes[i + 1].position;
-        vertices[2] = new Vector3(nodes[i].position.x, bottom, WaterNode.startZ);
-        vertices[3] = new Vector3(nodes[i + 1].position.x, bottom, WaterNode.startZ);
+        vertices[2] = new Vector3(nodes[i].position.x, bottomPosition, WaterNode.ZPosition);
+        vertices[3] = new Vector3(nodes[i + 1].position.x, bottomPosition, WaterNode.ZPosition);
 
         Mesh mesh = new Mesh();
         mesh.vertices = vertices;
@@ -110,15 +110,15 @@ public class Water : MonoBehaviour
         mesh.triangles = triangles;
         meshes[i] = mesh;
 
-        GameObject obj = meshObjects[i];
-        obj = Object.Instantiate(waterMesh, Vector3.zero, Quaternion.identity);
-        obj.GetComponent<MeshFilter>().mesh = meshes[i];
-        obj.GetComponent<MeshRenderer>().sortingLayerName = "water";
-        obj.transform.parent = transform;
+        GameObject meshObject = meshObjects[i];
+        meshObject = Object.Instantiate(waterMesh, Vector3.zero, Quaternion.identity);
+        meshObject.GetComponent<MeshFilter>().mesh = meshes[i];
+        meshObject.GetComponent<MeshRenderer>().sortingLayerName = "water";
+        meshObject.transform.parent = transform;
 
         GameObject water = GameObject.Instantiate(waterCollider, transform);
-        water.transform.position = new Vector3(left + WIDTH * (i + HALF) / edgeCount, (bottom + TOP_POSITION) / 2, DEFAULT_Z_POSITION);
-        water.transform.localScale = new Vector3(WIDTH / edgeCount, TOP_POSITION - bottom, DEFAULT_Z_SCALE);
+        water.transform.position = new Vector3(leftPosition + WIDTH * (i + HALF) / edgeCount, (bottomPosition + TOP_POSITION) / 2, DEFAULT_Z_POSITION);
+        water.transform.localScale = new Vector3(WIDTH / edgeCount, TOP_POSITION - bottomPosition, DEFAULT_Z_SCALE);
         nodes[i].buoyancyCollider = water;
     }
 
@@ -127,7 +127,7 @@ public class Water : MonoBehaviour
         float globalPos = followedTransform.position.x;
         prevPosition = position;
         position = Mathf.FloorToInt(globalPos / EDGE_WIDTH);
-        left = position * EDGE_WIDTH - WIDTH / 2;
+        leftPosition = position * EDGE_WIDTH - WIDTH / 2;
         if (position != prevPosition)
         {
             GetComponent<BoxCollider2D>().offset = new Vector2(globalPos, -HEIGHT / 2);
@@ -175,8 +175,8 @@ public class Water : MonoBehaviour
             Vector3[] vertices = new Vector3[UV_COUNT];
             vertices[0] = nodes[i].position + Vector3.forward * -MESH_OFFSET;
             vertices[1] = nodes[i + 1].position + Vector3.forward * -MESH_OFFSET;
-            vertices[2] = new Vector3(nodes[i].position.x, bottom, WaterNode.startZ - MESH_OFFSET);
-            vertices[3] = new Vector3(nodes[i + 1].position.x, bottom, WaterNode.startZ - MESH_OFFSET);
+            vertices[2] = new Vector3(nodes[i].position.x, bottomPosition, WaterNode.ZPosition - MESH_OFFSET);
+            vertices[3] = new Vector3(nodes[i + 1].position.x, bottomPosition, WaterNode.ZPosition - MESH_OFFSET);
             meshes[i].vertices = vertices;
         }
     }
@@ -189,7 +189,7 @@ public class Water : MonoBehaviour
             nodes[i].acceleration = -force / MASS;
             nodes[i].position.y += nodes[i].velocity;
             nodes[i].velocity += nodes[i].acceleration;
-            body.SetPosition(i, nodes[i].position + Vector3.down * TOP_WIDTH / 2);
+            lineBody.SetPosition(i, nodes[i].position + Vector3.down * TOP_WIDTH / 2);
         }
 
         for (int j = 0; j < 1; j++)
@@ -222,7 +222,7 @@ public class Water : MonoBehaviour
         }
         for (int i = 0; i < edgeCount; i++)
         {
-            nodes[i].buoyancyCollider.transform.position = nodes[i].position + new Vector3(WIDTH / (nodes.Length - 1) / 2, bottom / 2, 0);
+            nodes[i].buoyancyCollider.transform.position = nodes[i].position + new Vector3(WIDTH / (nodes.Length - 1) / 2, bottomPosition / 2, 0);
 
         }
     }
@@ -233,9 +233,9 @@ public class Water : MonoBehaviour
         {
             xpos -= nodes[0].position.x;
 
-            int index = Mathf.RoundToInt((nodes.Length - 1) * (xpos / (nodes[nodes.Length - 1].position.x - nodes[0].position.x)));
+            int i = Mathf.RoundToInt((nodes.Length - 1) * (xpos / (nodes[nodes.Length - 1].position.x - nodes[0].position.x)));
 
-            nodes[index].velocity += velocity * EFFECT;
+            nodes[i].velocity += velocity * EFFECT;
         }
     }
 
@@ -291,11 +291,11 @@ public class Water : MonoBehaviour
     void generateWaves()
     {
         int i = Random.Range(0, edgeCount);
-        float v = nodes[i].velocity;
-        if (Mathf.Abs(v) < WAVE_VELOCITY)
+        float velocity = nodes[i].velocity;
+        if (Mathf.Abs(velocity) < WAVE_VELOCITY)
         {
-            v += (WAVE_VELOCITY - Mathf.Abs(v)) * Mathf.Sign(v);
-            nodes[i].velocity = v;
+            velocity += (WAVE_VELOCITY - Mathf.Abs(velocity)) * Mathf.Sign(velocity);
+            nodes[i].velocity = velocity;
         }
     }
 }

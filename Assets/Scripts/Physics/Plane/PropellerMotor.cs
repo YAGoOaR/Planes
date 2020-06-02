@@ -4,7 +4,7 @@ public class PropellerMotor : MonoBehaviour
 {
     const float VELOCITY_OFFSET = 5;
     public float force = 5.5f;
-    Rigidbody2D propellerRB;
+    Rigidbody2D propellerRigidbody;
     Animator propellerAnimator;
     FixedJoint2D fixedJoint;
     public int throttle;
@@ -14,7 +14,7 @@ public class PropellerMotor : MonoBehaviour
     {
         fixedJoint = gameObject.GetComponent<FixedJoint2D>();
         propellerAnimator = gameObject.GetComponent<Animator>();
-        propellerRB = gameObject.GetComponent<Rigidbody2D>();
+        propellerRigidbody = gameObject.GetComponent<Rigidbody2D>();
     }
 
     void OnJointBreak2D()
@@ -27,10 +27,10 @@ public class PropellerMotor : MonoBehaviour
         if (jointIsActive)
         {
             propellerAnimator.SetFloat("Throttle", throttle);
-            propellerAnimator.SetFloat("Velocity", Mathf.Sqrt(propellerRB.velocity.magnitude * throttle) + VELOCITY_OFFSET);
+            propellerAnimator.SetFloat("Velocity", Mathf.Sqrt(propellerRigidbody.velocity.magnitude * throttle) + VELOCITY_OFFSET);
             float ang = (gameObject.transform.rotation.eulerAngles.z - 180) / 180 * Mathf.PI;
             Vector2 v = new Vector2(Mathf.Cos(ang) * force * throttle, Mathf.Sin(ang) * force * throttle);
-            propellerRB.AddForce(v);
+            propellerRigidbody.AddForce(v);
         }
         else
         {
@@ -40,7 +40,7 @@ public class PropellerMotor : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.tag != "water" || propellerRB.velocity.magnitude < 10 || !jointIsActive) return;
+        if (collider.tag != "water" || propellerRigidbody.velocity.magnitude < 10 || !jointIsActive) return;
         throttle = 0;
         fixedJoint.breakForce = 0;
     }

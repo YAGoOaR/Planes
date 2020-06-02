@@ -46,7 +46,7 @@ public class PlaneBehaviour : MonoBehaviour
     Timers.CooldownTimer turnTimer;
     Timers.CooldownTimer throttleTimer;
     Timers.CooldownTimer shootingTimer;
-    Aerofoil[] Alist;
+    Aerofoil[] aerofoilList;
     public Queue<GameObject> bombs = new Queue<GameObject>();
     // Find part in the plane
     GameObject findPart(string name)
@@ -142,7 +142,7 @@ public class PlaneBehaviour : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         planerb = GetComponent<Rigidbody2D>();
         hinge = GetComponent<HingeJoint2D>();
-        Alist = gameObject.GetComponentsInChildren<Aerofoil>();
+        aerofoilList = gameObject.GetComponentsInChildren<Aerofoil>();
 
         gearCtrl = gear.GetComponent<GearController>();
         propellerMotor = propeller.GetComponent<PropellerMotor>();
@@ -256,9 +256,9 @@ public class PlaneBehaviour : MonoBehaviour
         gunOffsetAngle = -gunOffsetAngle;
         Vector3 scale = gameObject.transform.localScale;
         gameObject.transform.localScale = new Vector3(scale.x, -scale.y, scale.z);
-        for (int i = 0; i < Alist.Length; i++)
+        for (int i = 0; i < aerofoilList.Length; i++)
         {
-            Alist[i].upside = -Alist[i].upside;
+            aerofoilList[i].upside = -aerofoilList[i].upside;
         }
         upsideDown = !upsideDown;
         turnFlaps();
@@ -349,7 +349,7 @@ public class PlaneBehaviour : MonoBehaviour
     //Turn off aerofoil(is needed during animation)
     public void switchAerofoilActive()
     {
-        foreach (Aerofoil aerofoil in Alist)
+        foreach (Aerofoil aerofoil in aerofoilList)
         {
             aerofoil.enabled = !aerofoil.enabled;
         }

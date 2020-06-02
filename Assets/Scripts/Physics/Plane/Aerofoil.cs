@@ -10,15 +10,15 @@ public class Aerofoil : MonoBehaviour
     public bool lift = false;
     public float LIFT_FORCE_COEF = 0.1f;
     public int upside = 1;
-    Rigidbody2D rb;
+    Rigidbody2D rigidBody;
     Vector2 rotationVector;
     float rotationAngle;
-    float stabilisation = 1f;
+    float stabilization = 1f;
 
     //Called once when this object initializes
     void Start()
     {
-        rb = gameObject.GetComponent<Rigidbody2D>();
+        rigidBody = gameObject.GetComponent<Rigidbody2D>();
     }
 
     //Called once per frame
@@ -27,7 +27,7 @@ public class Aerofoil : MonoBehaviour
     {
         rotationAngle = (transform.rotation.eulerAngles.z) / 180 * Mathf.PI;
         rotationVector = new Vector2(-Mathf.Cos(rotationAngle), -Mathf.Sin(rotationAngle));
-        Vector2 velocity = rb.velocity;
+        Vector2 velocity = rigidBody.velocity;
         float velocityAngle = Vector2.SignedAngle(Vector2.left, velocity) / 180 * Mathf.PI;
         //angle between velocity and heading 
         float deltaAngle = (-Vector2.SignedAngle(rotationVector, velocity)) / 180 * Mathf.PI - EFFECTIVE_ANGLE_OFFSET;
@@ -38,7 +38,7 @@ public class Aerofoil : MonoBehaviour
         //Stalling when low speed
         if (velocity.magnitude < STALL_COEF) stall = velocity.magnitude / STALL_COEF;
         //Stabilization force coefficient
-        stabilisation = Mathf.Abs(Mathf.Cos(deltaAngle)) * stall * STAB_COEF;
+        stabilization = Mathf.Abs(Mathf.Cos(deltaAngle)) * stall * STAB_COEF;
         //Stabilization force
         Vector2 stabForce = new Vector2(-Mathf.Cos(rotationAngle), -Mathf.Sin(rotationAngle)) * velocity.magnitude;
         //Lifting force
@@ -49,6 +49,6 @@ public class Aerofoil : MonoBehaviour
         }
         else liftForce = Vector2.zero;
         //Applying velocity to rigidbody
-        rb.velocity = (velocity * (1 - stabilisation) + stabilisation * (stabForce + liftForce)) * (1 - drag);
+        rigidBody.velocity = (velocity * (1 - stabilization) + stabilization * (stabForce + liftForce)) * (1 - drag);
     }
 }

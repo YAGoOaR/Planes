@@ -10,8 +10,8 @@ public class ChunkManager : MonoBehaviour
     public int visibleChunks = 0;
 
     public int chunkSize = 2000;
-    private int position = 0;
-    private int prevPosition = -1;
+    int position = 0;
+    int prevPosition = -1;
 
     class ChunksArray
     {
@@ -21,20 +21,20 @@ public class ChunkManager : MonoBehaviour
         }
         private int chunkSize;
         private List<Chunk> chunks = new List<Chunk>();
-        public Chunk findByPos(int pos)
+        public Chunk findByPosition(int pos)
         {
             foreach (Chunk chunk in this.chunks)
             {
-                if (chunk.pos == pos)
+                if (chunk.position == pos)
                 {
                     return chunk;
                 }
             }
             return null;
         }
-        public void destroyByPos(int pos)
+        public void destroyByPosition(int pos)
         {
-            Chunk chunk = this.findByPos(pos);
+            Chunk chunk = this.findByPosition(pos);
             this.removeChunk(chunk);
         }
         public void createChunk(int pos)
@@ -51,12 +51,12 @@ public class ChunkManager : MonoBehaviour
             Object.Destroy(chunk.obj);
             this.chunks.Remove(chunk);
         }
-        public void clearAround(int pos, int range)
+        public void clearChunksAround(int position, int range)
         {
             List<Chunk> chunksToRemove = new List<Chunk>();
             foreach (Chunk chunk in this.chunks)
             {
-                if (Mathf.Abs(chunk.pos - pos) > range)
+                if (Mathf.Abs(chunk.position - position) > range)
                 {
                     chunksToRemove.Add(chunk);
                 }
@@ -72,10 +72,10 @@ public class ChunkManager : MonoBehaviour
     {
         public Chunk(int pos, GameObject obj)
         {
-            this.pos = pos;
+            this.position = pos;
             this.obj = obj;
         }
-        public int pos = 0;
+        public int position = 0;
         public GameObject obj = null;
     }
 
@@ -93,13 +93,13 @@ public class ChunkManager : MonoBehaviour
         {
             for (int i = -visibleChunks; i < visibleChunks; i++)
             {
-                int cpos = position + i;
-                if (chunkArray.findByPos(cpos) == null)
+                int chunkPos = position + i;
+                if (chunkArray.findByPosition(chunkPos) == null)
                 {
-                    chunkArray.createChunk(cpos);
+                    chunkArray.createChunk(chunkPos);
                 }
             }
-            chunkArray.clearAround(position, visibleChunks);
+            chunkArray.clearChunksAround(position, visibleChunks);
         }
     }
 }
