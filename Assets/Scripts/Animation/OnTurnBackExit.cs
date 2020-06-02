@@ -45,5 +45,4 @@ public class OnTurnBackExit : StateMachineBehaviour
         planeBehaviour.switchBombsActive();
         planeBehaviour.isTurningBack = false;
     }
-
 }

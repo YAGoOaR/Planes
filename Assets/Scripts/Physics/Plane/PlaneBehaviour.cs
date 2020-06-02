@@ -48,11 +48,13 @@ public class PlaneBehaviour : MonoBehaviour
     Timers.CooldownTimer shootingTimer;
     Aerofoil[] aerofoilList;
     public Queue<GameObject> bombs = new Queue<GameObject>();
+
     // Find part in the plane
     GameObject findPart(string name)
     {
         return transform.Find(name).gameObject;
     }
+
     //the plane
     public class AeroPlane
     {
@@ -81,6 +83,7 @@ public class PlaneBehaviour : MonoBehaviour
             return null;
         }
     }
+
     //Any physical plane part
     public class PlanePart
     {

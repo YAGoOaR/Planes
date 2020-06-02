@@ -32,6 +32,7 @@ public class explosion : MonoBehaviour
             }
         }
     }
+
     public void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.gameObject.tag != "water" || timer < maxTime) return;

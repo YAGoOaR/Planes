@@ -2,7 +2,7 @@
 
 public class SelfDestroy : MonoBehaviour
 {
-    private float curTime = 0;
+    float curTime = 0;
     public float maxTime;
 
     void Update()

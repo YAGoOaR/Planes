@@ -44,5 +44,4 @@ public class PropellerMotor : MonoBehaviour
         throttle = 0;
         fixedJoint.breakForce = 0;
     }
-
 }

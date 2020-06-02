@@ -32,6 +32,7 @@ public class GameHandler : MonoBehaviour
             this.gear = gear;
         }
     }
+
     //Called instantly after initialization
     void Awake()
     {
@@ -42,11 +43,13 @@ public class GameHandler : MonoBehaviour
         planeBehaviour = player.GetComponent<PlaneBehaviour>();
         planeBehaviour.startInOtherHeading = startInOtherHeading;
     }
+
     //Called after "Awake"
     void Start()
     {
         cameraTransform = Camera.main.transform;
     }
+
     //Called once per frame
     void Update()
     {
@@ -57,6 +60,7 @@ public class GameHandler : MonoBehaviour
         }
         controls();
     }
+
     //Exit or restart the game
     void controls()
     {

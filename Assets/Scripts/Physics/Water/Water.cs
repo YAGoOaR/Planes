@@ -254,6 +254,7 @@ public class Water : MonoBehaviour
         UpdatePhysics();
         generateWaves();
     }
+
     void moveNodesInArray(int offset)
     {
         WaterNode[] newArr = new WaterNode[nodes.Length];

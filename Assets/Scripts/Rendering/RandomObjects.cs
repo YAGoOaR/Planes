@@ -6,13 +6,12 @@ public class RandomObjects : MonoBehaviour
     private Transform cameraTransform;
     public int visibleChunks = 0;
     public int cloudHeight = 80;
-
-    private int chunkSize = 200;
-    private int objectSize = 30;
-    private int position = 1;
-    private int prevPosition = -1;
-    private List<int> chunks = new List<int>();
-    private List<GameObject> chunksObj = new List<GameObject>();
+    int chunkSize = 200;
+    int objectSize = 30;
+    int position = 1;
+    int prevPosition = -1;
+    List<int> chunks = new List<int>();
+    List<GameObject> chunksObj = new List<GameObject>();
 
     void Start()
     {
@@ -61,5 +60,4 @@ public class RandomObjects : MonoBehaviour
         chunksObj.RemoveAt(i);
         chunks.RemoveAt(i);
     }
-
 }

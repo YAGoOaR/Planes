@@ -9,6 +9,7 @@ public class Follow : MonoBehaviour
     Transform camTransform;
     private Transform background;
     private bool android = false;
+
     void Awake()
     {
         GameObject cameraObject = Instantiate(GameAssets.instance.PlayerCam);

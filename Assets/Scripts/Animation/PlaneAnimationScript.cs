@@ -6,5 +6,4 @@ public class PlaneAnimationScript : StateMachineBehaviour
     {
         animator.SetBool("turning", false);
     }
-
 }

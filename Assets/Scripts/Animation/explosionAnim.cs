@@ -6,5 +6,4 @@ public class explosionAnim : StateMachineBehaviour
     {
         GameObject.Destroy(animator.gameObject);
     }
-
 }

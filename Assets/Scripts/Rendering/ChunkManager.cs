@@ -5,8 +5,8 @@ public class ChunkManager : MonoBehaviour
 {
     const float HALF = 0.5f;
 
-    private Transform cameraTransform;
-    private ChunksArray chunkArray;
+    Transform cameraTransform;
+    ChunksArray chunkArray;
     public int visibleChunks = 0;
 
     public int chunkSize = 2000;
@@ -21,6 +21,7 @@ public class ChunkManager : MonoBehaviour
         }
         private int chunkSize;
         private List<Chunk> chunks = new List<Chunk>();
+
         public Chunk findByPosition(int pos)
         {
             foreach (Chunk chunk in this.chunks)
@@ -32,11 +33,13 @@ public class ChunkManager : MonoBehaviour
             }
             return null;
         }
+
         public void destroyByPosition(int pos)
         {
             Chunk chunk = this.findByPosition(pos);
             this.removeChunk(chunk);
         }
+
         public void createChunk(int pos)
         {
             GameObject chunkAsset = GameAssets.instance.GetChunk(pos);
@@ -46,11 +49,13 @@ public class ChunkManager : MonoBehaviour
                 this.chunks.Add(newChunk);
             }
         }
+
         void removeChunk(Chunk chunk)
         {
             Object.Destroy(chunk.obj);
             this.chunks.Remove(chunk);
         }
+
         public void clearChunksAround(int position, int range)
         {
             List<Chunk> chunksToRemove = new List<Chunk>();
