@@ -2,6 +2,7 @@
 
 public class explosion : MonoBehaviour
 {
+    float EXPLOSION_FORCE_COEF = 500;
     private bool isDropped = false;
     private float timer = 0;
     public float maxTime = 0f;
@@ -39,7 +40,7 @@ public class explosion : MonoBehaviour
         Vector2 pos = transform.position;
         float velocity = rigidbody.velocity.magnitude;
         float mass = rigidbody.mass;
-        water.GetComponent<Water>().Splash(pos.x, mass * 500);
+        water.GetComponent<Water>().Splash(pos.x, mass * EXPLOSION_FORCE_COEF);
         OnCollisionEnter2D(null);
     }
 }

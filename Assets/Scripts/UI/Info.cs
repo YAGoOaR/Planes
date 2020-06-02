@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class Info : MonoBehaviour
 {
-
+    const float SPEED_MULTIPLIER = 6;
     private Text infoText;
 
     void Awake()
@@ -19,7 +19,7 @@ public class Info : MonoBehaviour
     void LateUpdate()
     {
         infoText.text = "Throttle: " + GameHandler.instance.planeInfo.throttle.ToString() + "\n" + 
-        "Speed: " +   Mathf.Floor(GameHandler.instance.planeInfo.speed * 6).ToString() + "\n" + 
+        "Speed: " +   Mathf.Floor(GameHandler.instance.planeInfo.speed * SPEED_MULTIPLIER).ToString() + "\n" + 
         "Ammo: " + GameHandler.instance.planeInfo.bullets + "\n" +
         "Bombs: " + GameHandler.instance.planeInfo.bombs + "\n" +
         "Gear: " + boolToSwitch(!GameHandler.instance.planeInfo.gear) + "\n" 

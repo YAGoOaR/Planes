@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class ChunkManager : MonoBehaviour
 {
+    const float HALF = 0.5f;
+
     private Transform cameraTransform;
     private ChunksArray chunkArray;
     public int visibleChunks = 0;
@@ -10,7 +12,7 @@ public class ChunkManager : MonoBehaviour
     public int chunkSize = 2000;
     private int position = 0;
     private int prevPosition = -1;
-    
+
     class ChunksArray
     {
         public ChunksArray(int chunkSize)
@@ -40,7 +42,7 @@ public class ChunkManager : MonoBehaviour
             GameObject chunkAsset = GameAssets.instance.GetChunk(pos);
             if (chunkAsset != null)
             {
-                Chunk newChunk = new Chunk(pos, GameObject.Instantiate(chunkAsset, new Vector3((-pos + .5f) * this.chunkSize, 0, 0), Quaternion.identity));
+                Chunk newChunk = new Chunk(pos, GameObject.Instantiate(chunkAsset, new Vector3((-pos + HALF) * this.chunkSize, 0, 0), Quaternion.identity));
                 this.chunks.Add(newChunk);
             }
         }

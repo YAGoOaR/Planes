@@ -2,6 +2,8 @@
 
 public class Follow : MonoBehaviour
 {
+    Vector3 startPosition = new Vector3(0, 0, 21);
+    Vector3 backgroundScale = new Vector3(size / 2, size / 4, 1);
     public float coef = 1f;
     public float offset = 10f;
     private Camera Cam;
@@ -19,7 +21,7 @@ public class Follow : MonoBehaviour
 
     void Start()
     {
-        bg.transform.localPosition = new Vector3(0, 0, 21);
+        bg.transform.localPosition = startPosition;
     }
 
     void Update()
@@ -35,7 +37,7 @@ public class Follow : MonoBehaviour
 
             Cam.orthographicSize = size;
         }
-        bg.transform.localScale = new Vector3(size / 2, size / 4, 1);
+        bg.transform.localScale = backgroundScale;
         Vector3 playerPosition = transform.position;
         float rotation = transform.rotation.eulerAngles.z / 180 * Mathf.PI;
         Vector3 rotationVector = new Vector2(-Mathf.Cos(rotation), -Mathf.Sin(rotation));

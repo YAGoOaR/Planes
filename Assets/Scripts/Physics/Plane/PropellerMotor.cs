@@ -2,6 +2,7 @@
 
 public class PropellerMotor : MonoBehaviour
 {
+    const float VELOCITY_OFFSET = 5;
     public float force = 5.5f;
     Rigidbody2D propellerRB;
     Animator propellerAnimator;
@@ -26,7 +27,7 @@ public class PropellerMotor : MonoBehaviour
         if (jointIsActive)
         {
             propellerAnimator.SetFloat("Throttle", throttle);
-            propellerAnimator.SetFloat("Velocity", Mathf.Sqrt(propellerRB.velocity.magnitude * throttle) + 5f);
+            propellerAnimator.SetFloat("Velocity", Mathf.Sqrt(propellerRB.velocity.magnitude * throttle) + VELOCITY_OFFSET);
             float ang = (gameObject.transform.rotation.eulerAngles.z - 180) / 180 * Mathf.PI;
             Vector2 v = new Vector2(Mathf.Cos(ang) * force * throttle, Mathf.Sin(ang) * force * throttle);
             propellerRB.AddForce(v);

@@ -13,6 +13,12 @@ public class Water : MonoBehaviour
     const float TOP_WIDTH = 0.1f;
     const float EDGE_WIDTH = 10f;
     const float WAVE_VELOCITY = 0.04f;
+    const float HALF = 0.5f;
+    const float DEFAULT_Z_POSITION = 0;
+    const float DEFAULT_Z_SCALE = 0;
+    const int UV_COUNT = 4;
+    const int VERTICES_IN_MESH = 6;
+    const float MESH_OFFSET = 0.1f;
 
     public Material waterTopMaterial;
     public GameObject waterMesh;
@@ -84,13 +90,13 @@ public class Water : MonoBehaviour
 
     void createMesh(int i)
     {
-        Vector2[] UVs = new Vector2[4];
+        Vector2[] UVs = new Vector2[UV_COUNT];
         UVs[0] = new Vector2(0, 1);
         UVs[1] = new Vector2(1, 1);
         UVs[2] = new Vector2(0, 0);
         UVs[3] = new Vector2(1, 0);
 
-        int[] triangles = new int[6] { 0, 1, 3, 3, 2, 0 };
+        int[] triangles = new int[VERTICES_IN_MESH] { 0, 1, 3, 3, 2, 0 };
 
         Vector3[] vertices = new Vector3[4];
         vertices[0] = nodes[i].position;
@@ -111,8 +117,8 @@ public class Water : MonoBehaviour
         obj.transform.parent = transform;
 
         GameObject water = GameObject.Instantiate(waterCollider, transform);
-        water.transform.position = new Vector3(left + WIDTH * (i + 0.5f) / edgeCount, (bottom + TOP_POSITION) / 2, 0);
-        water.transform.localScale = new Vector3(WIDTH / edgeCount, TOP_POSITION - bottom, 1);
+        water.transform.position = new Vector3(left + WIDTH * (i + HALF) / edgeCount, (bottom + TOP_POSITION) / 2, DEFAULT_Z_POSITION);
+        water.transform.localScale = new Vector3(WIDTH / edgeCount, TOP_POSITION - bottom, DEFAULT_Z_SCALE);
         nodes[i].buoyancyCollider = water;
     }
 
@@ -148,7 +154,7 @@ public class Water : MonoBehaviour
                 int index;
                 if (delta > 0)
                 {
-                    index = edgeCount - i - 1;
+                    index = edgeCount - 1 - i;
                 }
                 else
                 {
@@ -166,11 +172,11 @@ public class Water : MonoBehaviour
     {
         for (int i = 0; i < nodes.Length - 1; i++)
         {
-            Vector3[] vertices = new Vector3[4];
-            vertices[0] = nodes[i].position + Vector3.forward * -0.1f;
-            vertices[1] = nodes[i + 1].position + Vector3.forward * -0.1f;
-            vertices[2] = new Vector3(nodes[i].position.x, bottom, WaterNode.startZ - 0.1f);
-            vertices[3] = new Vector3(nodes[i + 1].position.x, bottom, WaterNode.startZ - 0.1f);
+            Vector3[] vertices = new Vector3[UV_COUNT];
+            vertices[0] = nodes[i].position + Vector3.forward * -MESH_OFFSET;
+            vertices[1] = nodes[i + 1].position + Vector3.forward * -MESH_OFFSET;
+            vertices[2] = new Vector3(nodes[i].position.x, bottom, WaterNode.startZ - MESH_OFFSET);
+            vertices[3] = new Vector3(nodes[i + 1].position.x, bottom, WaterNode.startZ - MESH_OFFSET);
             meshes[i].vertices = vertices;
         }
     }
