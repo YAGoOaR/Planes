@@ -2,12 +2,12 @@
 
 public class AddToFreezeList : MonoBehaviour
 {
-    
     void Start()
     {
         GameHandler.instance.objectsToFreeze.Add(gameObject);
     }
-    void OnDestroy() {
+    void OnDestroy()
+    {
         GameHandler.instance.objectsToFreeze.Remove(gameObject);
     }
 }

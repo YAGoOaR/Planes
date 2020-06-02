@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
+//A script that kicks attached gameobject into its heading
 public class ForwardKick : MonoBehaviour
 {
-
     public float force;
 
     void Start()
@@ -10,6 +10,4 @@ public class ForwardKick : MonoBehaviour
         float rotation = (transform.rotation.eulerAngles.z) / 180 * Mathf.PI;
         gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector3(-Mathf.Cos(rotation), -Mathf.Sin(rotation)) * force);
     }
-
-
 }

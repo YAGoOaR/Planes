@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+//(this script is not used now)
 public class ParallaxEffect : MonoBehaviour
 {
     private Transform camTransform;
@@ -17,7 +18,8 @@ public class ParallaxEffect : MonoBehaviour
 
     void LateUpdate()
     {
-        if (Mathf.Abs(camTransform.position.x - transform.position.x) >= TextureUnitSizeX) {
+        if (Mathf.Abs(camTransform.position.x - transform.position.x) >= TextureUnitSizeX)
+        {
             float offset = (transform.position.x - camTransform.position.x) % TextureUnitSizeX;
             transform.position = new Vector3(camTransform.position.x + offset, transform.position.y);
 

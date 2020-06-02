@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+//A script to controll plane landing gear
 public class GearController : MonoBehaviour
 {
     public bool isGearUp { get; private set; }

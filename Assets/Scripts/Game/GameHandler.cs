@@ -2,9 +2,10 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+//Main script of the game
 public class GameHandler : MonoBehaviour
 {
-    const float freezeDistance = 235;
+    const float FREEZE_DISTANCE = 235;
 
     public List<GameObject> objectsToFreeze;
     public static GameHandler instance;
@@ -17,6 +18,7 @@ public class GameHandler : MonoBehaviour
 
     public bool startInOtherHeading = false;
 
+    //info that will be showed on UI
     public struct infoText
     {
         public int throttle, bullets, bombs;
@@ -32,6 +34,7 @@ public class GameHandler : MonoBehaviour
         }
     }
 
+    //Called instantly after initialization
     void Awake()
     {
         instance = this;
@@ -42,17 +45,28 @@ public class GameHandler : MonoBehaviour
         planeBehaviour.startInOtherHeading = startInOtherHeading;
     }
 
+    //Called after "Awake"
     void Start()
     {
         cameraTransform = Camera.main.transform;
     }
 
+    //Called once per frame
     void Update()
     {
-        foreach (GameObject obj in objectsToFreeze)
+        //freeze objects if they are too far from camera
+        foreach (GameObject gameobject in objectsToFreeze)
         {
-            obj.SetActive(Mathf.Abs(cameraTransform.position.x - obj.transform.position.x) < freezeDistance);
+            gameobject.SetActive(Mathf.Abs(cameraTransform.position.x - gameobject.transform.position.x) < FREEZE_DISTANCE);
         }
+        controls();
+    }
+
+    //Exit or restart the game
+    void controls()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape)) GameHandler.quitGame();
+        if (Input.GetKeyDown(KeyCode.R)) GameHandler.restartGame();
     }
 
     public static void quitGame()

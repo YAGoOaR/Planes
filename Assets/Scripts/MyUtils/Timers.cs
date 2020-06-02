@@ -6,7 +6,7 @@ public class Timers : MonoBehaviour
     public class CooldownTimer
     {
         public static List<CooldownTimer> timers = new List<CooldownTimer>();
-        public float curTime;
+        public float currentTime;
         public float maxTime;
         public bool destroyAfterTimeout = false;
 
@@ -14,14 +14,14 @@ public class Timers : MonoBehaviour
         {
             timers.Add(this);
             maxTime = max;
-            curTime = max;
+            currentTime = max;
         }
 
         public CooldownTimer(float max, bool destroyAfterTimeout)
         {
             timers.Add(this);
             maxTime = max;
-            curTime = max;
+            currentTime = max;
             this.destroyAfterTimeout = destroyAfterTimeout;
         }
 
@@ -29,13 +29,13 @@ public class Timers : MonoBehaviour
         {
             foreach (CooldownTimer timer in timers)
             {
-                if (timer.curTime <= timer.maxTime) timer.curTime += Time.deltaTime;
+                if (timer.currentTime <= timer.maxTime) timer.currentTime += Time.deltaTime;
             }
         }
 
         public bool check()
         {
-            if (curTime > maxTime)
+            if (currentTime > maxTime)
             {
                 if (destroyAfterTimeout)
                 {
@@ -48,7 +48,7 @@ public class Timers : MonoBehaviour
 
         public void reset()
         {
-            curTime = 0;
+            currentTime = 0;
         }
     }
 

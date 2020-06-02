@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
-
+//A scripts that changes plane physics when it's performing a turn
 public class OnTurnBackExit : StateMachineBehaviour
 {
+    const float MAX_VELOCITY_COEF = 0.3f;
+    const float MAX_ANGLE_COEF = 0.7f;
+    const float VELOCITY_OFFSET = -0.3f;
     PlaneBehaviour planeBehaviour;
     Rigidbody2D planeRigidbody;
     Transform planeTransform;
@@ -16,8 +19,8 @@ public class OnTurnBackExit : StateMachineBehaviour
         planeCollider = planeBehaviour.GetComponent<Collider2D>();
         planeRigidbody = planeBehaviour.GetComponent<Rigidbody2D>();
         planeTransform = planeBehaviour.transform;
-        float velocityCoefficient = Mathf.Min(1 / planeRigidbody.velocity.magnitude * 10, 0.3f);
-        float angleCoefficient = Mathf.Max(-Mathf.Sin(planeTransform.rotation.eulerAngles.z / 180 * Mathf.PI) + 1, 0.7f);
+        float velocityCoefficient = Mathf.Min(1 / planeRigidbody.velocity.magnitude * 10, MAX_VELOCITY_COEF);
+        float angleCoefficient = Mathf.Max(-Mathf.Sin(planeTransform.rotation.eulerAngles.z / 180 * Mathf.PI) + 1, MAX_ANGLE_COEF);
         animator.SetFloat("speedMultiplier", velocityCoefficient * angleCoefficient);
         planeBehaviour.isTurningBack = true;
         planeRigidbody.isKinematic = true;
@@ -29,7 +32,7 @@ public class OnTurnBackExit : StateMachineBehaviour
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        planeRigidbody.velocity = velocity * Mathf.Cos(Mathf.Max(Mathf.PI * timer - 0.3f, 0));
+        planeRigidbody.velocity = velocity * Mathf.Cos(Mathf.Max(Mathf.PI * timer + VELOCITY_OFFSET, 0));
         timer += Time.deltaTime * stateInfo.speedMultiplier;
     }
 
@@ -42,5 +45,4 @@ public class OnTurnBackExit : StateMachineBehaviour
         planeBehaviour.switchBombsActive();
         planeBehaviour.isTurningBack = false;
     }
-
 }
