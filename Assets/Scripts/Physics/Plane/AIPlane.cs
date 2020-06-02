@@ -3,12 +3,12 @@
 public class AIPlane : MonoBehaviour
 {
     //Enemy plane autopilot v0.1. Enemy can take off, bomb target and then land on base.
-    const float BASE_POSITION = -900;
-    const float LANDING_ALTITUDE = 25;
+    const float BASE_POSITION = -860;
+    const float LANDING_ALTITUDE = 21.2f;
     const float DEFAULT_SPEED = 40;
     const float DEFAULT_ALTITUDE = 40;
     const float SENSITIVITY = 5;
-    const float TRIM = .2f;
+    const float TRIM = 0;
     const float BOMB_THROW_ACCURACY = 0.5f;
     const float BOMB_OFFSET = 18;
     const float MIN_TURN_VELOCITY = 30;
@@ -135,6 +135,7 @@ public class AIPlane : MonoBehaviour
                 if (planeBehaviour.gearCtrl.isGearUp && !waitBeforeReurn.check())
                 {
                     planeBehaviour.switchGear(true);
+                    planeBehaviour.switchBrakes(true);
                 }
                 //Turn on flaps
                 if (!planeBehaviour.flaps && distance < GEAR_DOWN_DISTANCE / 2)
@@ -142,7 +143,7 @@ public class AIPlane : MonoBehaviour
                     planeBehaviour.switchFlaps(true);
                 }
                 //Stop
-                if (distance < GEAR_DOWN_DISTANCE / 2)
+                if (distance < GEAR_DOWN_DISTANCE)
                 {
                     targetSpeed = 0;
                     //Now do nothing

@@ -20,6 +20,8 @@ public class PlaneBehaviour : MonoBehaviour
     [HideInInspector]
     public bool flaps = false;
     [HideInInspector]
+    public bool brakes = false;
+    [HideInInspector]
     public bool isTurningBack;
     [HideInInspector]
     public float pitch = 0;
@@ -199,7 +201,7 @@ public class PlaneBehaviour : MonoBehaviour
     {
         if (!isPlayer) return;
         GameHandler.infoText info = GameHandler.instance.planeInfo;
-        info.Set(propellerMotor.throttle, bullets, bombs.Count, planerb.velocity.magnitude, gearCtrl.isGearUp);
+        info.Set(propellerMotor.throttle, bullets, bombs.Count, transform.position.y, planerb.velocity.magnitude, gearCtrl.isGearUp, !brakes);
         GameHandler.instance.planeInfo = info;
     }
 
@@ -227,6 +229,7 @@ public class PlaneBehaviour : MonoBehaviour
         //Checking if turning animation is ended
         if (turnTimer.check())
         {
+            if (Input.GetKeyDown(KeyCode.B)) switchBrakes();
             //Performing a half of barrel roll
             if (Input.GetKey(KeyCode.Q) && planerb.velocity.magnitude > 10f && gearCtrl.isGearUp) turn();
             //Performing simple turn
@@ -424,6 +427,31 @@ public class PlaneBehaviour : MonoBehaviour
         flaps = on;
         if (flaps) flapMotor.motorSpeed = FLAP_MOTOR_SPEED;
         else flapMotor.motorSpeed = -FLAP_MOTOR_SPEED;
+    }
+
+    public void updateFlaps()
+    {
+        if (flaps) flapMotor.motorSpeed = FLAP_MOTOR_SPEED;
+        else flapMotor.motorSpeed = -FLAP_MOTOR_SPEED;
+    }
+
+    //Switching wheel brakes
+    void switchBrakes()
+    {
+        brakes = !brakes;
+        updateBrakes();
+    }
+
+    //Switching on/off
+    public void switchBrakes(bool on)
+    {
+        brakes = on;
+        updateBrakes();
+    }
+
+    //Make gearController switching brakes
+    public void updateBrakes() {
+        gearCtrl.switchBrakes(brakes);
     }
 
     //Reload
