@@ -8,7 +8,7 @@ public class Aerofoil : MonoBehaviour
     const float STAB_COEF = 0.8f;
     const float EFFECTIVE_ANGLE_OFFSET = -0.04f;
     public bool lift = false;
-    public float LIFT_FORCE_COEF = 0.1f;
+    public float liftForceCoef = 0.1f;
     public int upside = 1;
     Rigidbody2D rigidBody;
     Vector2 rotationVector;
@@ -45,7 +45,7 @@ public class Aerofoil : MonoBehaviour
         Vector2 liftForce;
         if (lift)
         {
-            liftForce = new Vector2(-Mathf.Sin(rotationAngle), Mathf.Cos(rotationAngle)) * Mathf.Sqrt(velocity.magnitude) * LIFT_FORCE_COEF * upside;
+            liftForce = new Vector2(-Mathf.Sin(rotationAngle), Mathf.Cos(rotationAngle)) * Mathf.Sqrt(velocity.magnitude) * liftForceCoef * upside;
         }
         else liftForce = Vector2.zero;
         //Applying velocity to rigidbody

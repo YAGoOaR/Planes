@@ -14,7 +14,6 @@ public class GameAssets : MonoBehaviour
     public GameObject player;
     public GameObject[] chunks;
     public GameObject bomb;
-    public Sprite turnSprite;
     public Sprite planeSprite;
     public Sprite gearSprite;
     public GameObject bullet;

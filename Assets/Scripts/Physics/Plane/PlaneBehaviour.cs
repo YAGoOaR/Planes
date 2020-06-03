@@ -5,12 +5,13 @@ public class PlaneBehaviour : MonoBehaviour
 {
     public AeroPlane plane;
 
+    public bool invertPitch = false;
     public bool startInOtherHeading = false;
     const float SHOOTING_ACCURACY = 2;
-    const float GUN_OFFSET = 1.6f;
     const float JOINT_FORCE = 20f;
     const float FLAP_MOTOR_SPEED = 20;
     const float FLAP_MAX_TORQUE = 1000;
+    const float PITCH_FORCE_COEF = 15;
     public int bombCount = 1;
     Vector3 bombOffset = new Vector3(0, -0.5f, 0);
 
@@ -28,8 +29,12 @@ public class PlaneBehaviour : MonoBehaviour
     [HideInInspector]
     public int throttle = 0;
     float flapAngle = 30;
-    float gunOffsetAngle = -0.2f;
+    public float gunOffset = 1.6f;
+    public float gunOffsetAngle = -0.2f;
+    public float trimPitch = 0;
     int bullets = 150;
+    float maxPitch;
+    float minPitch;
     PlanePart elevator;
     PlanePart gear;
     PlanePart propeller;
@@ -116,6 +121,7 @@ public class PlaneBehaviour : MonoBehaviour
     //Called once when this object initializes
     void Start()
     {
+        invertControls();
         addAllComponents();
         planeSetup();
     }
@@ -126,6 +132,21 @@ public class PlaneBehaviour : MonoBehaviour
         controls();
         updateInfo();
         updateControls();
+    }
+
+    //Inverting pitch
+    void invertControls()
+    {
+        if (invertPitch)
+        {
+            maxPitch = -1;
+            minPitch = 1;
+        }
+        else
+        {
+            maxPitch = 1;
+            minPitch = -1;
+        }
     }
 
     //Set Unity components
@@ -182,7 +203,7 @@ public class PlaneBehaviour : MonoBehaviour
         //Plane pitch
         if (!elevator.isBroken)
         {
-            hingemotor.motorSpeed = (pitch * 15 - hinge.jointAngle) * JOINT_FORCE;
+            hingemotor.motorSpeed = (pitch * PITCH_FORCE_COEF - hinge.jointAngle) * JOINT_FORCE;
             hinge.motor = hingemotor;
         }
         //Changing controls if animation puts plane upside down
@@ -239,11 +260,11 @@ public class PlaneBehaviour : MonoBehaviour
             //Throwing a bomb
             if (Input.GetKeyDown(KeyCode.Space)) throwBomb();
             //Controlling elevator
-            if (Input.GetKey(KeyCode.A)) pitch = -1;
-            else if (Input.GetKey(KeyCode.D)) pitch = 1;
-            else pitch = 0;
+            if (Input.GetKey(KeyCode.A)) pitch = minPitch;
+            else if (Input.GetKey(KeyCode.D)) pitch = maxPitch;
+            else pitch = trimPitch;
         }
-        else pitch = 0;
+        else pitch = trimPitch;
         if (throttle > 100) throttle = 100;
         else if (throttle < 0) throttle = 0;
     }
@@ -298,7 +319,7 @@ public class PlaneBehaviour : MonoBehaviour
         if (!shootingTimer.check()) return;
         float accuracy = (Random.value - .5f) * SHOOTING_ACCURACY;
         float rotation = transform.rotation.eulerAngles.z / 180 * Mathf.PI;
-        Vector3 gunPos = new Vector2(-Mathf.Cos(rotation + gunOffsetAngle), -Mathf.Sin(rotation + gunOffsetAngle)) * GUN_OFFSET;
+        Vector3 gunPos = new Vector2(-Mathf.Cos(rotation + gunOffsetAngle), -Mathf.Sin(rotation + gunOffsetAngle)) * gunOffset;
         GameObject bullet = Instantiate(GameAssets.instance.bullet, gunPos + transform.position, transform.rotation);
         bullet.transform.Rotate(new Vector3(0, 0, accuracy));
         bullet.GetComponent<Rigidbody2D>().velocity = planerb.velocity;
@@ -450,7 +471,8 @@ public class PlaneBehaviour : MonoBehaviour
     }
 
     //Make gearController switching brakes
-    public void updateBrakes() {
+    public void updateBrakes()
+    {
         gearCtrl.switchBrakes(brakes);
     }
 
