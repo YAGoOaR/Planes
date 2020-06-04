@@ -9,16 +9,17 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1439771299854524634}
+  - component: {fileID: 114767711665593958}
+  - component: {fileID: 7801491606417757383}
+  - component: {fileID: 114275327656375858}
   - component: {fileID: 9052198950687221418}
   - component: {fileID: 6922862073916242376}
-  - component: {fileID: 7801491606417757383}
   - component: {fileID: 2442132375263519806}
   - component: {fileID: 4659987674053246667}
   - component: {fileID: 2980645188657632045}
   - component: {fileID: 3954668917912571626}
   - component: {fileID: 8937699714619485987}
   - component: {fileID: 434100921603120859}
-  - component: {fileID: 114275327656375858}
   m_Layer: 0
   m_Name: P-36
   m_TagString: Untagged
@@ -48,6 +49,68 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114767711665593958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1081117711294531131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 248ebb83b3fe79742ba7b8138db50312, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  partNames:
+  - gear
+  - wing
+  - flap
+  - tail
+  - elevator
+  - propeller
+  parts: []
+  HP: 4
+  bullets: 150
+  bombCount: 1
+--- !u!114 &7801491606417757383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1081117711294531131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36fd2588820fd614299746ebf17c4401, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  plane: {fileID: 0}
+  isPlayer: 1
+  upsideDown: 0
+  flaps: 0
+  brakes: 0
+  isTurningBack: 0
+  pitch: 0
+  throttle: 0
+  invertPitch: 0
+  startInOtherHeading: 0
+  gunOffset: 1.6
+  gunOffsetAngle: -0.2
+  trimPitch: 0
+  gearCtrl: {fileID: 0}
+--- !u!114 &114275327656375858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1081117711294531131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84093e9af1fdcd3418e131b6e261e661, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volume: 100
 --- !u!212 &9052198950687221418
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -117,32 +180,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &7801491606417757383
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1081117711294531131}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36fd2588820fd614299746ebf17c4401, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  invertPitch: 0
-  startInOtherHeading: 0
-  bombCount: 1
-  isPlayer: 1
-  upsideDown: 0
-  flaps: 0
-  brakes: 0
-  isTurningBack: 0
-  pitch: 0
-  throttle: 0
-  gunOffset: 1.6
-  gunOffsetAngle: -0.2
-  trimPitch: 0
-  gearCtrl: {fileID: 0}
 --- !u!60 &2442132375263519806
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -280,19 +317,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114275327656375858
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1081117711294531131}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84093e9af1fdcd3418e131b6e261e661, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  volume: 100
 --- !u!1 &2780530029292694444
 GameObject:
   m_ObjectHideFlags: 0
