@@ -11,7 +11,7 @@ public class AeroPlane : MonoBehaviour
     public int bombCount = 1;
     public Queue<GameObject> bombs = new Queue<GameObject>();
 
-    void Start()
+    void Awake()
     {
         int count = partNames.Length;
         parts = new PlanePart[count];
@@ -21,11 +21,11 @@ public class AeroPlane : MonoBehaviour
         }
     }
 
-    public PlanePart getPart(string partName)
+    public PlanePart getPart(string name)
     {
-        for (int i = 0; i < partName.Length; i++)
+        for (int i = 0; i < partNames.Length; i++)
         {
-            if (partNames[i] == partName) return parts[i];
+            if (partNames[i] == name) return parts[i];
         }
         return null;
     }

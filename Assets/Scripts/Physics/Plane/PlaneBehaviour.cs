@@ -85,7 +85,8 @@ public class PlaneBehaviour : MonoBehaviour
         flapJoint = flap.GetComponent<HingeJoint2D>();
     }
 
-    void defineVariables() {
+    void defineVariables()
+    {
         plane = GetComponent<AeroPlane>();
         elevator = plane.getPart("elevator");
         gear = plane.getPart("gear");
