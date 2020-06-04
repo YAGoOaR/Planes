@@ -12,14 +12,16 @@ public class PropellerMotor : MonoBehaviour
 
     void Start()
     {
-        fixedJoint = gameObject.GetComponent<FixedJoint2D>();
-        propellerAnimator = gameObject.GetComponent<Animator>();
-        propellerRigidbody = gameObject.GetComponent<Rigidbody2D>();
+        fixedJoint = GetComponent<FixedJoint2D>();
+        propellerAnimator = GetComponent<Animator>();
+        propellerRigidbody = GetComponent<Rigidbody2D>();
     }
 
     void OnJointBreak2D()
     {
         jointIsActive = false;
+        PlanePart part = GetComponent<PlanePart>();
+        part.isBroken = true;
     }
 
     void FixedUpdate()

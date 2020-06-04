@@ -340,8 +340,14 @@ public class PlaneBehaviour : MonoBehaviour
     void broke()
     {
         planeAnimator.enabled = planerb.isKinematic = planerb.freezeRotation = false;
-        if (!propellerMotor.jointIsActive) return;
-        propeller.GetComponent<FixedJoint2D>().breakForce = 0;
+        foreach (Joint2D joint in GetComponents<Joint2D>())
+        {
+            joint.breakForce = 0;
+        }
+        if (isPlayer)
+        {
+            Game.instance.gameOver("plane is broken");
+        }
     }
 
     //Totally break a plane

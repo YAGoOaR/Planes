@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(Game))]
 //Main script of the game
 public class GameHandler : MonoBehaviour
 {
@@ -40,8 +40,7 @@ public class GameHandler : MonoBehaviour
     void Awake()
     {
         instance = this;
-
-        player = GameObject.Instantiate(GameAssets.instance.player, new Vector3(spawnPosition.x, spawnPosition.y, 0), Quaternion.identity);
+        player = Object.Instantiate(GameAssets.instance.player, new Vector3(spawnPosition.x, spawnPosition.y, 0), Quaternion.identity);
         player.AddComponent<Follow>();
         planeBehaviour = player.GetComponent<PlaneBehaviour>();
         planeBehaviour.startInOtherHeading = startInOtherHeading;
@@ -67,17 +66,7 @@ public class GameHandler : MonoBehaviour
     //Exit or restart the game
     void controls()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) GameHandler.quitGame();
-        if (Input.GetKeyDown(KeyCode.R)) GameHandler.restartGame();
-    }
-
-    public static void quitGame()
-    {
-        SceneManager.LoadScene(0);
-    }
-
-    public static void restartGame()
-    {
-        SceneManager.LoadScene(1);
+        if (Input.GetKeyDown(KeyCode.Escape)) Game.quitGame();
+        if (Input.GetKeyDown(KeyCode.R)) Game.restartGame();
     }
 }

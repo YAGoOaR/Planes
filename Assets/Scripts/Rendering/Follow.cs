@@ -4,7 +4,7 @@
 public class Follow : MonoBehaviour
 {
     Vector3 startPosition = new Vector3(0, 0, 21);
-    public float MOVE_STEP = 1f;
+    public float moveStep = 1f;
     public float offset = 10f;
     private Camera Cam;
     Transform camTransform;
@@ -48,7 +48,7 @@ public class Follow : MonoBehaviour
         Vector3 delta = camTransform.position - new Vector3(playerPosition.x, playerPosition.y, camTransform.position.z) - rotationVector * offset;
         float distance = delta.magnitude;
 
-        Vector3 move = delta.normalized * MOVE_STEP * (1 + 3 * distance) * Time.deltaTime;
+        Vector3 move = delta.normalized * moveStep * (1 + 3 * distance) * Time.deltaTime;
         if (move.magnitude > distance) move = delta;
         camTransform.position -= move;
     }

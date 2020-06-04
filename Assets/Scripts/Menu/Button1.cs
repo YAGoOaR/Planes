@@ -4,8 +4,6 @@ using UnityEngine.SceneManagement;
 //A script for buttons in menu
 public class Button1 : MonoBehaviour
 {
-    public GameObject controlsPrefab;
-
     public void StartGame()
     {
         SceneManager.LoadScene(1);
@@ -13,7 +11,7 @@ public class Button1 : MonoBehaviour
 
     public void ShowControls()
     {
-        GameObject.Instantiate(controlsPrefab, transform.parent);
+        transform.parent.Find("controls").gameObject.SetActive(true);
     }
 
     public void ExitGame()

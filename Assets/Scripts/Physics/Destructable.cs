@@ -18,6 +18,10 @@ public class Destructable : MonoBehaviour
         {
             Buoyancy buoyancyComponent = transform.Find(edges[Random.Range(0, edges.Length - 1)]).GetComponent<Buoyancy>();
             buoyancyComponent.volume = DESTROYED_OBJECT_VOLUME;
+            if (gameObject.name == "AirCarrier")
+            {
+                Timers.TimeoutTimer timer = new Timers.TimeoutTimer(0, () => { Game.instance.gameOver("air carrier is destroyed"); });
+            }
             return;
         }
         HP--;

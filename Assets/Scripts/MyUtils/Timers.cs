@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Timers : MonoBehaviour
 {
+    public delegate void customFunc();
+
     public class CooldownTimer
     {
         public static List<CooldownTimer> timers = new List<CooldownTimer>();
@@ -52,8 +54,38 @@ public class Timers : MonoBehaviour
         }
     }
 
+    public class TimeoutTimer
+    {
+        public static List<TimeoutTimer> timers = new List<TimeoutTimer>();
+        public float time;
+        public float currentTime;
+        customFunc callback;
+
+        public TimeoutTimer(float time, customFunc callback)
+        {
+            this.callback = callback;
+            this.time = time;
+            timers.Add(this);
+        }
+
+        public static void refresh()
+        {
+            List<TimeoutTimer> timerList = new List<TimeoutTimer>(timers);
+            foreach (TimeoutTimer timer in timerList)
+            {
+                if (timer.currentTime <= timer.time) timer.currentTime += Time.deltaTime;
+                else
+                {
+                    timer.callback();
+                    timers.Remove(timer);
+                }
+            }
+        }
+    }
+
     void Update()
     {
         CooldownTimer.refresh();
+        TimeoutTimer.refresh();
     }
 }
