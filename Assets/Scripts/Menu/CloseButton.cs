@@ -5,6 +5,6 @@ public class CloseButton : MonoBehaviour
 {
     public void close()
     {
-        Object.Destroy(transform.parent.gameObject);
+        transform.parent.gameObject.SetActive(false);
     }
 }
