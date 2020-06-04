@@ -5,7 +5,7 @@ public class Aerofoil : MonoBehaviour
 {
     const float STALL_COEF = 70f;
     const float DRAG_COEF = 0.0005f;
-    const float STAB_COEF = 0.8f;
+    const float STAB_COEF = 0.7f;
     const float EFFECTIVE_ANGLE_OFFSET = -0.04f;
     public bool lift = false;
     public float liftForceCoef = 0.1f;

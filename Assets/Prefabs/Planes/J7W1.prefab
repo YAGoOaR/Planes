@@ -527,6 +527,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4645267426132703690}
+  - component: {fileID: 114295864709995670}
   - component: {fileID: 4645267426132703691}
   - component: {fileID: 50761286798928498}
   - component: {fileID: 114714845816270400}
@@ -567,6 +568,29 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114295864709995670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4645267426132703688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 248ebb83b3fe79742ba7b8138db50312, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  partNames:
+  - gear
+  - wing
+  - flap
+  - tail
+  - elevator
+  - propeller
+  parts: []
+  HP: 4
+  bullets: 150
+  bombCount: 1
 --- !u!212 &4645267426132703691
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -648,9 +672,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36fd2588820fd614299746ebf17c4401, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  invertPitch: 1
-  startInOtherHeading: 0
-  bombCount: 0
+  plane: {fileID: 0}
   isPlayer: 1
   upsideDown: 0
   flaps: 0
@@ -658,6 +680,8 @@ MonoBehaviour:
   isTurningBack: 0
   pitch: 0
   throttle: 0
+  invertPitch: 1
+  startInOtherHeading: 0
   gunOffset: 3.4
   gunOffsetAngle: -0.09
   trimPitch: 0
@@ -675,7 +699,7 @@ FixedJoint2D:
   m_ConnectedRigidBody: {fileID: 8753393122724966229}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
-  m_AutoConfigureConnectedAnchor: 1
+  m_AutoConfigureConnectedAnchor: 0
   m_Anchor: {x: 1.3756273, y: 0.13502252}
   m_ConnectedAnchor: {x: -0.22437274, y: 0.055022523}
   m_DampingRatio: 0
@@ -693,7 +717,7 @@ FixedJoint2D:
   m_ConnectedRigidBody: {fileID: 7190313887527662054}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
-  m_AutoConfigureConnectedAnchor: 1
+  m_AutoConfigureConnectedAnchor: 0
   m_Anchor: {x: -2.120815, y: -0.43558848}
   m_ConnectedAnchor: {x: 0.029185057, y: -0.035588473}
   m_DampingRatio: 0
@@ -711,7 +735,7 @@ FixedJoint2D:
   m_ConnectedRigidBody: {fileID: 5998124205283265298}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
-  m_AutoConfigureConnectedAnchor: 1
+  m_AutoConfigureConnectedAnchor: 0
   m_Anchor: {x: 0.45773262, y: -0.46427143}
   m_ConnectedAnchor: {x: 0.00773263, y: -0.06427142}
   m_DampingRatio: 0
@@ -771,7 +795,7 @@ FixedJoint2D:
   m_ConnectedRigidBody: {fileID: 5965146599690095405}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
-  m_AutoConfigureConnectedAnchor: 1
+  m_AutoConfigureConnectedAnchor: 0
   m_Anchor: {x: 0.14385891, y: -0.2942567}
   m_ConnectedAnchor: {x: 0.1938589, y: 0.0057433248}
   m_DampingRatio: 0
@@ -1334,8 +1358,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 753266367
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: ca5c66898a6eb76468ffc6cd77ef8b07, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

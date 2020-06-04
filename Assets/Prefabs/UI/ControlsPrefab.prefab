@@ -368,8 +368,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 429.6, y: 9.8}
-  m_SizeDelta: {x: 638.1, y: 807.5}
+  m_AnchoredPosition: {x: 640, y: -0.0000030994}
+  m_SizeDelta: {x: 1007.1577, y: 983.64136}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &162228900453159095
 CanvasRenderer:
@@ -432,4 +432,6 @@ MonoBehaviour:
 
     ESC - exit
 
-    R - restart'
+    R - restart
+
+    Note: fold landing gear before performing barrel roll or turn'
