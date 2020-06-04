@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(PlaneBehaviour))]
+[RequireComponent(typeof(AeroPlane))]
 public class AIPlane : MonoBehaviour
 {
     //Enemy plane autopilot v0.1. Enemy can take off, bomb target and then land on base.
@@ -17,6 +19,7 @@ public class AIPlane : MonoBehaviour
     const float VELOCITY_SENSIVITY = 30;
     const float VELOCITY_COEFFICIENT = 2;
     const float GEAR_DOWN_DISTANCE = 200;
+    const float BRAKE_DISTANCE = GEAR_DOWN_DISTANCE * 2 / 3;
     public float targetAltitude = 40;
     float maxTargetAngle = 15;
     [HideInInspector]
@@ -28,6 +31,7 @@ public class AIPlane : MonoBehaviour
     float targetAngle = -15;
     bool land = false;
     bool idle = false;
+    AeroPlane plane;
     PlaneBehaviour planeBehaviour;
     Timers.CooldownTimer turnCooldown;
     Timers.CooldownTimer waitBeforeReurn;
@@ -35,6 +39,7 @@ public class AIPlane : MonoBehaviour
     //Called once when this object initializes
     void Start()
     {
+        plane = GetComponent<AeroPlane>();
         turnCooldown = new Timers.CooldownTimer(10);
         waitBeforeReurn = new Timers.CooldownTimer(1, true);
         planeBehaviour = GetComponent<PlaneBehaviour>();
@@ -106,7 +111,7 @@ public class AIPlane : MonoBehaviour
             waitBeforeReurn.reset();
         }
         //Return to base when out of bombs
-        if (planeBehaviour.bombs.Count == 0 && waitBeforeReurn.check())
+        if (plane.bombs.Count == 0 && waitBeforeReurn.check())
         {
             land = true;
             targetPosition = BASE_POSITION;
@@ -137,14 +142,10 @@ public class AIPlane : MonoBehaviour
                     planeBehaviour.switchGear(true);
                     planeBehaviour.switchBrakes(true);
                 }
-                //Turn on flaps
-                if (!planeBehaviour.flaps && distance < GEAR_DOWN_DISTANCE / 2)
+                //Stop
+                if (distance < BRAKE_DISTANCE)
                 {
                     planeBehaviour.switchFlaps(true);
-                }
-                //Stop
-                if (distance < GEAR_DOWN_DISTANCE)
-                {
                     targetSpeed = 0;
                     //Now do nothing
                     if (velocity < 20)
