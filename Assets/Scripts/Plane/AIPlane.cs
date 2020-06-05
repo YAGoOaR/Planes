@@ -36,7 +36,6 @@ public class AIPlane : MonoBehaviour
     const float SAFE_ANGLE = 60;
     const float DEFAULT_ANGLE = 10;
     const float BREAK_VELOCITY = 20;
-    public bool hostile = true;
     public bool enemyDestroyed = false;
     public float targetAltitude = 40;
     [HideInInspector]
@@ -80,10 +79,7 @@ public class AIPlane : MonoBehaviour
         plane = GetComponent<AeroPlane>();
         turnCooldown = new Timers.CooldownTimer(3);
         planeBehaviour = GetComponent<PlaneBehaviour>();
-        if (hostile)
-        {
-            enemy = GameHandler.instance.player;
-        }
+        enemy = GameHandler.instance.player;
         planeBehaviour.isPlayer = false;
     }
 
@@ -91,7 +87,6 @@ public class AIPlane : MonoBehaviour
     //Autopilot realisation
     void Update()
     {
-        //If plane has to do nothing
         if (state == AIState.idle) return;
 
         updateVariables();
@@ -246,6 +241,7 @@ public class AIPlane : MonoBehaviour
         }
     }
 
+    //Attack player
     void attack()
     {
         turnOver();
@@ -269,6 +265,7 @@ public class AIPlane : MonoBehaviour
         }
     }
 
+    //Turn over if upside down
     void turnOver()
     {
         if (turnCooldown.check())
@@ -294,6 +291,7 @@ public class AIPlane : MonoBehaviour
         }
     }
 
+    //Climb if altitude is too low or plane is going to hit the ground
     void climb()
     {
         planeBehaviour.throttle = 100;
@@ -302,17 +300,20 @@ public class AIPlane : MonoBehaviour
         setPitch(deltaAngle);
     }
 
+    //Control plane elevator according to target angle
     void setPitch(float deltaAngle)
     {
         float pitch = -Mathf.Sin(deltaAngle) * SENSITIVITY;
         planeBehaviour.pitch = MathUtils.clamp(pitch, 1);
     }
 
+    //Degrees to radian
     float toRadian(float angle)
     {
         return angle / 180 * Mathf.PI;
     }
 
+    //Check if plane rotation is between angle a and b
     bool CheckRotationBounds(float a, float b)
     {
         if (Mathf.Abs(b - a) < PI)
@@ -322,6 +323,7 @@ public class AIPlane : MonoBehaviour
         else return rotation > Mathf.Max(a, b) || rotation < Mathf.Min(a, b);
     }
 
+    //Heading of the plane. -1 when looking left, 1 when right.
     float getHeading()
     {
         return Mathf.Sign(Mathf.Cos(toRadian(rotation)));
