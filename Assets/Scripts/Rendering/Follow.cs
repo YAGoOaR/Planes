@@ -6,10 +6,11 @@ public class Follow : MonoBehaviour
     readonly Vector3 startPosition = new Vector3(0, 0, 21);
     [SerializeField]
     float moveStep = 1f;
-    public float offset = 10f;
-    private Camera Cam;
+    [SerializeField]
+    float offset = 10f;
+    Camera Cam;
     Transform camTransform;
-    private Transform background;
+    Transform background;
 
     //Called instantly after initialization
     void Awake()

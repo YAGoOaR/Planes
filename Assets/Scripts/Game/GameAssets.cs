@@ -15,63 +15,56 @@ public class GameAssets : MonoBehaviour
     }
 
     [SerializeField]
-    private GameObject playerCam;
-
+    GameObject playerCam;
     public GameObject PlayerCam
     {
         get { return playerCam; }
     }
 
     [SerializeField]
-    public GameObject player;
-
+    GameObject player;
     public GameObject Player
     {
         get { return player; }
     }
 
     [SerializeField]
-    private GameObject bomb;
-
+    GameObject bomb;
     public GameObject Bomb
     {
         get { return bomb; }
     }
 
     [SerializeField]
-    public GameObject bullet;
-
+    GameObject bullet;
     public GameObject Bullet
     {
         get { return bullet; }
     }
 
     [SerializeField]
-    private GameObject[] clouds;
-
+    GameObject[] clouds;
     public GameObject[] Clouds
     {
         get { return clouds; }
     }
 
     [SerializeField]
-    private PhysicsMaterial2D wheelMaterial;
-
+    PhysicsMaterial2D wheelMaterial;
     public PhysicsMaterial2D WheelMaterial
     {
         get { return wheelMaterial; }
     }
-    [SerializeField]
-    private PhysicsMaterial2D wheelBrakeMaterial;
 
+    [SerializeField]
+    PhysicsMaterial2D wheelBrakeMaterial;
     public PhysicsMaterial2D WheelBrakeMaterial
     {
         get { return wheelBrakeMaterial; }
     }
 
     [SerializeField]
-    private GameObject[] chunks;
-
+    GameObject[] chunks;
     public GameObject[] Chunks
     {
         get { return chunks; }

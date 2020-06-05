@@ -4,10 +4,10 @@ public class AddToFreezeList : MonoBehaviour
 {
     void Start()
     {
-        GameHandler.instance.addObjectsToFreeze(gameObject);
+        GameHandler.Instance.addObjectsToFreeze(gameObject);
     }
     public void OnDestroy()
     {
-        GameHandler.instance.removeObjectToFreeze(gameObject);
+        GameHandler.Instance.removeObjectToFreeze(gameObject);
     }
 }

@@ -8,14 +8,16 @@ public class GameOver : Game
 
     override public void gameOver(string reason)
     {
-        if (end) {
+        if (end)
+        {
             return;
         }
         end = true;
         base.gameOver(reason);
         Text text = GetComponent<Text>();
         text.enabled = true;
-        if (reason != "") {
+        if (reason != "")
+        {
             text.text += ":\n" + reason;
         }
     }

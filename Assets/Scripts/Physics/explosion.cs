@@ -3,10 +3,11 @@
 //Script for a bomb
 public class explosion : MonoBehaviour
 {
-    float EXPLOSION_FORCE_COEF = 400;
-    private bool isDropped;
-    private float timer;
-    public float minDetonationTime;
+    const float EXPLOSION_FORCE_COEF = 400;
+    bool isDropped;
+    float timer;
+    [SerializeField]
+    float minDetonationTime;
 
     //Called when the bomb drops from plane
     public void OnJointBreak2D()

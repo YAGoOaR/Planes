@@ -7,17 +7,25 @@ public class GameHandler : MonoBehaviour
 {
     const float FREEZE_DISTANCE = 235;
 
-    public static GameHandler instance;
+    private static GameHandler instance;
+    public static GameHandler Instance
+    {
+        get { return GameHandler.instance; }
+    }
 
     Transform cameraTransform;
-    List<GameObject> objectsToFreeze = new List<GameObject>();
+    List<GameObject> objectsToFreeze;
     [SerializeField]
     Vector2 spawnPosition;
-    [SerializeField]
-    bool startInOtherHeading;
-    public infoText planeInfo;
-    GameObject player;
 
+    infoText planeInfo;
+    public infoText PlaneInfo
+    {
+        get { return planeInfo; }
+        set { planeInfo = value; }
+    }
+
+    GameObject player;
     public GameObject Player
     {
         get { return player; }
@@ -45,9 +53,9 @@ public class GameHandler : MonoBehaviour
     public void Awake()
     {
         instance = this;
+        objectsToFreeze = new List<GameObject>();
         player = Object.Instantiate(GameAssets.Instance.Player, new Vector3(spawnPosition.x, spawnPosition.y, 0), Quaternion.identity);
         player.AddComponent<Follow>();
-        player.GetComponent<PlaneBehaviour>().startInOtherHeading = startInOtherHeading;
     }
 
     //Called after "Awake"

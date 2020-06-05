@@ -3,12 +3,14 @@
 //Any physical plane part
 public class PlanePart : MonoBehaviour
 {
-    public bool isBroken;
-    public bool isConnected
+    private bool isBroken;
+    public bool IsBroken
     {
-        get
-        {
-            return !!GetComponent<Joint2D>();
-        }
+        get { return isBroken; }
+        set { isBroken = value; }
+    }
+    public bool getConnection()
+    {
+        return GetComponent<Joint2D>();
     }
 }

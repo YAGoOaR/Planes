@@ -7,14 +7,18 @@ public class Aerofoil : MonoBehaviour
     const float DRAG_COEF = 0.0005f;
     const float STAB_COEF = 0.7f;
     const float EFFECTIVE_ANGLE_OFFSET = -0.04f;
-    public bool lift = false;
-    public float liftForceCoef = 0.1f;
-    public int upside = 1;
+    [SerializeField]
+    bool lift;
+    [SerializeField]
+    float liftForceCoef = 0.1f;
     Rigidbody2D rigidBody;
-    Vector2 rotationVector;
     float rotationAngle;
-    float stabilization = 1f;
-
+    int upside = 1;
+    public int Upside
+    {
+        get { return upside; }
+        set { upside = value; }
+    }
     //Called once when this object initializes
     void Start()
     {
@@ -25,8 +29,9 @@ public class Aerofoil : MonoBehaviour
     //Physics of an aerofoil
     void FixedUpdate()
     {
+
         rotationAngle = (transform.rotation.eulerAngles.z) / 180 * Mathf.PI;
-        rotationVector = new Vector2(-Mathf.Cos(rotationAngle), -Mathf.Sin(rotationAngle));
+        Vector2 rotationVector = new Vector2(-Mathf.Cos(rotationAngle), -Mathf.Sin(rotationAngle));
         Vector2 velocity = rigidBody.velocity;
         //angle between velocity and heading 
         float deltaAngle = (-Vector2.SignedAngle(rotationVector, velocity)) / 180 * Mathf.PI - EFFECTIVE_ANGLE_OFFSET;
@@ -40,7 +45,7 @@ public class Aerofoil : MonoBehaviour
             stall = velocity.magnitude / STALL_COEF;
         }
         //Stabilization force coefficient
-        stabilization = Mathf.Abs(Mathf.Cos(deltaAngle)) * stall * STAB_COEF;
+        float stabilization = Mathf.Abs(Mathf.Cos(deltaAngle)) * stall * STAB_COEF;
         //Stabilization force
         Vector2 stabForce = new Vector2(-Mathf.Cos(rotationAngle), -Mathf.Sin(rotationAngle)) * velocity.magnitude;
         //Lifting force

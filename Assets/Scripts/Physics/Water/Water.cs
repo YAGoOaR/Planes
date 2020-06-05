@@ -53,7 +53,7 @@ public class Water : MonoBehaviour
         public GameObject buoyancyCollider;
         public WaterNode(float x, float y)
         {
-            position.Set(x, y, ZPosition);
+            position = new Vector3(x, y, ZPosition);
         }
         public void destroy()
         {
@@ -100,7 +100,7 @@ public class Water : MonoBehaviour
         UVs[2] = new Vector2(0, 0);
         UVs[3] = new Vector2(1, 0);
 
-        int[] triangles = new int[] { 0, 1, 3, 3, 2, 0 };
+        int[] triangles = { 0, 1, 3, 3, 2, 0 };
 
         Vector3[] vertices = new Vector3[4];
         vertices[0] = nodes[i].position;
@@ -114,11 +114,11 @@ public class Water : MonoBehaviour
         mesh.triangles = triangles;
         meshes[i] = mesh;
 
-        GameObject meshObject = meshObjects[i];
-        meshObject = Object.Instantiate(waterMesh, Vector3.zero, Quaternion.identity);
+        GameObject meshObject = Object.Instantiate(waterMesh, Vector3.zero, Quaternion.identity);
         meshObject.GetComponent<MeshFilter>().mesh = meshes[i];
         meshObject.GetComponent<MeshRenderer>().sortingLayerName = "water";
         meshObject.transform.parent = transform;
+        meshObjects[i] = meshObject;
 
         GameObject water = GameObject.Instantiate(waterCollider, transform);
         water.transform.position = new Vector3(leftPosition + WIDTH * (i + HALF) / edgeCount, (bottomPosition + TOP_POSITION) / 2, DEFAULT_Z_POSITION);

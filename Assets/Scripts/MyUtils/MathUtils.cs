@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 //My utils for math
-public class MathUtils
+public static class MathUtils
 {
     public static float clamp(float variable, float value)
     {

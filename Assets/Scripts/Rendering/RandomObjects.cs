@@ -13,12 +13,14 @@ public class RandomObjects : MonoBehaviour
     const int objectSize = 30;
     int position = 1;
     int prevPosition = -1;
-    List<int> chunks = new List<int>();
-    List<GameObject> chunksObj = new List<GameObject>();
+    List<int> chunks;
+    List<GameObject> chunksObj;
 
     void Start()
     {
         cameraTransform = Camera.main.transform;
+        chunks = new List<int>();
+        chunksObj = new List<GameObject>();
     }
 
     void Update()

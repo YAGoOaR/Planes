@@ -17,17 +17,17 @@ public class Destructable : MonoBehaviour
         if (HP < 1)
         {
             Buoyancy buoyancyComponent = transform.Find(edges[Random.Range(0, edges.Length - 1)]).GetComponent<Buoyancy>();
-            buoyancyComponent.volume = DESTROYED_OBJECT_VOLUME;
+            buoyancyComponent.Volume = DESTROYED_OBJECT_VOLUME;
             if (gameObject.name == "AirCarrier")
             {
-                Timers.timeout(20, () => { Game.instance.gameOver("air carrier is destroyed"); });
+                Timers.timeout(20, () => { Game.Instance.gameOver("air carrier is destroyed"); });
             }
             return;
         }
         HP--;
         foreach (string edge in edges)
         {
-            transform.Find(edge).GetComponent<Buoyancy>().volume -= Mathf.Max(MIN_RANDOM_COEFFICIENT, Random.value) * buoyancy / maxHP;
+            transform.Find(edge).GetComponent<Buoyancy>().Volume -= Mathf.Max(MIN_RANDOM_COEFFICIENT, Random.value) * buoyancy / maxHP;
         }
     }
 }

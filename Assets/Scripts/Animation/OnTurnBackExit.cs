@@ -22,7 +22,7 @@ public class OnTurnBackExit : StateMachineBehaviour
         float velocityCoefficient = Mathf.Min(1 / planeRigidbody.velocity.magnitude * 10, MAX_VELOCITY_COEF);
         float angleCoefficient = Mathf.Max(-Mathf.Sin(planeTransform.rotation.eulerAngles.z / 180 * Mathf.PI) + 1, MIN_ANGLE_COEF);
         animator.SetFloat("speedMultiplier", velocityCoefficient * angleCoefficient);
-        planeBehaviour.isTurningBack = true;
+        planeBehaviour.IsTurningBack = true;
         planeRigidbody.isKinematic = true;
         planeRigidbody.freezeRotation = true;
         velocity = new Vector3(planeRigidbody.velocity.x, planeRigidbody.velocity.y, 0);
@@ -45,6 +45,6 @@ public class OnTurnBackExit : StateMachineBehaviour
         animator.SetBool("turningBack", false);
         planeBehaviour.switchAerofoilActive();
         planeBehaviour.switchBombsActive();
-        planeBehaviour.isTurningBack = false;
+        planeBehaviour.IsTurningBack = false;
     }
 }

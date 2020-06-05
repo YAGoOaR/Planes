@@ -11,8 +11,8 @@ public class Timers : MonoBehaviour
     {
         static List<CooldownTimer> timers = new List<CooldownTimer>();
         float currentTime;
-        float maxTime;
-        bool destroyAfterTimeout;
+        readonly float maxTime;
+        readonly bool destroyAfterTimeout;
 
         public CooldownTimer(float max)
         {
@@ -100,7 +100,7 @@ public class Timers : MonoBehaviour
         static List<Interval> timers = new List<Interval>();
         float time;
         float currentTime;
-        customFunc callback;
+        readonly customFunc callback;
 
         public Interval(float time, customFunc callback)
         {

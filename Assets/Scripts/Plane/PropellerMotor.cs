@@ -8,7 +8,13 @@ public class PropellerMotor : MonoBehaviour
     Rigidbody2D propellerRigidbody;
     Animator propellerAnimator;
     FixedJoint2D fixedJoint;
-    public int throttle;
+
+    int throttle;
+    public int Throttle
+    {
+        get { return throttle; }
+        set { throttle = value; }
+    }
 
     bool jointIsActive = true;
     public bool JointIsActive
@@ -27,14 +33,14 @@ public class PropellerMotor : MonoBehaviour
     {
         jointIsActive = false;
         PlanePart part = GetComponent<PlanePart>();
-        part.isBroken = true;
+        part.IsBroken = true;
         if (!transform.parent.GetComponent<PlaneBehaviour>().IsPlayer)
         {
             return;
         }
         Timers.timeout(5, () =>
         {
-            Game.instance.gameOver("plane is broken");
+            Game.Instance.gameOver("plane is broken");
         });
     }
 

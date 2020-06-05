@@ -8,11 +8,12 @@ public class ChunkManager : MonoBehaviour
 
     Transform cameraTransform;
     ChunksArray chunkArray;
+
     [SerializeField]
     int visibleChunks;
+
     [SerializeField]
     int chunkSize = 2000;
-
     public int ChunkSize
     {
         get { return chunkSize; }
@@ -25,10 +26,11 @@ public class ChunkManager : MonoBehaviour
     class ChunksArray
     {
         int chunkSize;
-        private List<Chunk> chunks = new List<Chunk>();
+        List<Chunk> chunks;
 
         public ChunksArray(int chunkSize)
         {
+            chunks = new List<Chunk>();
             this.chunkSize = chunkSize;
         }
 

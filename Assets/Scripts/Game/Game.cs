@@ -5,8 +5,13 @@ using UnityEngine.SceneManagement;
 public class Game : MonoBehaviour
 {
     const float WAIT_BEFORE_EXIT = 10;
-    public static Game instance;
     bool gameIsOver;
+
+    static Game instance;
+    public static Game Instance
+    {
+        get { return Game.instance; }
+    }
 
     public static void quitGame()
     {

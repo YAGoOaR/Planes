@@ -4,9 +4,15 @@
 public class Buoyancy : MonoBehaviour
 {
     const float FORCE_COEFFICIENT = 8;
-    public float volume = 10;
     Collider2D waterCollider;
     int connections;
+    [SerializeField]
+    float volume = 10;
+    public float Volume
+    {
+        get { return volume; }
+        set { volume = value; }
+    }
 
     void OnTriggerEnter2D(Collider2D collider)
     {

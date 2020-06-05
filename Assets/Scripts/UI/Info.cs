@@ -26,7 +26,7 @@ public class Info : MonoBehaviour
 
     void LateUpdate()
     {
-        GameHandler.infoText info = GameHandler.instance.planeInfo;
+        GameHandler.infoText info = GameHandler.Instance.PlaneInfo;
         infoText.text = "Throttle: " + info.throttle.ToString() + "\n" +
         "Speed: " + Mathf.Floor(info.speed * SPEED_MULTIPLIER).ToString() + "\n" +
         "ALT: " + Mathf.Floor(info.altitude).ToString() + "\n" +
