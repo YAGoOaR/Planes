@@ -3,7 +3,7 @@
 //Any physical plane part
 public class PlanePart : MonoBehaviour
 {
-    public bool isBroken = false;
+    public bool isBroken;
     public bool isConnected
     {
         get

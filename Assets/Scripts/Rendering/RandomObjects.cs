@@ -6,7 +6,7 @@ public class RandomObjects : MonoBehaviour
 {
     private Transform cameraTransform;
     [SerializeField]
-    int visibleChunks = 0;
+    int visibleChunks;
     [SerializeField]
     int cloudHeight = 80;
     const int chunkSize = 200;

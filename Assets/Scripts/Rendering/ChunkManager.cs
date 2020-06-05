@@ -9,7 +9,7 @@ public class ChunkManager : MonoBehaviour
     Transform cameraTransform;
     ChunksArray chunkArray;
     [SerializeField]
-    int visibleChunks = 0;
+    int visibleChunks;
     [SerializeField]
     int chunkSize = 2000;
 
@@ -19,8 +19,8 @@ public class ChunkManager : MonoBehaviour
         set { chunkSize = value; }
     }
 
-    int position = 0;
-    int prevPosition = -1;
+    int position;
+    int prevPosition;
 
     class ChunksArray
     {
@@ -84,7 +84,7 @@ public class ChunkManager : MonoBehaviour
             this.position = pos;
             this.obj = obj;
         }
-        public int position = 0;
+        public int position;
         public GameObject obj;
     }
 

@@ -36,7 +36,7 @@ public class AIPlane : MonoBehaviour
     const float SAFE_ANGLE = 60;
     const float DEFAULT_ANGLE = 10;
     const float BREAK_VELOCITY = 20;
-    public bool enemyDestroyed = false;
+    public bool enemyDestroyed;
     public float targetAltitude = 40;
     [HideInInspector]
     public float targetPosition = -30;

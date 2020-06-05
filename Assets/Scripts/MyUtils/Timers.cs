@@ -12,7 +12,7 @@ public class Timers : MonoBehaviour
         static List<CooldownTimer> timers = new List<CooldownTimer>();
         float currentTime;
         float maxTime;
-        bool destroyAfterTimeout = false;
+        bool destroyAfterTimeout;
 
         public CooldownTimer(float max)
         {

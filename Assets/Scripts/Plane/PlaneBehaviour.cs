@@ -22,14 +22,14 @@ public class PlaneBehaviour : MonoBehaviour
         get { return isPlayer; }
     }
     [HideInInspector]
-    public bool upsideDown = false;
+    public bool upsideDown;
     bool flaps = false;
     [HideInInspector]
-    public bool brakes = false;
+    public bool brakes;
     [HideInInspector]
     public bool isTurningBack;
 
-    float pitch = 0;
+    float pitch;
     public float Pitch
     {
         get { return pitch; }
@@ -37,15 +37,15 @@ public class PlaneBehaviour : MonoBehaviour
     }
 
     [HideInInspector]
-    public int throttle = 0;
+    public int throttle;
     float flapAngle = 30;
     [SerializeField]
-    bool invertPitch = false;
+    bool invertPitch;
     public bool startInOtherHeading;
     public float gunOffset = 1.6f;
     public float gunOffsetAngle = -0.2f;
     [SerializeField]
-    float trimPitch = 0;
+    float trimPitch;
 
     float maxPitch;
     float minPitch;
@@ -457,9 +457,10 @@ public class PlaneBehaviour : MonoBehaviour
         {
             flapMotor.motorSpeed = FLAP_MOTOR_SPEED;
         }
-        else {
+        else
+        {
             flapMotor.motorSpeed = -FLAP_MOTOR_SPEED;
-        } 
+        }
     }
 
     //Switching on/off

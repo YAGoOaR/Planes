@@ -4,9 +4,9 @@
 public class explosion : MonoBehaviour
 {
     float EXPLOSION_FORCE_COEF = 400;
-    private bool isDropped = false;
-    private float timer = 0;
-    public float minDetonationTime = 0f;
+    private bool isDropped;
+    private float timer;
+    public float minDetonationTime;
 
     //Called when the bomb drops from plane
     public void OnJointBreak2D()

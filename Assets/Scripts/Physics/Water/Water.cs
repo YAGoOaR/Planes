@@ -30,8 +30,8 @@ public class Water : MonoBehaviour
     static int edgeCount = Mathf.RoundToInt(WIDTH / EDGE_WIDTH);
     static int nodeCount = edgeCount + 1;
 
-    int position = 0;
-    int prevPosition = 0;
+    int position;
+    int prevPosition;
 
     float leftPosition = -WIDTH / 2;
     float bottomPosition = TOP_POSITION - HEIGHT;
@@ -46,9 +46,9 @@ public class Water : MonoBehaviour
     class WaterNode
     {
         public const float ZPosition = -1;
-        public float velocity = 0;
-        public float acceleration = 0;
-        public float leftDelta, rightDelta = 0;
+        public float velocity;
+        public float acceleration;
+        public float leftDelta, rightDelta;
         public Vector3 position;
         public GameObject buoyancyCollider;
         public WaterNode(float x, float y)

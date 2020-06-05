@@ -6,7 +6,7 @@ public class Game : MonoBehaviour
 {
     const float WAIT_BEFORE_EXIT = 10;
     public static Game instance;
-    bool gameIsOver = false;
+    bool gameIsOver;
 
     public static void quitGame()
     {
@@ -23,7 +23,7 @@ public class Game : MonoBehaviour
         if (gameIsOver)
         {
             return;
-        } 
+        }
         gameIsOver = true;
         Timers.customFunc callback = () =>
         {

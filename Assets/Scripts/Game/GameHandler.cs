@@ -7,22 +7,21 @@ public class GameHandler : MonoBehaviour
 {
     const float FREEZE_DISTANCE = 235;
 
-    List<GameObject> objectsToFreeze = new List<GameObject>();
     public static GameHandler instance;
-    [SerializeField]
-    Vector2 spawnPosition;
-    public infoText planeInfo;
 
     Transform cameraTransform;
-
+    List<GameObject> objectsToFreeze = new List<GameObject>();
+    [SerializeField]
+    Vector2 spawnPosition;
+    [SerializeField]
+    bool startInOtherHeading;
+    public infoText planeInfo;
     GameObject player;
+
     public GameObject Player
     {
         get { return player; }
     }
-
-    [SerializeField]
-    bool startInOtherHeading = false;
 
     //info that will be showed on UI
     public struct infoText
@@ -81,7 +80,8 @@ public class GameHandler : MonoBehaviour
         }
     }
 
-    public void addObjectsToFreeze(GameObject gameobject) {
+    public void addObjectsToFreeze(GameObject gameobject)
+    {
         objectsToFreeze.Add(gameobject);
     }
     public void removeObjectToFreeze(GameObject gameobject)

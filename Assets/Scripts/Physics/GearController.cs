@@ -3,7 +3,7 @@
 //A script to controll plane landing gear
 public class GearController : MonoBehaviour
 {
-    bool isGearUp = false;
+    bool isGearUp;
     public bool IsGearUp
     {
         get { return isGearUp; }
