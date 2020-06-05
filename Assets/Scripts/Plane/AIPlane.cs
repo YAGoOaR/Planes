@@ -5,6 +5,8 @@
 public class AIPlane : MonoBehaviour
 {
     //Enemy plane autopilot v0.1. Enemy can take off, bomb target and then land on base.
+    const float PI = 180;
+    const float GRAVITY = 9.8f;
     const float BASE_POSITION = -860;
     const float LANDING_ALTITUDE = 21.2f;
     const float DEFAULT_SPEED = 40;
@@ -21,6 +23,19 @@ public class AIPlane : MonoBehaviour
     const float GEAR_DOWN_DISTANCE = 200;
     const float BRAKE_DISTANCE = GEAR_DOWN_DISTANCE * 2 / 3;
     const float MAX_TARGET_ANGLE = 15;
+    const float ATTACK_DISTANCE = 240;
+    const float BOMBING_DISTANCE = 250;
+    const float SHOOTING_ACCURACY = 0.1f;
+    const float SHOOTING_DISTANCE = 100;
+    const float TURN_BACK_THRESHOLD = -0.1f;
+    const float TIME_TO_COLLISION = 4;
+    const float SAFE_ALTITUDE = 30;
+    const float STALL_VELOCITY = 15;
+    const float LANDING_SENSITIVITY = 1000;
+    const float UP_ANGLE = 270;
+    const float SAFE_ANGLE = 60;
+    const float DEFAULT_ANGLE = 10;
+    const float BREAK_VELOCITY = 20;
     public bool hostile = true;
     public bool enemyDestroyed = false;
     public float targetAltitude = 40;
@@ -85,14 +100,14 @@ public class AIPlane : MonoBehaviour
         if (state == AIState.climbing)
         {
             climb();
-            if (altitude > 30)
+            if (altitude > SAFE_ALTITUDE)
             {
                 state = AIState.bombingTarget;
             }
         }
         if (state == AIState.bombingTarget) bombTarget();
         if (state == AIState.landing && !planeBehaviour.isTurningBack) land();
-        if ((enemyPos - transform.position).magnitude < 240 && state != AIState.climbing && state != AIState.takingOff && plane.bullets > 0 && !enemyDestroyed && deltaPosition > 250)
+        if ((enemyPos - transform.position).magnitude < ATTACK_DISTANCE && state != AIState.climbing && state != AIState.takingOff && plane.bullets > 0 && !enemyDestroyed && deltaPosition > BOMBING_DISTANCE)
         {
             planeBehaviour.throttle = 100;
             state = AIState.attacking;
@@ -115,7 +130,7 @@ public class AIPlane : MonoBehaviour
     void reachTarget()
     {
         //Turn to target
-        if (turnCooldown.check() && velocity.magnitude > MIN_TURN_VELOCITY && (!CheckRotationBounds(10, 170)))
+        if (turnCooldown.check() && velocity.magnitude > MIN_TURN_VELOCITY && !CheckRotationBounds(DEFAULT_ANGLE, PI - DEFAULT_ANGLE))
         {
             if (!planeBehaviour.upsideDown && position < targetPosition)
             {
@@ -143,7 +158,6 @@ public class AIPlane : MonoBehaviour
         //Smooth reaching altitude and lining when speed is too low
         targetAngle = -MathUtils.clamp(targetAltitude - altitude, MAX_TARGET_ANGLE) * heading * MathUtils.clamp(velocity.magnitude / VELOCITY_SENSIVITY, VELOCITY_COEFFICIENT);
         float deltaAngle = toRadian(targetAngle - rotation);
-        //Plane heading: 1 when flying left (model is normal) and -1 when flying right (model is mirrored upside down and turned 180 degrees)
         heading = 1;
         if (planeBehaviour.upsideDown)
         {
@@ -167,7 +181,7 @@ public class AIPlane : MonoBehaviour
     void bombTarget()
     {
         //My ballistics calculator
-        float timeToCollision = Mathf.Sqrt(altitude / 9.8f);
+        float timeToCollision = Mathf.Sqrt(altitude / GRAVITY);
         float attackPosition = Mathf.Abs(timeToCollision * GetComponent<Rigidbody2D>().velocity.x) + BOMB_OFFSET;
         float distanceToAttack = Mathf.Abs(attackPosition - Mathf.Abs(deltaPosition));
         if (distanceToAttack < BOMB_THROW_ACCURACY)
@@ -188,11 +202,11 @@ public class AIPlane : MonoBehaviour
     void land()
     {
         //Smooth altitude lowering
-        targetAltitude = MathUtils.clamp(Mathf.Abs(deltaPosition / 1000), 1) * (DEFAULT_ALTITUDE - LANDING_ALTITUDE) + LANDING_ALTITUDE;
+        targetAltitude = MathUtils.clamp(Mathf.Abs(deltaPosition / LANDING_SENSITIVITY), 1) * (DEFAULT_ALTITUDE - LANDING_ALTITUDE) + LANDING_ALTITUDE;
         //Reach landing speed if not missed altitude, otherwise reach normal
         if (deltaAltitude < 2)
         {
-            targetSpeed = MathUtils.clamp(Mathf.Abs(deltaPosition / 500), 1) * DEFAULT_SPEED;
+            targetSpeed = MathUtils.clamp(Mathf.Abs(deltaPosition / LANDING_SENSITIVITY * 2), 1) * DEFAULT_SPEED;
         }
         else
         {
@@ -213,7 +227,7 @@ public class AIPlane : MonoBehaviour
                 planeBehaviour.switchFlaps(true);
                 targetSpeed = 0;
                 //Now do nothing
-                if (velocity.magnitude < 20)
+                if (velocity.magnitude < BREAK_VELOCITY)
                 {
                     state = AIState.idle;
                 }
@@ -224,15 +238,15 @@ public class AIPlane : MonoBehaviour
     {
         float distance = Mathf.Abs((enemyPos - transform.position).magnitude);
         turnOver();
-        if (altitude + 4 * velocity.y < 0 || (altitude < 30 && CheckRotationBounds(60, 120)) || velocity.magnitude < 15) state = AIState.climbing;
+        if (altitude + TIME_TO_COLLISION * velocity.y < 0 || (altitude < SAFE_ALTITUDE && CheckRotationBounds(SAFE_ANGLE, PI - SAFE_ANGLE)) || velocity.magnitude < STALL_VELOCITY) state = AIState.climbing;
         targetAngle = MathUtils.Vector2ToAngle(enemyPos - transform.position) + Mathf.PI;
         float deltaAngle = targetAngle - toRadian(rotation);
-        if (Mathf.Cos(deltaAngle) < -0.1f)
+        if (Mathf.Cos(deltaAngle) < TURN_BACK_THRESHOLD)
         {
             planeBehaviour.turnBack();
         }
         setPitch(deltaAngle);
-        if (Mathf.Abs(deltaAngle) < 0.1f && distance < 100)
+        if (Mathf.Abs(deltaAngle) < SHOOTING_ACCURACY && distance < SHOOTING_DISTANCE)
         {
             planeBehaviour.shoot();
         }
@@ -242,7 +256,7 @@ public class AIPlane : MonoBehaviour
     {
         if (turnCooldown.check())
         {
-            if (CheckRotationBounds(300, 60))
+            if (CheckRotationBounds(2 * PI - SAFE_ANGLE, SAFE_ANGLE))
             {
                 if (planeBehaviour.upsideDown)
                 {
@@ -251,7 +265,7 @@ public class AIPlane : MonoBehaviour
                     return;
                 }
             }
-            if (CheckRotationBounds(240, 120))
+            if (CheckRotationBounds(PI + SAFE_ANGLE, PI - SAFE_ANGLE))
             {
                 if (!planeBehaviour.upsideDown)
                 {
@@ -267,7 +281,7 @@ public class AIPlane : MonoBehaviour
     {
         planeBehaviour.throttle = 100;
         float heading = Mathf.Sign(Mathf.Cos(toRadian(rotation)));
-        targetAngle = 270 + heading * 60;
+        targetAngle = UP_ANGLE + heading * SAFE_ANGLE;
         float deltaAngle = toRadian(targetAngle - rotation);
         setPitch(deltaAngle);
     }
@@ -285,7 +299,7 @@ public class AIPlane : MonoBehaviour
 
     bool CheckRotationBounds(float a, float b)
     {
-        if (Mathf.Abs(b - a) < 180)
+        if (Mathf.Abs(b - a) < PI)
         {
             return rotation < Mathf.Max(a, b) && rotation > Mathf.Min(a, b);
         }
