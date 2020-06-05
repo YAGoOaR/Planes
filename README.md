@@ -7,7 +7,6 @@
 </br>![icon](/Pictures/icon.png)
 </br>
 ## Features
-</br>
 - AI opponents
 - plane flight physics
 - realistic water physics
@@ -22,6 +21,7 @@
 </br>
 </br>You can find script of the game in /Assets/Scripts.
 </br>To launch the game, open newest release archive and launch Planes.exe
+</br>
 #License 
-License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
+[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
 - Copyright 2020 © <a href="https://github.com/YAGoOaR" target="_blank">YAGoOaR</a>.
