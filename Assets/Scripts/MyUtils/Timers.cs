@@ -54,14 +54,14 @@ public class Timers : MonoBehaviour
         }
     }
 
-    public class TimeoutTimer
+    public class Timeout
     {
-        public static List<TimeoutTimer> timers = new List<TimeoutTimer>();
+        public static List<Timeout> timers = new List<Timeout>();
         public float time;
         public float currentTime;
         customFunc callback;
 
-        public TimeoutTimer(float time, customFunc callback)
+        public Timeout(float time, customFunc callback)
         {
             this.callback = callback;
             this.time = time;
@@ -70,8 +70,8 @@ public class Timers : MonoBehaviour
 
         public static void refresh()
         {
-            List<TimeoutTimer> timerList = new List<TimeoutTimer>(timers);
-            foreach (TimeoutTimer timer in timerList)
+            List<Timeout> timerList = new List<Timeout>(timers);
+            foreach (Timeout timer in timerList)
             {
                 if (timer.currentTime <= timer.time) timer.currentTime += Time.deltaTime;
                 else
@@ -83,9 +83,54 @@ public class Timers : MonoBehaviour
         }
     }
 
+    public class Interval
+    {
+        public static List<Interval> timers = new List<Interval>();
+        public float time;
+        public float currentTime;
+        customFunc callback;
+
+        public Interval(float time, customFunc callback)
+        {
+            this.callback = callback;
+            this.time = time;
+            timers.Add(this);
+        }
+
+        public void clear(){
+            timers.Remove(this);
+        }
+
+        public static void refresh()
+        {
+            List<Interval> timerList = new List<Interval>(timers);
+            foreach (Interval timer in timerList)
+            {
+                if (timer.currentTime <= timer.time) timer.currentTime += Time.deltaTime;
+                else
+                {
+                    timer.currentTime = Time.deltaTime;
+                    timer.callback();
+                }
+            }
+        }
+    }
+
+    public static Interval interval(float time, customFunc callback)
+    {
+        Interval timer = new Interval(time, callback);
+        return timer;
+    }
+
+    public static void timeout(float time, customFunc callback)
+    {
+        Timeout timer = new Timeout(time, callback);
+    }
+
     void Update()
     {
         CooldownTimer.refresh();
-        TimeoutTimer.refresh();
+        Timeout.refresh();
+        Interval.refresh();
     }
 }
