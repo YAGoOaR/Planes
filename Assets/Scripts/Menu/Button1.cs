@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class Button1 : MonoBehaviour
 {
     //Start button
-    public static void StartGame()
+    public void StartGame()
     {
         SceneManager.LoadScene(1);
     }
@@ -17,7 +17,7 @@ public class Button1 : MonoBehaviour
     }
 
     //Exit button
-    public static void ExitGame()
+    public void ExitGame()
     {
         Application.Quit();
     }
