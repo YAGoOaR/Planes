@@ -14,10 +14,10 @@ public class GameOver : Game
 
     override public void gameOver(string reason)
     {
+        base.gameOver(reason);
         if (gameIsOver) return;
         gameIsOver = true;
         text.enabled = true;
         if (reason != "") text.text += ":\n" + reason;
-        base.gameOver(reason);
     }
 }

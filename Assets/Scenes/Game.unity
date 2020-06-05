@@ -448,7 +448,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77538f96ed844524d8350506e4146cbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hostile: 1
   enemyDestroyed: 0
   targetAltitude: 45
   targetPosition: 0
@@ -1065,6 +1064,11 @@ PrefabInstance:
       propertyPath: bullets
       value: 300
       objectReference: {fileID: 0}
+    - target: {fileID: 114767711665593958, guid: 2499d27d8ed34b844b92aa6f44b1f4d3,
+        type: 3}
+      propertyPath: bombCount
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1081117711294531131, guid: 2499d27d8ed34b844b92aa6f44b1f4d3,
         type: 3}
       propertyPath: m_Name
@@ -1135,6 +1139,11 @@ PrefabInstance:
       propertyPath: startInOtherHeading
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7801491606417757383, guid: 2499d27d8ed34b844b92aa6f44b1f4d3,
+        type: 3}
+      propertyPath: trimPitch
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2499d27d8ed34b844b92aa6f44b1f4d3, type: 3}
 --- !u!1 &996095854
@@ -1148,7 +1157,6 @@ GameObject:
   - component: {fileID: 996095855}
   - component: {fileID: 996095858}
   - component: {fileID: 996095857}
-  - component: {fileID: 996095856}
   - component: {fileID: 996095859}
   m_Layer: 5
   m_Name: Briefing
@@ -1176,18 +1184,6 @@ RectTransform:
   m_AnchoredPosition: {x: 434, y: -108.51953}
   m_SizeDelta: {x: 797.7999, y: 217.0438}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &996095856
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 996095854}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5eb40ec30328fd428d6c819c5206f5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &996095857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1315,9 +1311,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77538f96ed844524d8350506e4146cbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hostile: 1
   enemyDestroyed: 0
-  targetAltitude: 50
+  targetAltitude: 60
   targetPosition: 0
   targetSpeed: 40
   targetAngle: -15
@@ -1505,7 +1500,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77538f96ed844524d8350506e4146cbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hostile: 1
   enemyDestroyed: 0
   targetAltitude: 50
   targetPosition: 0
@@ -1561,9 +1555,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77538f96ed844524d8350506e4146cbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hostile: 1
   enemyDestroyed: 0
-  targetAltitude: 50
+  targetAltitude: 55
   targetPosition: 0
   targetSpeed: 40
   targetAngle: -15
@@ -1722,7 +1715,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77538f96ed844524d8350506e4146cbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hostile: 1
   enemyDestroyed: 0
   targetAltitude: 40
   targetPosition: 0
