@@ -398,7 +398,6 @@ MonoBehaviour:
     type: 3}
   player: {fileID: 1081117711294531131, guid: d055d448def055146bf5e46d9be50514, type: 3}
   bomb: {fileID: 8067713123994682638, guid: 9e74e9512107c5047ae9b28d930a9a83, type: 3}
-  planeSprite: {fileID: 21300000, guid: cebbb7f7a2265cc4780125ed59f01f20, type: 3}
   bullet: {fileID: 3694224304218080942, guid: f86958d28f6434742ac4eee6914253ac, type: 3}
   clouds:
   - {fileID: 3167527573599787326, guid: ff164b29385c07f47853c89d70da99b7, type: 3}
@@ -928,8 +927,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.5, y: 0}
-  m_SizeDelta: {x: 1363.8483, y: 302.68314}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1278.955, y: 302.68314}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &780418159
 MonoBehaviour:
@@ -963,7 +962,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 80
+    m_FontSize: 75
     m_FontStyle: 3
     m_BestFit: 0
     m_MinSize: 0

@@ -39,22 +39,6 @@ public class GameAssets : MonoBehaviour
     }
 
     [SerializeField]
-    private Sprite planeSprite;
-
-    public Sprite PlaneSprite
-    {
-        get { return planeSprite; }
-    }
-
-    private Sprite gearSprite;
-
-    [SerializeField]
-    public Sprite GearSprite
-    {
-        get { return gearSprite; }
-    }
-
-    [SerializeField]
     public GameObject bullet;
 
     public GameObject Bullet

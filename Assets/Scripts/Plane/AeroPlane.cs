@@ -46,6 +46,6 @@ public class AeroPlane : MonoBehaviour
         return null;
     }
     public void Damage() {
-        
+        hp--;
     }
 }
