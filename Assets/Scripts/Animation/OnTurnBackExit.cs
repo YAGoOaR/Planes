@@ -12,6 +12,7 @@ public class OnTurnBackExit : StateMachineBehaviour
     Collider2D planeCollider;
     float timer;
 
+    //Called on start of animation
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         timer = 0f;
@@ -30,12 +31,14 @@ public class OnTurnBackExit : StateMachineBehaviour
         planeBehaviour.switchBombsActive();
     }
 
+    //Called each frame of animation
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         planeRigidbody.velocity = velocity * Mathf.Cos(Mathf.Max(Mathf.PI * timer + VELOCITY_OFFSET, 0));
         timer += Time.deltaTime * stateInfo.speedMultiplier;
     }
 
+    //Called at the end of animation
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         planeBehaviour.GetComponent<Rigidbody2D>().isKinematic = false;
