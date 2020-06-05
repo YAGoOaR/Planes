@@ -34,7 +34,7 @@ public class Water : MonoBehaviour
     int prevPosition;
 
     float leftPosition = -WIDTH / 2;
-    float bottomPosition = TOP_POSITION - HEIGHT;
+    const float bottomPosition = TOP_POSITION - HEIGHT;
 
     Transform followedTransform;
     LineRenderer lineBody;

@@ -25,8 +25,8 @@ public class ChunkManager : MonoBehaviour
 
     class ChunksArray
     {
-        int chunkSize;
-        List<Chunk> chunks;
+        readonly int chunkSize;
+        readonly List<Chunk> chunks;
 
         public ChunksArray(int chunkSize)
         {

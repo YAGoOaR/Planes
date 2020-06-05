@@ -98,7 +98,7 @@ public class Timers : MonoBehaviour
     public class Interval
     {
         static List<Interval> timers = new List<Interval>();
-        float time;
+        readonly float time;
         float currentTime;
         readonly customFunc callback;
 

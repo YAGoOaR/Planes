@@ -12,7 +12,6 @@ public class Aerofoil : MonoBehaviour
     [SerializeField]
     float liftForceCoef = 0.1f;
     Rigidbody2D rigidBody;
-    float rotationAngle;
     int upside = 1;
     public int Upside
     {
@@ -30,7 +29,7 @@ public class Aerofoil : MonoBehaviour
     void FixedUpdate()
     {
 
-        rotationAngle = (transform.rotation.eulerAngles.z) / 180 * Mathf.PI;
+        float rotationAngle = (transform.rotation.eulerAngles.z) / 180 * Mathf.PI;
         Vector2 rotationVector = new Vector2(-Mathf.Cos(rotationAngle), -Mathf.Sin(rotationAngle));
         Vector2 velocity = rigidBody.velocity;
         //angle between velocity and heading 

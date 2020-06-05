@@ -23,6 +23,11 @@ public class Game : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
+    public static void setInstance(Game game)
+    {
+        instance = game;
+    }
+
     public virtual void gameOver(string reason)
     {
         if (gameIsOver)
@@ -39,6 +44,6 @@ public class Game : MonoBehaviour
 
     void Awake()
     {
-        instance = this;
+        setInstance(this);
     }
 }

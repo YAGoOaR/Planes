@@ -8,7 +8,6 @@ public class OnTurnBackExit : StateMachineBehaviour
     PlaneBehaviour planeBehaviour;
     Rigidbody2D planeRigidbody;
     Vector3 velocity;
-    Collider2D planeCollider;
     float timer;
 
     //Called on start of animation
@@ -16,7 +15,6 @@ public class OnTurnBackExit : StateMachineBehaviour
     {
         timer = 0f;
         planeBehaviour = animator.GetComponent<PlaneBehaviour>();
-        planeCollider = planeBehaviour.GetComponent<Collider2D>();
         planeRigidbody = planeBehaviour.GetComponent<Rigidbody2D>();
         Transform planeTransform = planeBehaviour.transform;
         float velocityCoefficient = Mathf.Min(1 / planeRigidbody.velocity.magnitude * 10, MAX_VELOCITY_COEF);

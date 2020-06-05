@@ -9,9 +9,14 @@ public class GameAssets : MonoBehaviour
         get { return GameAssets.instance; }
     }
 
+    public static void setInstance(GameAssets gameAssets)
+    {
+        instance = gameAssets;
+    }
+
     void Awake()
     {
-        instance = this;
+        setInstance(this);
     }
 
     [SerializeField]
@@ -74,6 +79,7 @@ public class GameAssets : MonoBehaviour
     {
         return clouds[Random.Range(0, clouds.Length)];
     }
+
     public GameObject GetChunk(int i)
     {
         if (i >= 0 && i < chunks.Length)

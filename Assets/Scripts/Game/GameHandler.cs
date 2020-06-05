@@ -49,10 +49,14 @@ public class GameHandler : MonoBehaviour
         }
     }
 
+    public static void setInstance(GameHandler gameHandler) {
+        instance = gameHandler;
+    }
+
     //Called instantly after initialization
     public void Awake()
     {
-        instance = this;
+        setInstance(this);
         objectsToFreeze = new List<GameObject>();
         player = Object.Instantiate(GameAssets.Instance.Player, new Vector3(spawnPosition.x, spawnPosition.y, 0), Quaternion.identity);
         player.AddComponent<Follow>();

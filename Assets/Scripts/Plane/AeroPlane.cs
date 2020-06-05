@@ -35,7 +35,7 @@ public class AeroPlane : MonoBehaviour
         set { bombCount = value; }
     }
 
-    Queue<GameObject> bombs = new Queue<GameObject>();
+    Queue<GameObject> bombs;
     public Queue<GameObject> Bombs
     {
         get { return bombs; }
@@ -43,6 +43,7 @@ public class AeroPlane : MonoBehaviour
 
     void Awake()
     {
+        bombs = new Queue<GameObject>();
         int count = partNames.Length;
         parts = new PlanePart[count];
         for (int i = 0; i < count; i++)
