@@ -394,15 +394,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f29660ef67ccb46429a9375ca01cc31f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerCam: {fileID: 7231463621712578032, guid: 9511f917cfa05a64d83011b73903993e,
+  playerCam: {fileID: 7231463621712578032, guid: 9511f917cfa05a64d83011b73903993e,
     type: 3}
   player: {fileID: 1081117711294531131, guid: d055d448def055146bf5e46d9be50514, type: 3}
-  chunks:
-  - {fileID: 5852664580031710359, guid: cc4c6c1c9935c0046b41021c131593eb, type: 3}
-  - {fileID: 9044224134951599345, guid: b03e53e25a7f736418cf51e1b091af4b, type: 3}
   bomb: {fileID: 8067713123994682638, guid: 9e74e9512107c5047ae9b28d930a9a83, type: 3}
   planeSprite: {fileID: 21300000, guid: cebbb7f7a2265cc4780125ed59f01f20, type: 3}
-  gearSprite: {fileID: 21300000, guid: 27fde8e3101e5b145ab96e57fe08699d, type: 3}
   bullet: {fileID: 3694224304218080942, guid: f86958d28f6434742ac4eee6914253ac, type: 3}
   clouds:
   - {fileID: 3167527573599787326, guid: ff164b29385c07f47853c89d70da99b7, type: 3}
@@ -411,6 +407,9 @@ MonoBehaviour:
   - {fileID: 6890857973555073979, guid: 9d4f16a0bf9e28249ac701e894202986, type: 3}
   wheelMaterial: {fileID: 6200000, guid: 39300bf03c0862d449eea4fb4399b7d0, type: 2}
   wheelBrakeMaterial: {fileID: 6200000, guid: 26e910343b10b2745ba7b6f7bc6191f0, type: 2}
+  chunks:
+  - {fileID: 5852664580031710359, guid: cc4c6c1c9935c0046b41021c131593eb, type: 3}
+  - {fileID: 9044224134951599345, guid: b03e53e25a7f736418cf51e1b091af4b, type: 3}
 --- !u!4 &216855325
 Transform:
   m_ObjectHideFlags: 0
@@ -849,9 +848,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01ffe500ffa591541afeb6fedf395af8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectsToFreeze: []
   spawnPosition: {x: 0, y: 11.4}
-  player: {fileID: 0}
   startInOtherHeading: 0
 --- !u!4 &773376133
 Transform:
