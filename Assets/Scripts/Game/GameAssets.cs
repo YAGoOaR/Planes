@@ -27,7 +27,13 @@ public class GameAssets : MonoBehaviour
     }
     public GameObject GetChunk(int i)
     {
-        if (i >= 0 && i < chunks.Length) return chunks[i];
-        else return null;
+        if (i >= 0 && i < chunks.Length)
+        {
+            return chunks[i];
+        }
+        else
+        {
+            return null;
+        }
     }
 }

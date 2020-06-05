@@ -5,8 +5,14 @@ public class MathUtils
 {
     public static float clamp(float variable, float value)
     {
-        if (variable > value) return value;
-        if (variable < -value) return -value;
+        if (variable > value)
+        {
+            return value;
+        }
+        if (variable < -value)
+        {
+            return -value;
+        }
         return variable;
     }
 

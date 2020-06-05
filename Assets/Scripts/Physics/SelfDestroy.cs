@@ -9,6 +9,9 @@ public class SelfDestroy : MonoBehaviour
     void Update()
     {
         curTime += Time.deltaTime;
-        if (curTime > maxTime) Object.Destroy(gameObject);
+        if (curTime > maxTime)
+        {
+            Object.Destroy(gameObject);
+        }
     }
 }

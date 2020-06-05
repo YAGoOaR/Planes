@@ -48,8 +48,7 @@ public class PlaneBehaviour : MonoBehaviour
     [HideInInspector]
     public GearController gearCtrl;
     PropellerMotor propellerMotor;
-    Animator gearAnimator, planeAnimator;
-    SpriteRenderer spriteRenderer;
+    Animator planeAnimator;
     Timers.CooldownTimer turnTimer;
     Timers.CooldownTimer throttleTimer;
     Timers.CooldownTimer shootingTimer;
@@ -75,13 +74,11 @@ public class PlaneBehaviour : MonoBehaviour
     void defineComponents()
     {
         planeAnimator = GetComponent<Animator>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
         planerb = GetComponent<Rigidbody2D>();
         hinge = GetComponent<HingeJoint2D>();
         aerofoilList = gameObject.GetComponentsInChildren<Aerofoil>();
         gearCtrl = gear.GetComponent<GearController>();
         propellerMotor = propeller.GetComponent<PropellerMotor>();
-        gearAnimator = gear.GetComponent<Animator>();
         flapJoint = flap.GetComponent<HingeJoint2D>();
     }
 
@@ -156,11 +153,20 @@ public class PlaneBehaviour : MonoBehaviour
 
     void controls()
     {
-        if (!isPlayer) return;
+        if (!isPlayer)
+        {
+            return;
+        }
         // Shooting
-        if (Input.GetMouseButton(0) && plane.bullets > 0) shoot();
+        if (Input.GetMouseButton(0) && plane.bullets > 0)
+        {
+            shoot();
+        }
         // Turning plane flaps
-        if (Input.GetKeyDown(KeyCode.F)) switchFlaps();
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            switchFlaps();
+        }
         // Checking time cooldown to adjust throttle
         if (throttleTimer.check())
         {
@@ -178,23 +184,56 @@ public class PlaneBehaviour : MonoBehaviour
         //Checking if turning animation is ended
         if (turnTimer.check())
         {
-            if (Input.GetKeyDown(KeyCode.B)) switchBrakes();
+            if (Input.GetKeyDown(KeyCode.B))
+            {
+                switchBrakes();
+            }
             //Performing a half of barrel roll
-            if (Input.GetKey(KeyCode.Q) && planerb.velocity.magnitude > 10f && gearCtrl.isGearUp) turn();
+            if (Input.GetKey(KeyCode.Q) && planerb.velocity.magnitude > 10f && gearCtrl.isGearUp)
+            {
+                turn();
+            }
             //Performing simple turn
-            if (Input.GetKey(KeyCode.E) && planerb.velocity.magnitude > 5f && gearCtrl.isGearUp) turnBack();
+            if (Input.GetKey(KeyCode.E) && planerb.velocity.magnitude > 5f && gearCtrl.isGearUp)
+            {
+                turnBack();
+            }
             //Landing gear
-            if (Input.GetKey(KeyCode.G)) switchGear();
+            if (Input.GetKey(KeyCode.G))
+            {
+                switchGear();
+            }
             //Throwing a bomb
-            if (Input.GetKeyDown(KeyCode.Space)) throwBomb();
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                throwBomb();
+            }
             //Controlling elevator
-            if (Input.GetKey(KeyCode.A)) pitch = minPitch;
-            else if (Input.GetKey(KeyCode.D)) pitch = maxPitch;
-            else pitch = trimPitch;
+            if (Input.GetKey(KeyCode.A))
+            {
+                pitch = minPitch;
+            }
+            else if (Input.GetKey(KeyCode.D))
+            {
+                pitch = maxPitch;
+            }
+            else
+            {
+                pitch = trimPitch;
+            }
         }
-        else pitch = trimPitch;
-        if (throttle > 100) throttle = 100;
-        else if (throttle < 0) throttle = 0;
+        else
+        {
+            pitch = trimPitch;
+        }
+        if (throttle > 100)
+        {
+            throttle = 100;
+        }
+        else if (throttle < 0)
+        {
+            throttle = 0;
+        }
     }
 
     // A half of barrel roll
@@ -232,19 +271,28 @@ public class PlaneBehaviour : MonoBehaviour
     //Landing gear switch
     public void switchGear()
     {
-        if (planerb.velocity.magnitude > 5f) gearCtrl.switchGear(!gearCtrl.isGearUp);
+        if (planerb.velocity.magnitude > 5f)
+        {
+            gearCtrl.switchGear(!gearCtrl.isGearUp);
+        }
     }
 
     //Turn the gear on/off
     public void switchGear(bool on)
     {
-        if (planerb.velocity.magnitude > 5f) gearCtrl.switchGear(!on);
+        if (planerb.velocity.magnitude > 5f)
+        {
+            gearCtrl.switchGear(!on);
+        }
     }
 
     //Shoot bullets
     public void shoot()
     {
-        if (!shootingTimer.check()) return;
+        if (!shootingTimer.check())
+        {
+            return;
+        }
         float accuracy = (Random.value - .5f) * SHOOTING_ACCURACY;
         float rotation = transform.rotation.eulerAngles.z / 180 * Mathf.PI;
         Vector3 gunPos = new Vector2(-Mathf.Cos(rotation + gunOffsetAngle), -Mathf.Sin(rotation + gunOffsetAngle)) * gunOffset;

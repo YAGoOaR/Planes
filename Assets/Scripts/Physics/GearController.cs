@@ -30,7 +30,13 @@ public class GearController : MonoBehaviour
 
     public void switchBrakes(bool on)
     {
-        if (!on) wheel.sharedMaterial = wheelMaterial;
-        else wheel.sharedMaterial = wheelBrakeMaterial;
+        if (!on)
+        {
+            wheel.sharedMaterial = wheelMaterial;
+        }
+        else
+        {
+            wheel.sharedMaterial = wheelBrakeMaterial;
+        }
     }
 }

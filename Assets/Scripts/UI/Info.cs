@@ -14,8 +14,14 @@ public class Info : MonoBehaviour
 
     string boolToSwitch(bool value)
     {
-        if (value) return "on";
-        else return "off";
+        if (value)
+        {
+            return "on";
+        }
+        else
+        {
+            return "off";
+        }
     }
 
     void LateUpdate()

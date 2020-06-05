@@ -68,7 +68,13 @@ public class GameHandler : MonoBehaviour
     //Exit or restart the game
     void controls()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) Game.quitGame();
-        if (Input.GetKeyDown(KeyCode.R)) Game.restartGame();
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Game.quitGame();
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Game.restartGame();
+        }
     }
 }

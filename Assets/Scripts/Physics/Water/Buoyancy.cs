@@ -10,7 +10,10 @@ public class Buoyancy : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.gameObject.tag != "water") return;
+        if (collider.gameObject.tag != "water")
+        {
+            return;
+        }
         waterCollider = collider;
         connections++;
     }
@@ -22,8 +25,15 @@ public class Buoyancy : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (connections < 0) connections = 0;
-        if (connections <= 0 || !waterCollider) return;
+        if (connections < 0)
+        {
+            connections = 0;
+        }
+
+        if (connections <= 0 || !waterCollider)
+        {
+            return;
+        }
         Rigidbody2D thisRigidbody = gameObject.GetComponent<Rigidbody2D>();
         GameObject waterObject = waterCollider.gameObject;
         float position = gameObject.transform.position.y;

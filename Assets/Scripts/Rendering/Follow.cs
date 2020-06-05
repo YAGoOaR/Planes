@@ -36,8 +36,14 @@ public class Follow : MonoBehaviour
 
 
             size *= 1 - Input.GetAxis("Mouse ScrollWheel");
-            if (size > 100) size = 100;
-            else if (size < 2f) size = 2f;
+            if (size > 100)
+            {
+                size = 100;
+            }
+            else if (size < 2f)
+            {
+                size = 2;
+            }
 
             Cam.orthographicSize = size;
         }
@@ -49,7 +55,10 @@ public class Follow : MonoBehaviour
         float distance = delta.magnitude;
 
         Vector3 move = delta.normalized * moveStep * (1 + 3 * distance) * Time.deltaTime;
-        if (move.magnitude > distance) move = delta;
+        if (move.magnitude > distance)
+        {
+            move = delta;
+        }
         camTransform.position -= move;
     }
 

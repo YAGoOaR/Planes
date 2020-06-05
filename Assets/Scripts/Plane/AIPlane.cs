@@ -90,10 +90,16 @@ public class AIPlane : MonoBehaviour
 
         updateVariables();
 
-        if (state == AIState.attacking) attack();
+        if (state == AIState.attacking)
+        {
+            attack();
+        }
         else reachTarget();
 
-        if (state == AIState.takingOff) takeOff();
+        if (state == AIState.takingOff)
+        {
+            takeOff();
+        }
         else if (state == AIState.climbing)
         {
             climb();
@@ -111,8 +117,14 @@ public class AIPlane : MonoBehaviour
             }
         }
 
-        if (state == AIState.bombingTarget) bombTarget();
-        if (state == AIState.landing && !planeBehaviour.isTurningBack) land();
+        if (state == AIState.bombingTarget)
+        {
+            bombTarget();
+        }
+        if (state == AIState.landing && !planeBehaviour.isTurningBack)
+        {
+            land();
+        }
     }
 
     void updateVariables()
@@ -149,8 +161,14 @@ public class AIPlane : MonoBehaviour
         if (!planeBehaviour.isTurningBack)
         {
             //Reaching target speed
-            if (deltaSpeed > SPEED_ACCURACY) planeBehaviour.throttle = 100;
-            else if (deltaSpeed < -SPEED_ACCURACY) planeBehaviour.throttle = 0;
+            if (deltaSpeed > SPEED_ACCURACY)
+            {
+                planeBehaviour.throttle = 100;
+            }
+            else if (deltaSpeed < -SPEED_ACCURACY)
+            {
+                planeBehaviour.throttle = 0;
+            }
             else
             {
                 planeBehaviour.throttle = 50;
@@ -320,7 +338,10 @@ public class AIPlane : MonoBehaviour
         {
             return rotation < Mathf.Max(a, b) && rotation > Mathf.Min(a, b);
         }
-        else return rotation > Mathf.Max(a, b) || rotation < Mathf.Min(a, b);
+        else
+        {
+            return rotation > Mathf.Max(a, b) || rotation < Mathf.Min(a, b);
+        }
     }
 
     //Heading of the plane. -1 when looking left, 1 when right.

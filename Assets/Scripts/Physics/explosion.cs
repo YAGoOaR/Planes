@@ -39,7 +39,10 @@ public class explosion : MonoBehaviour
     //called when bomb hits a trigger(water, etc)
     public void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.gameObject.tag != "water" || timer < minDetonationTime) return;
+        if (collider.gameObject.tag != "water" || timer < minDetonationTime)
+        {
+            return;
+        }
         GameObject water = collider.transform.parent.gameObject;
         Rigidbody2D rigidbody = GetComponent<Rigidbody2D>();
         Vector2 position = transform.position;

@@ -34,8 +34,6 @@ public class Water : MonoBehaviour
     float leftPosition = -WIDTH / 2;
     float bottomPosition = TOP_POSITION - HEIGHT;
 
-    float waterLevel = 0;
-
     Transform followedTransform;
     LineRenderer lineBody;
     WaterNode[] nodes = new WaterNode[nodeCount];
@@ -137,9 +135,16 @@ public class Water : MonoBehaviour
         {
             GetComponent<BoxCollider2D>().offset = new Vector2(globalPos, -HEIGHT / 2);
             int delta = position - prevPosition;
-            if (delta > nodeCount - 1) delta = nodeCount - 1;
-            if (delta < -nodeCount + 1) delta = -nodeCount + 1;
+            if (delta > nodeCount - 1)
+            {
+                delta = nodeCount - 1;
+            }
+            if (delta < -nodeCount + 1)
+            {
+                delta = -nodeCount + 1;
+            }
             moveNodesInArray(delta);
+
             for (int i = 0; i < Mathf.Abs(delta); i++)
             {
                 if (delta > 0)
@@ -249,7 +254,6 @@ public class Water : MonoBehaviour
     {
         followedTransform = Camera.main.transform;
         SpawnWater();
-        waterLevel = transform.position.y + 1;
     }
 
     //Called once per frame

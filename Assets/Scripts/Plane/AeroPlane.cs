@@ -25,7 +25,10 @@ public class AeroPlane : MonoBehaviour
     {
         for (int i = 0; i < partNames.Length; i++)
         {
-            if (partNames[i] == name) return parts[i];
+            if (partNames[i] == name)
+            {
+                return parts[i];
+            }
         }
         return null;
     }

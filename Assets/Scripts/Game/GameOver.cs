@@ -15,6 +15,8 @@ public class GameOver : Game
         base.gameOver(reason);
         Text text = GetComponent<Text>();
         text.enabled = true;
-        if (reason != "") text.text += ":\n" + reason;
+        if (reason != "") {
+            text.text += ":\n" + reason;
+        }
     }
 }

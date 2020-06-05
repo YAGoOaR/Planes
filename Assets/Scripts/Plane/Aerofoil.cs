@@ -36,7 +36,10 @@ public class Aerofoil : MonoBehaviour
         //Stall coefficient
         float stall = 1f;
         //Stalling when low speed
-        if (velocity.magnitude < STALL_COEF) stall = velocity.magnitude / STALL_COEF;
+        if (velocity.magnitude < STALL_COEF)
+        {
+            stall = velocity.magnitude / STALL_COEF;
+        }
         //Stabilization force coefficient
         stabilization = Mathf.Abs(Mathf.Cos(deltaAngle)) * stall * STAB_COEF;
         //Stabilization force
@@ -47,7 +50,10 @@ public class Aerofoil : MonoBehaviour
         {
             liftForce = new Vector2(-Mathf.Sin(rotationAngle), Mathf.Cos(rotationAngle)) * Mathf.Sqrt(velocity.magnitude) * liftForceCoef * upside;
         }
-        else liftForce = Vector2.zero;
+        else
+        {
+            liftForce = Vector2.zero;
+        }
         //Applying velocity to rigidbody
         rigidBody.velocity = (velocity * (1 - stabilization) + stabilization * (stabForce + liftForce)) * (1 - drag);
     }

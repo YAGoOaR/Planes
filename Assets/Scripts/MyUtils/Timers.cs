@@ -33,7 +33,10 @@ public class Timers : MonoBehaviour
         {
             foreach (CooldownTimer timer in timers)
             {
-                if (timer.currentTime <= timer.maxTime) timer.currentTime += Time.deltaTime;
+                if (timer.currentTime <= timer.maxTime)
+                {
+                    timer.currentTime += Time.deltaTime;
+                }
             }
         }
 
@@ -76,7 +79,10 @@ public class Timers : MonoBehaviour
             List<Timeout> timerList = new List<Timeout>(timers);
             foreach (Timeout timer in timerList)
             {
-                if (timer.currentTime <= timer.time) timer.currentTime += Time.deltaTime;
+                if (timer.currentTime <= timer.time)
+                {
+                    timer.currentTime += Time.deltaTime;
+                }
                 else
                 {
                     timer.callback();
@@ -111,7 +117,10 @@ public class Timers : MonoBehaviour
             List<Interval> timerList = new List<Interval>(timers);
             foreach (Interval timer in timerList)
             {
-                if (timer.currentTime <= timer.time) timer.currentTime += Time.deltaTime;
+                if (timer.currentTime <= timer.time)
+                {
+                    timer.currentTime += Time.deltaTime;
+                }
                 else
                 {
                     timer.currentTime = Time.deltaTime;
