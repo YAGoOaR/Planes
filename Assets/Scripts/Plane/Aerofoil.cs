@@ -28,7 +28,6 @@ public class Aerofoil : MonoBehaviour
         rotationAngle = (transform.rotation.eulerAngles.z) / 180 * Mathf.PI;
         rotationVector = new Vector2(-Mathf.Cos(rotationAngle), -Mathf.Sin(rotationAngle));
         Vector2 velocity = rigidBody.velocity;
-        float velocityAngle = Vector2.SignedAngle(Vector2.left, velocity) / 180 * Mathf.PI;
         //angle between velocity and heading 
         float deltaAngle = (-Vector2.SignedAngle(rotationVector, velocity)) / 180 * Mathf.PI - EFFECTIVE_ANGLE_OFFSET;
         //drag applied to the aerofoil

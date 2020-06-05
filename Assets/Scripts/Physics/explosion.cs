@@ -15,7 +15,7 @@ public class explosion : MonoBehaviour
     }
 
     //Called each frame
-    public void Update()
+    void Update()
     {
         if (isDropped)
         {
@@ -46,7 +46,6 @@ public class explosion : MonoBehaviour
         GameObject water = collider.transform.parent.gameObject;
         Rigidbody2D rigidbody = GetComponent<Rigidbody2D>();
         Vector2 position = transform.position;
-        float velocity = rigidbody.velocity.magnitude;
         float mass = rigidbody.mass;
         water.GetComponent<Water>().Splash(position.x, mass * EXPLOSION_FORCE_COEF);
         detonated();

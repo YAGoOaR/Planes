@@ -313,7 +313,6 @@ public class AIPlane : MonoBehaviour
                 {
                     planeBehaviour.turn();
                     turnCooldown.reset();
-                    return;
                 }
             }
         }

@@ -29,7 +29,7 @@ public class Game : MonoBehaviour
         {
             quitGame();
         };
-        Timers.Timeout exitTimer = new Timers.Timeout(WAIT_BEFORE_EXIT, callback);
+        Timers.timeout(WAIT_BEFORE_EXIT, callback);
     }
 
     void Awake()
