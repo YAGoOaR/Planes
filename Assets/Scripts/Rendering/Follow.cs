@@ -30,7 +30,7 @@ public class Follow : MonoBehaviour
     //Called once per frame
     void Update()
     {
-        float size = Cam.orthographicSize * 1 - Input.GetAxis("Mouse ScrollWheel");
+        float size = Cam.orthographicSize * (1 - Input.GetAxis("Mouse ScrollWheel"));
         if (size > 100)
         {
             size = 100;
