@@ -4,7 +4,7 @@ using UnityEngine.UI;
 //Script that shows "Game over: ${reason}" on UI when the game is lost
 public class GameOver : Game
 {
-    bool end = false;
+    bool end;
 
     override public void gameOver(string reason)
     {

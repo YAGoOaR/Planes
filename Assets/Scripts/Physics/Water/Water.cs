@@ -18,12 +18,14 @@ public class Water : MonoBehaviour
     const float DEFAULT_Z_POSITION = 0;
     const float DEFAULT_Z_SCALE = 0;
     const int UV_COUNT = 4;
-    const int VERTICES_IN_MESH = 6;
     const float MESH_OFFSET = 0.1f;
 
-    public Material waterTopMaterial;
-    public GameObject waterMesh;
-    public GameObject waterCollider;
+    [SerializeField]
+    Material waterTopMaterial;
+    [SerializeField]
+    GameObject waterMesh;
+    [SerializeField]
+    GameObject waterCollider;
 
     static int edgeCount = Mathf.RoundToInt(WIDTH / EDGE_WIDTH);
     static int nodeCount = edgeCount + 1;
@@ -43,7 +45,7 @@ public class Water : MonoBehaviour
     //A vertex of the water surface
     class WaterNode
     {
-        public static float ZPosition = -1;
+        public const float ZPosition = -1;
         public float velocity = 0;
         public float acceleration = 0;
         public float leftDelta, rightDelta = 0;
@@ -98,7 +100,7 @@ public class Water : MonoBehaviour
         UVs[2] = new Vector2(0, 0);
         UVs[3] = new Vector2(1, 0);
 
-        int[] triangles = new int[VERTICES_IN_MESH] { 0, 1, 3, 3, 2, 0 };
+        int[] triangles = new int[] { 0, 1, 3, 3, 2, 0 };
 
         Vector3[] vertices = new Vector3[4];
         vertices[0] = nodes[i].position;

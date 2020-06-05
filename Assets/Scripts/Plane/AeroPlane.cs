@@ -3,10 +3,23 @@ using UnityEngine;
 
 public class AeroPlane : MonoBehaviour
 {
-    public string[] partNames = { "gear", "wing", "flap", "tail", "elevator", "propeller" };
-    [HideInInspector]
-    public PlanePart[] parts;
-    public int HP = 4;
+    [SerializeField]
+    string[] partNames = { "gear", "wing", "flap", "tail", "elevator", "propeller" };
+
+
+    PlanePart[] parts;
+    public PlanePart[] Parts
+    {
+        get { return parts; }
+    }
+
+    [SerializeField]
+    int hp = 4;
+
+    public int HP
+    {
+        get { return hp; }
+    }
     public int bullets = 150;
     public int bombCount = 1;
     public Queue<GameObject> bombs = new Queue<GameObject>();
@@ -31,5 +44,8 @@ public class AeroPlane : MonoBehaviour
             }
         }
         return null;
+    }
+    public void Damage() {
+        
     }
 }

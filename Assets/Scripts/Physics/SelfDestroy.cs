@@ -4,7 +4,8 @@
 public class SelfDestroy : MonoBehaviour
 {
     float curTime = 0;
-    public float maxTime;
+    [SerializeField]
+    float maxTime;
 
     void Update()
     {

@@ -8,20 +8,29 @@ public class ChunkManager : MonoBehaviour
 
     Transform cameraTransform;
     ChunksArray chunkArray;
-    public int visibleChunks = 0;
+    [SerializeField]
+    int visibleChunks = 0;
+    [SerializeField]
+    int chunkSize = 2000;
 
-    public int chunkSize = 2000;
+    public int ChunkSize
+    {
+        get { return chunkSize; }
+        set { chunkSize = value; }
+    }
+
     int position = 0;
     int prevPosition = -1;
 
     class ChunksArray
     {
+        int chunkSize;
+        private List<Chunk> chunks = new List<Chunk>();
+
         public ChunksArray(int chunkSize)
         {
             this.chunkSize = chunkSize;
         }
-        private int chunkSize;
-        private List<Chunk> chunks = new List<Chunk>();
 
         public Chunk findByPosition(int pos)
         {
@@ -37,7 +46,7 @@ public class ChunkManager : MonoBehaviour
 
         public void createChunk(int pos)
         {
-            GameObject chunkAsset = GameAssets.instance.GetChunk(pos);
+            GameObject chunkAsset = GameAssets.Instance.GetChunk(pos);
             if (chunkAsset != null)
             {
                 Chunk newChunk = new Chunk(pos, GameObject.Instantiate(chunkAsset, new Vector3((-pos + HALF) * this.chunkSize, 0, 0), Quaternion.identity));
@@ -76,7 +85,7 @@ public class ChunkManager : MonoBehaviour
             this.obj = obj;
         }
         public int position = 0;
-        public GameObject obj = null;
+        public GameObject obj;
     }
 
     void Start()

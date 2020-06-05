@@ -3,7 +3,8 @@
 //Kick attached object after initialization
 public class StartKick : MonoBehaviour
 {
-    public Vector2 velocity;
+    [SerializeField]
+    Vector2 velocity = Vector2.zero;
 
     void Start()
     {

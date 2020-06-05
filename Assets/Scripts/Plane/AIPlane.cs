@@ -78,8 +78,7 @@ public class AIPlane : MonoBehaviour
         plane = GetComponent<AeroPlane>();
         turnCooldown = new Timers.CooldownTimer(3);
         planeBehaviour = GetComponent<PlaneBehaviour>();
-        enemy = GameHandler.instance.player;
-        planeBehaviour.isPlayer = false;
+        enemy = GameHandler.instance.Player;
     }
 
     //Called once per frame
@@ -201,7 +200,7 @@ public class AIPlane : MonoBehaviour
     void takeOff()
     {
         //Gear up when reached altitude
-        if (!planeBehaviour.gearCtrl.isGearUp && altitude > GEAR_UP_ALTITUDE)
+        if (!planeBehaviour.GearCtrl.IsGearUp && altitude > GEAR_UP_ALTITUDE)
         {
             planeBehaviour.switchGear();
             state = AIState.bombingTarget;
@@ -246,7 +245,7 @@ public class AIPlane : MonoBehaviour
         if (distance < GEAR_DOWN_DISTANCE)
         {
             //Gear down if it is still up
-            if (planeBehaviour.gearCtrl.isGearUp)
+            if (planeBehaviour.GearCtrl.IsGearUp)
             {
                 planeBehaviour.switchGear(true);
                 planeBehaviour.switchBrakes(true);
@@ -331,7 +330,7 @@ public class AIPlane : MonoBehaviour
     void setPitch(float deltaAngle)
     {
         float pitch = -Mathf.Sin(deltaAngle) * SENSITIVITY;
-        planeBehaviour.pitch = MathUtils.clamp(pitch, 1);
+        planeBehaviour.Pitch = MathUtils.clamp(pitch, 1);
     }
 
     //Degrees to radian

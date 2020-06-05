@@ -10,9 +10,9 @@ public class Timers : MonoBehaviour
     public class CooldownTimer
     {
         static List<CooldownTimer> timers = new List<CooldownTimer>();
-        public float currentTime;
-        public float maxTime;
-        public bool destroyAfterTimeout = false;
+        float currentTime;
+        float maxTime;
+        bool destroyAfterTimeout = false;
 
         public CooldownTimer(float max)
         {
@@ -63,15 +63,17 @@ public class Timers : MonoBehaviour
     public class Timeout
     {
         static List<Timeout> timers = new List<Timeout>();
-        public float time;
-        public float currentTime;
+        float time;
+        float currentTime;
         customFunc callback;
 
-        public Timeout(float time, customFunc callback)
+        public static Timeout setTimeout(float time, customFunc callback)
         {
-            this.callback = callback;
-            this.time = time;
-            timers.Add(this);
+            Timeout timer = new Timeout();
+            timer.callback = callback;
+            timer.time = time;
+            timers.Add(timer);
+            return timer;
         }
 
         public static void refresh()
@@ -96,8 +98,8 @@ public class Timers : MonoBehaviour
     public class Interval
     {
         static List<Interval> timers = new List<Interval>();
-        public float time;
-        public float currentTime;
+        float time;
+        float currentTime;
         customFunc callback;
 
         public Interval(float time, customFunc callback)
@@ -138,7 +140,7 @@ public class Timers : MonoBehaviour
 
     public static void timeout(float time, customFunc callback)
     {
-        Timeout timer = new Timeout(time, callback);
+        Timeout.setTimeout(time, callback);
     }
 
     void Update()

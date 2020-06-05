@@ -3,12 +3,18 @@
 public class PropellerMotor : MonoBehaviour
 {
     const float VELOCITY_OFFSET = 5;
-    public float force = 5.5f;
+    [SerializeField]
+    float force = 5.5f;
     Rigidbody2D propellerRigidbody;
     Animator propellerAnimator;
     FixedJoint2D fixedJoint;
     public int throttle;
-    public bool jointIsActive = true;
+
+    bool jointIsActive = true;
+    public bool JointIsActive
+    {
+        get { return jointIsActive; }
+    }
 
     void Start()
     {
@@ -22,7 +28,7 @@ public class PropellerMotor : MonoBehaviour
         jointIsActive = false;
         PlanePart part = GetComponent<PlanePart>();
         part.isBroken = true;
-        if (!transform.parent.GetComponent<PlaneBehaviour>().isPlayer)
+        if (!transform.parent.GetComponent<PlaneBehaviour>().IsPlayer)
         {
             return;
         }

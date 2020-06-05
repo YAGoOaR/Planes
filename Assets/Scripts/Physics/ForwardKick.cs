@@ -3,7 +3,8 @@
 //A script that kicks attached gameobject into its heading
 public class ForwardKick : MonoBehaviour
 {
-    public float force;
+    [SerializeField]
+    float force = 1;
 
     void Start()
     {
