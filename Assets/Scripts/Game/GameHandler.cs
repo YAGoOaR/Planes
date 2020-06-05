@@ -7,25 +7,29 @@ public class GameHandler : MonoBehaviour
 {
     const float FREEZE_DISTANCE = 235;
 
-    public List<GameObject> objectsToFreeze;
     public static GameHandler instance;
-    public Vector2 spawnPosition;
-    public infoText planeInfo;
 
     Transform cameraTransform;
-    [HideInInspector]
-    public GameObject player;
-    PlaneBehaviour planeBehaviour;
+    List<GameObject> objectsToFreeze = new List<GameObject>();
+    [SerializeField]
+    Vector2 spawnPosition;
+    [SerializeField]
+    bool startInOtherHeading;
+    public infoText planeInfo;
+    GameObject player;
 
-    public bool startInOtherHeading = false;
+    public GameObject Player
+    {
+        get { return player; }
+    }
 
     //info that will be showed on UI
     public struct infoText
     {
-        public int throttle, bullets, bombs;
-        public float speed, altitude;
-        public bool gear, brakes;
-        public void Set(int throttle, int bullets, int bombs, float altitude, float speed, bool gear, bool brakes)
+        public readonly int throttle, bullets, bombs;
+        public readonly float speed, altitude;
+        public readonly bool gear, brakes;
+        public infoText(int throttle, int bullets, int bombs, float altitude, float speed, bool gear, bool brakes)
         {
             this.throttle = throttle;
             this.bullets = bullets;
@@ -41,17 +45,15 @@ public class GameHandler : MonoBehaviour
     public void Awake()
     {
         instance = this;
-        player = Object.Instantiate(GameAssets.instance.player, new Vector3(spawnPosition.x, spawnPosition.y, 0), Quaternion.identity);
+        player = Object.Instantiate(GameAssets.Instance.Player, new Vector3(spawnPosition.x, spawnPosition.y, 0), Quaternion.identity);
         player.AddComponent<Follow>();
-        planeBehaviour = player.GetComponent<PlaneBehaviour>();
-        planeBehaviour.startInOtherHeading = startInOtherHeading;
+        player.GetComponent<PlaneBehaviour>().startInOtherHeading = startInOtherHeading;
     }
 
     //Called after "Awake"
     public void Start()
     {
         cameraTransform = Camera.main.transform;
-
     }
 
     //Called once per frame
@@ -66,7 +68,7 @@ public class GameHandler : MonoBehaviour
     }
 
     //Exit or restart the game
-    void controls()
+    static void controls()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -76,5 +78,14 @@ public class GameHandler : MonoBehaviour
         {
             Game.restartGame();
         }
+    }
+
+    public void addObjectsToFreeze(GameObject gameobject)
+    {
+        objectsToFreeze.Add(gameobject);
+    }
+    public void removeObjectToFreeze(GameObject gameobject)
+    {
+        objectsToFreeze.Add(gameobject);
     }
 }

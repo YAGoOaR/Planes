@@ -3,18 +3,18 @@
 //A script that makes camera follow player
 public class Follow : MonoBehaviour
 {
-    Vector3 startPosition = new Vector3(0, 0, 21);
-    public float moveStep = 1f;
+    readonly Vector3 startPosition = new Vector3(0, 0, 21);
+    [SerializeField]
+    float moveStep = 1f;
     public float offset = 10f;
     private Camera Cam;
     Transform camTransform;
     private Transform background;
-    private bool android = false;
 
     //Called instantly after initialization
     void Awake()
     {
-        GameObject cameraObject = Instantiate(GameAssets.instance.PlayerCam);
+        GameObject cameraObject = Instantiate(GameAssets.Instance.PlayerCam);
         camTransform = cameraObject.transform;
         camTransform.position = new Vector3(transform.position.x, transform.position.y, camTransform.position.z);
         background = camTransform.Find("background");
@@ -30,23 +30,17 @@ public class Follow : MonoBehaviour
     //Called once per frame
     void Update()
     {
-        float size = Cam.orthographicSize;
-        if (!android)
+        float size = Cam.orthographicSize * 1 - Input.GetAxis("Mouse ScrollWheel");
+        if (size > 100)
         {
-
-
-            size *= 1 - Input.GetAxis("Mouse ScrollWheel");
-            if (size > 100)
-            {
-                size = 100;
-            }
-            else if (size < 2f)
-            {
-                size = 2;
-            }
-
-            Cam.orthographicSize = size;
+            size = 100;
         }
+        else if (size < 2f)
+        {
+            size = 2;
+        }
+
+        Cam.orthographicSize = size;
         background.transform.localScale = new Vector3(size / 2, size / 4, 1);
         Vector3 playerPosition = transform.position;
         float rotation = transform.rotation.eulerAngles.z / 180 * Mathf.PI;

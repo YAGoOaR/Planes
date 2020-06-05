@@ -12,7 +12,7 @@ public class Info : MonoBehaviour
         infoText = transform.Find("InfoText").GetComponent<Text>();
     }
 
-    string boolToSwitch(bool value)
+    static string boolToSwitch(bool value)
     {
         if (value)
         {

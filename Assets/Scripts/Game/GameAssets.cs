@@ -3,23 +3,95 @@
 //Here are the main assets of the game
 public class GameAssets : MonoBehaviour
 {
-    public static GameAssets instance;
+    static GameAssets instance;
+    public static GameAssets Instance
+    {
+        get { return GameAssets.instance; }
+    }
 
     void Awake()
     {
         instance = this;
     }
 
-    public GameObject PlayerCam;
+    [SerializeField]
+    private GameObject playerCam;
+
+    public GameObject PlayerCam
+    {
+        get { return playerCam; }
+    }
+
+    [SerializeField]
     public GameObject player;
-    public GameObject[] chunks;
-    public GameObject bomb;
-    public Sprite planeSprite;
-    public Sprite gearSprite;
+
+    public GameObject Player
+    {
+        get { return player; }
+    }
+
+    [SerializeField]
+    private GameObject bomb;
+
+    public GameObject Bomb
+    {
+        get { return bomb; }
+    }
+
+    [SerializeField]
+    private Sprite planeSprite;
+
+    public Sprite PlaneSprite
+    {
+        get { return planeSprite; }
+    }
+
+    private Sprite gearSprite;
+
+    [SerializeField]
+    public Sprite GearSprite
+    {
+        get { return gearSprite; }
+    }
+
+    [SerializeField]
     public GameObject bullet;
-    public GameObject[] clouds;
-    public PhysicsMaterial2D wheelMaterial;
-    public PhysicsMaterial2D wheelBrakeMaterial;
+
+    public GameObject Bullet
+    {
+        get { return bullet; }
+    }
+
+    [SerializeField]
+    private GameObject[] clouds;
+
+    public GameObject[] Clouds
+    {
+        get { return clouds; }
+    }
+
+    [SerializeField]
+    private PhysicsMaterial2D wheelMaterial;
+
+    public PhysicsMaterial2D WheelMaterial
+    {
+        get { return wheelMaterial; }
+    }
+    [SerializeField]
+    private PhysicsMaterial2D wheelBrakeMaterial;
+
+    public PhysicsMaterial2D WheelBrakeMaterial
+    {
+        get { return wheelBrakeMaterial; }
+    }
+
+    [SerializeField]
+    private GameObject[] chunks;
+
+    public GameObject[] Chunks
+    {
+        get { return chunks; }
+    }
 
     public GameObject pickRandomCloud()
     {

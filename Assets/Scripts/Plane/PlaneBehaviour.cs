@@ -12,27 +12,40 @@ public class PlaneBehaviour : MonoBehaviour
     const float FLAP_MOTOR_SPEED = 20;
     const float FLAP_MAX_TORQUE = 1000;
     const float PITCH_FORCE_COEF = 15;
-    Vector3 bombOffset = new Vector3(0, -0.5f, 0);
+    readonly Vector3 bombOffset = new Vector3(0, -0.5f, 0);
 
-    public bool isPlayer = true;
+    [SerializeField]
+    bool isPlayer = true;
+
+    public bool IsPlayer
+    {
+        get { return isPlayer; }
+    }
     [HideInInspector]
-    public bool upsideDown = false;
+    public bool upsideDown;
+    bool flaps = false;
     [HideInInspector]
-    public bool flaps = false;
-    [HideInInspector]
-    public bool brakes = false;
+    public bool brakes;
     [HideInInspector]
     public bool isTurningBack;
+
+    float pitch;
+    public float Pitch
+    {
+        get { return pitch; }
+        set { pitch = value; }
+    }
+
     [HideInInspector]
-    public float pitch = 0;
-    [HideInInspector]
-    public int throttle = 0;
+    public int throttle;
     float flapAngle = 30;
-    public bool invertPitch = false;
-    public bool startInOtherHeading = false;
+    [SerializeField]
+    bool invertPitch;
+    public bool startInOtherHeading;
     public float gunOffset = 1.6f;
     public float gunOffsetAngle = -0.2f;
-    public float trimPitch = 0;
+    [SerializeField]
+    float trimPitch;
 
     float maxPitch;
     float minPitch;
@@ -45,14 +58,17 @@ public class PlaneBehaviour : MonoBehaviour
     JointMotor2D flapMotor = new JointMotor2D();
     HingeJoint2D flapJoint;
     HingeJoint2D hinge;
-    [HideInInspector]
-    public GearController gearCtrl;
     PropellerMotor propellerMotor;
     Animator planeAnimator;
     Timers.CooldownTimer turnTimer;
     Timers.CooldownTimer throttleTimer;
     Timers.CooldownTimer shootingTimer;
     Aerofoil[] aerofoilList;
+    GearController gearCtrl;
+    public GearController GearCtrl
+    {
+        get { return gearCtrl; }
+    }
 
     //Called once when this object initializes
     void Start()
@@ -152,8 +168,7 @@ public class PlaneBehaviour : MonoBehaviour
         {
             return;
         }
-        GameHandler.infoText info = GameHandler.instance.planeInfo;
-        info.Set(propellerMotor.throttle, plane.bullets, plane.bombs.Count, transform.position.y, planerb.velocity.magnitude, gearCtrl.isGearUp, !brakes);
+        GameHandler.infoText info = new GameHandler.infoText(propellerMotor.throttle, plane.bullets, plane.bombs.Count, transform.position.y, planerb.velocity.magnitude, gearCtrl.IsGearUp, !brakes);
         GameHandler.instance.planeInfo = info;
     }
 
@@ -195,12 +210,12 @@ public class PlaneBehaviour : MonoBehaviour
                 switchBrakes();
             }
             //Performing a half of barrel roll
-            if (Input.GetKey(KeyCode.Q) && planerb.velocity.magnitude > 10f && gearCtrl.isGearUp)
+            if (Input.GetKey(KeyCode.Q) && planerb.velocity.magnitude > 10f && gearCtrl.IsGearUp)
             {
                 turn();
             }
             //Performing simple turn
-            if (Input.GetKey(KeyCode.E) && planerb.velocity.magnitude > 5f && gearCtrl.isGearUp)
+            if (Input.GetKey(KeyCode.E) && planerb.velocity.magnitude > 5f && gearCtrl.IsGearUp)
             {
                 turnBack();
             }
@@ -279,7 +294,7 @@ public class PlaneBehaviour : MonoBehaviour
     {
         if (planerb.velocity.magnitude > 5f)
         {
-            gearCtrl.switchGear(!gearCtrl.isGearUp);
+            gearCtrl.switchGear(!gearCtrl.IsGearUp);
         }
     }
 
@@ -302,7 +317,7 @@ public class PlaneBehaviour : MonoBehaviour
         float accuracy = (Random.value - .5f) * SHOOTING_ACCURACY;
         float rotation = transform.rotation.eulerAngles.z / 180 * Mathf.PI;
         Vector3 gunPos = new Vector2(-Mathf.Cos(rotation + gunOffsetAngle), -Mathf.Sin(rotation + gunOffsetAngle)) * gunOffset;
-        GameObject bullet = Instantiate(GameAssets.instance.bullet, gunPos + transform.position, transform.rotation);
+        GameObject bullet = Instantiate(GameAssets.Instance.Bullet, gunPos + transform.position, transform.rotation);
         bullet.transform.Rotate(new Vector3(0, 0, accuracy));
         bullet.GetComponent<Rigidbody2D>().velocity = planerb.velocity;
         plane.bullets--;
@@ -321,7 +336,7 @@ public class PlaneBehaviour : MonoBehaviour
     //Adding bomb GameObjects
     public void AddBomb()
     {
-        GameObject bmb = GameObject.Instantiate(GameAssets.instance.bomb, bombOffset + transform.position, Quaternion.identity);
+        GameObject bmb = GameObject.Instantiate(GameAssets.Instance.Bomb, bombOffset + transform.position, Quaternion.identity);
         FixedJoint2D joint = bmb.GetComponent<FixedJoint2D>();
         joint.connectedAnchor = bombOffset;
         joint.connectedBody = GetComponent<Rigidbody2D>();
@@ -385,7 +400,7 @@ public class PlaneBehaviour : MonoBehaviour
         }
         if (collision.gameObject.tag == "bullet" && collision.relativeVelocity.magnitude > 5f)
         {
-            plane.HP--;
+            plane.Damage();
         }
         if (plane.HP < 1)
         {
@@ -438,8 +453,14 @@ public class PlaneBehaviour : MonoBehaviour
     void switchFlaps()
     {
         flaps = !flaps;
-        if (flaps) flapMotor.motorSpeed = FLAP_MOTOR_SPEED;
-        else flapMotor.motorSpeed = -FLAP_MOTOR_SPEED;
+        if (flaps)
+        {
+            flapMotor.motorSpeed = FLAP_MOTOR_SPEED;
+        }
+        else
+        {
+            flapMotor.motorSpeed = -FLAP_MOTOR_SPEED;
+        }
     }
 
     //Switching on/off

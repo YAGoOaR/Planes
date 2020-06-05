@@ -7,7 +7,6 @@ public class OnTurnBackExit : StateMachineBehaviour
     const float VELOCITY_OFFSET = -0.3f;
     PlaneBehaviour planeBehaviour;
     Rigidbody2D planeRigidbody;
-    Transform planeTransform;
     Vector3 velocity;
     Collider2D planeCollider;
     float timer;
@@ -19,7 +18,7 @@ public class OnTurnBackExit : StateMachineBehaviour
         planeBehaviour = animator.GetComponent<PlaneBehaviour>();
         planeCollider = planeBehaviour.GetComponent<Collider2D>();
         planeRigidbody = planeBehaviour.GetComponent<Rigidbody2D>();
-        planeTransform = planeBehaviour.transform;
+        Transform planeTransform = planeBehaviour.transform;
         float velocityCoefficient = Mathf.Min(1 / planeRigidbody.velocity.magnitude * 10, MAX_VELOCITY_COEF);
         float angleCoefficient = Mathf.Max(-Mathf.Sin(planeTransform.rotation.eulerAngles.z / 180 * Mathf.PI) + 1, MIN_ANGLE_COEF);
         animator.SetFloat("speedMultiplier", velocityCoefficient * angleCoefficient);

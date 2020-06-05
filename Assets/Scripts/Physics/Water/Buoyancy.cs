@@ -6,7 +6,7 @@ public class Buoyancy : MonoBehaviour
     const float FORCE_COEFFICIENT = 8;
     public float volume = 10;
     Collider2D waterCollider;
-    int connections = 0;
+    int connections;
 
     void OnTriggerEnter2D(Collider2D collider)
     {

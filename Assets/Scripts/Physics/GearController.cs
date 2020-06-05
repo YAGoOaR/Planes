@@ -3,7 +3,12 @@
 //A script to controll plane landing gear
 public class GearController : MonoBehaviour
 {
-    public bool isGearUp = false;
+    bool isGearUp;
+    public bool IsGearUp
+    {
+        get { return isGearUp; }
+    }
+
     Animator gearAnimator;
     CircleCollider2D wheel;
     PhysicsMaterial2D wheelMaterial;
@@ -12,8 +17,8 @@ public class GearController : MonoBehaviour
     void Start()
     {
         wheel = GetComponent<CircleCollider2D>();
-        wheelMaterial = GameAssets.instance.wheelMaterial;
-        wheelBrakeMaterial = GameAssets.instance.wheelBrakeMaterial;
+        wheelMaterial = GameAssets.Instance.WheelMaterial;
+        wheelBrakeMaterial = GameAssets.Instance.WheelBrakeMaterial;
         gearAnimator = GetComponent<Animator>();
     }
 

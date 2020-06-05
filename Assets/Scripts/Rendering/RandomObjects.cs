@@ -5,10 +5,12 @@ using UnityEngine;
 public class RandomObjects : MonoBehaviour
 {
     private Transform cameraTransform;
-    public int visibleChunks = 0;
-    public int cloudHeight = 80;
-    int chunkSize = 200;
-    int objectSize = 30;
+    [SerializeField]
+    int visibleChunks;
+    [SerializeField]
+    int cloudHeight = 80;
+    const int chunkSize = 200;
+    const int objectSize = 30;
     int position = 1;
     int prevPosition = -1;
     List<int> chunks = new List<int>();
@@ -52,7 +54,7 @@ public class RandomObjects : MonoBehaviour
     void createCloudChunk(int pos)
     {
         chunks.Add(pos);
-        chunksObj.Add(GameObject.Instantiate(GameAssets.instance.pickRandomCloud(), new Vector3(pos + Random.Range(0, chunkSize - objectSize), cloudHeight, 0), Quaternion.identity));
+        chunksObj.Add(GameObject.Instantiate(GameAssets.Instance.pickRandomCloud(), new Vector3(pos + Random.Range(0, chunkSize - objectSize), cloudHeight, 0), Quaternion.identity));
     }
 
     void removeCloudChunk(int i)
