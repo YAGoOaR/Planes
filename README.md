@@ -13,4 +13,4 @@
 </br>
 </br>On this stage of development player have to defend his base from bombing and to destroy air enemies.
 </br>You can find script of the game in /Assets/Scripts.
-</br>To launch game, open Build v0.0.9/Planes.exe
+</br>To launch the game, open newest release archive and launch Planes.exe
