@@ -28,7 +28,8 @@ public class GearController : MonoBehaviour
         gameObject.GetComponent<CircleCollider2D>().enabled = !isGearUp;
     }
 
-    public void switchBrakes(bool on) {
+    public void switchBrakes(bool on)
+    {
         if (!on) wheel.sharedMaterial = wheelMaterial;
         else wheel.sharedMaterial = wheelBrakeMaterial;
     }

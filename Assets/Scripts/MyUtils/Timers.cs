@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+//My timers, here are timeout, interval and cooldown timers
 public class Timers : MonoBehaviour
 {
     public delegate void customFunc();
 
+    //Checking the timer returns true if current time reached max time
     public class CooldownTimer
     {
         public static List<CooldownTimer> timers = new List<CooldownTimer>();
@@ -54,6 +56,7 @@ public class Timers : MonoBehaviour
         }
     }
 
+    //Calls callback function after timeout
     public class Timeout
     {
         public static List<Timeout> timers = new List<Timeout>();
@@ -83,6 +86,7 @@ public class Timers : MonoBehaviour
         }
     }
 
+    //Starts calling callback function each specified time
     public class Interval
     {
         public static List<Interval> timers = new List<Interval>();
@@ -97,7 +101,8 @@ public class Timers : MonoBehaviour
             timers.Add(this);
         }
 
-        public void clear(){
+        public void clear()
+        {
             timers.Remove(this);
         }
 

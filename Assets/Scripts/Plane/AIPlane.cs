@@ -4,7 +4,7 @@
 [RequireComponent(typeof(AeroPlane))]
 public class AIPlane : MonoBehaviour
 {
-    //Enemy plane autopilot v0.1. Enemy can take off, bomb target and then land on base.
+    //Enemy plane autopilot v0.2. Enemy can take off, bomb target, attack player and then land on base.
     const float PI = 180;
     const float GRAVITY = 9.8f;
     const float BASE_POSITION = -860;
@@ -75,7 +75,6 @@ public class AIPlane : MonoBehaviour
     //Called once when this object initializes
     void Start()
     {
-        //Timers.interval(1, () => { Debug.Log(rotation); });
         plane = GetComponent<AeroPlane>();
         turnCooldown = new Timers.CooldownTimer(3);
         planeBehaviour = GetComponent<PlaneBehaviour>();
@@ -103,7 +102,8 @@ public class AIPlane : MonoBehaviour
                 state = AIState.bombingTarget;
             }
         }
-        else {     
+        else
+        {
             if (distanceToEnemy < ATTACK_DISTANCE && plane.bullets > 0 && !enemyDestroyed && deltaPosition > BOMBING_DISTANCE)
             {
                 planeBehaviour.throttle = 100;

@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+//A script that activates attached game object after specified time
 public class ActiveTimeout : MonoBehaviour
 {
     public float timeout;

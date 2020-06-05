@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+
 //Script for a bomb
 public class explosion : MonoBehaviour
 {
@@ -7,11 +8,13 @@ public class explosion : MonoBehaviour
     private float timer = 0;
     public float minDetonationTime = 0f;
 
+    //Called when the bomb drops from plane
     public void OnJointBreak2D()
     {
         isDropped = true;
     }
 
+    //Called each frame
     public void Update()
     {
         if (isDropped)
@@ -20,6 +23,7 @@ public class explosion : MonoBehaviour
         }
     }
 
+    //Called when bomb hits something
     public void OnCollisionEnter2D(Collision2D collision)
     {
         if (timer > minDetonationTime)
@@ -32,6 +36,7 @@ public class explosion : MonoBehaviour
         }
     }
 
+    //called when bomb hits a trigger(water, etc)
     public void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.gameObject.tag != "water" || timer < minDetonationTime) return;
@@ -44,6 +49,7 @@ public class explosion : MonoBehaviour
         detonated();
     }
 
+    //start explosion animation
     void detonated()
     {
         GetComponent<Animator>().SetBool("detonated", true);
