@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 8937699714619485987}
   - component: {fileID: 434100921603120859}
   - component: {fileID: 114470212697569966}
-  - component: {fileID: 114935743631948022}
   m_Layer: 0
   m_Name: P-36
   m_TagString: Untagged
@@ -70,8 +69,7 @@ MonoBehaviour:
   - tail
   - elevator
   - propeller
-  parts: []
-  HP: 4
+  hp: 4
   bullets: 150
   bombCount: 1
 --- !u!114 &7801491606417757383
@@ -87,19 +85,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   plane: {fileID: 0}
-  isPlayer: 1
+  isPlayer: 0
   upsideDown: 0
-  flaps: 0
   brakes: 0
   isTurningBack: 0
-  pitch: 0
   throttle: 0
   invertPitch: 0
   startInOtherHeading: 0
   gunOffset: 1.6
   gunOffsetAngle: -0.2
   trimPitch: 0
-  gearCtrl: {fileID: 0}
 --- !u!114 &114275327656375858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,25 +326,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77538f96ed844524d8350506e4146cbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hostile: 1
+  enemyDestroyed: 0
   targetAltitude: 40
   targetPosition: -30
   targetSpeed: 40
-  startThrottle: 0
   targetAngle: -15
-  state: 1
---- !u!114 &114935743631948022
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1081117711294531131}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9cb810cb0f56554180173ea4dc93c4b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2780530029292694444
 GameObject:
   m_ObjectHideFlags: 0
@@ -532,7 +513,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   force: 5.5
   throttle: 0
-  jointIsActive: 1
 --- !u!1 &3090727410126393555
 GameObject:
   m_ObjectHideFlags: 0
@@ -684,7 +664,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f9ac407e4a591c488eed778c1430cc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGearUp: 0
 --- !u!1 &4009813773121958753
 GameObject:
   m_ObjectHideFlags: 0
