@@ -15,6 +15,7 @@ public class PlaneBehaviour : MonoBehaviour
     Vector3 bombOffset = new Vector3(0, -0.5f, 0);
 
     public bool isPlayer = true;
+    [HideInInspector]
     public bool upsideDown = false;
     [HideInInspector]
     public bool flaps = false;

@@ -20,7 +20,10 @@ public class Game : MonoBehaviour
 
     public virtual void gameOver(string reason)
     {
-        if (gameIsOver) return;
+        if (gameIsOver)
+        {
+            return;
+        } 
         gameIsOver = true;
         Timers.customFunc callback = () =>
         {

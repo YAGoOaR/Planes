@@ -9,7 +9,7 @@ public class Timers : MonoBehaviour
     //Checking the timer returns true if current time reached max time
     public class CooldownTimer
     {
-        public static List<CooldownTimer> timers = new List<CooldownTimer>();
+        static List<CooldownTimer> timers = new List<CooldownTimer>();
         public float currentTime;
         public float maxTime;
         public bool destroyAfterTimeout = false;
@@ -59,7 +59,7 @@ public class Timers : MonoBehaviour
     //Calls callback function after timeout
     public class Timeout
     {
-        public static List<Timeout> timers = new List<Timeout>();
+        static List<Timeout> timers = new List<Timeout>();
         public float time;
         public float currentTime;
         customFunc callback;
@@ -89,7 +89,7 @@ public class Timers : MonoBehaviour
     //Starts calling callback function each specified time
     public class Interval
     {
-        public static List<Interval> timers = new List<Interval>();
+        static List<Interval> timers = new List<Interval>();
         public float time;
         public float currentTime;
         customFunc callback;

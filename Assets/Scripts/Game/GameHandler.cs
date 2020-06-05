@@ -38,7 +38,7 @@ public class GameHandler : MonoBehaviour
     }
 
     //Called instantly after initialization
-    void Awake()
+    public void Awake()
     {
         instance = this;
         player = Object.Instantiate(GameAssets.instance.player, new Vector3(spawnPosition.x, spawnPosition.y, 0), Quaternion.identity);
@@ -48,14 +48,14 @@ public class GameHandler : MonoBehaviour
     }
 
     //Called after "Awake"
-    void Start()
+    public void Start()
     {
         cameraTransform = Camera.main.transform;
 
     }
 
     //Called once per frame
-    void Update()
+    public void Update()
     {
         //freeze objects if they are too far from camera
         foreach (GameObject gameobject in objectsToFreeze)

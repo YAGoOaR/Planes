@@ -35,12 +35,6 @@ public class ChunkManager : MonoBehaviour
             return null;
         }
 
-        public void destroyByPosition(int pos)
-        {
-            Chunk chunk = this.findByPosition(pos);
-            this.removeChunk(chunk);
-        }
-
         public void createChunk(int pos)
         {
             GameObject chunkAsset = GameAssets.instance.GetChunk(pos);
