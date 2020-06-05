@@ -1,5 +1,5 @@
 # Planes
-</br> It is 2D PC game made on Unity
+</br> It is 2D PC game made on C# with Unity
 </br>
 </br>![icon](/Pictures/icon.png)
 </br>
