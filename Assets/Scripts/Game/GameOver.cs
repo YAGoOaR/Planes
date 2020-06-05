@@ -4,21 +4,16 @@ using UnityEngine.UI;
 //Script that shows "Game over: ${reason}" on UI when the game is lost
 public class GameOver : Game
 {
-    bool gameIsOver = false;
-
-    Text text;
-
-    void Awake()
-    {
-        text = GetComponent<Text>();
-    }
+    bool end = false;
 
     override public void gameOver(string reason)
     {
-        Debug.Log("over");
-        if (gameIsOver) return;
+        if (end) {
+            return;
+        }
+        end = true;
         base.gameOver(reason);
-        gameIsOver = true;
+        Text text = GetComponent<Text>();
         text.enabled = true;
         if (reason != "") text.text += ":\n" + reason;
     }

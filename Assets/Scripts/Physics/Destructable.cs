@@ -8,7 +8,7 @@ public class Destructable : MonoBehaviour
     const float MIN_RANDOM_COEFFICIENT = 0.5f;
     const int maxHP = 3;
     int HP = maxHP;
-    float buoyancy = 500;
+    const float buoyancy = 500;
 
     //if bomb hits this object
     public void hit()
