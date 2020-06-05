@@ -22,7 +22,10 @@ public class PropellerMotor : MonoBehaviour
         jointIsActive = false;
         PlanePart part = GetComponent<PlanePart>();
         part.isBroken = true;
-        if (!transform.parent.GetComponent<PlaneBehaviour>().isPlayer) return;
+        if (!transform.parent.GetComponent<PlaneBehaviour>().isPlayer)
+        {
+            return;
+        }
         Timers.timeout(5, () =>
         {
             Game.instance.gameOver("plane is broken");

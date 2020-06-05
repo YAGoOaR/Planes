@@ -86,7 +86,10 @@ public class AIPlane : MonoBehaviour
     //Autopilot realisation
     void Update()
     {
-        if (state == AIState.idle) return;
+        if (state == AIState.idle)
+        {
+            return;
+        }
 
         updateVariables();
 
@@ -94,7 +97,10 @@ public class AIPlane : MonoBehaviour
         {
             attack();
         }
-        else reachTarget();
+        else
+        {
+            reachTarget();
+        }
 
         if (state == AIState.takingOff)
         {
@@ -266,7 +272,11 @@ public class AIPlane : MonoBehaviour
 
         bool willCollide = altitude + TIME_TO_COLLISION * velocity.y < 0;
         bool falling = altitude < SAFE_ALTITUDE && CheckRotationBounds(SAFE_ANGLE, PI - SAFE_ANGLE);
-        if (willCollide || falling || velocity.magnitude < STALL_VELOCITY) state = AIState.climbing;
+        if (willCollide || falling || velocity.magnitude < STALL_VELOCITY)
+        {
+            state = AIState.climbing;
+        }
+
         targetAngle = MathUtils.Vector2ToAngle(enemyPos - transform.position) + Mathf.PI;
 
         float deltaAngle = targetAngle - toRadian(rotation);

@@ -139,13 +139,19 @@ public class PlaneBehaviour : MonoBehaviour
             reverse.maxMotorTorque = FLAP_MAX_TORQUE;
             flapJoint.motor = reverse;
         }
-        else flapJoint.motor = flapMotor;
+        else
+        {
+            flapJoint.motor = flapMotor;
+        }
     }
 
     //Information about plane that will be taken by UI 
     void updateInfo()
     {
-        if (!isPlayer) return;
+        if (!isPlayer)
+        {
+            return;
+        }
         GameHandler.infoText info = GameHandler.instance.planeInfo;
         info.Set(propellerMotor.throttle, plane.bullets, plane.bombs.Count, transform.position.y, planerb.velocity.magnitude, gearCtrl.isGearUp, !brakes);
         GameHandler.instance.planeInfo = info;
@@ -306,7 +312,10 @@ public class PlaneBehaviour : MonoBehaviour
     //Update if part breaks
     public void OnJointBreak2D(Joint2D thejoint)
     {
-        if (thejoint.connectedBody.gameObject.transform.name == "elevator") elevator.isBroken = true;
+        if (thejoint.connectedBody.gameObject.transform.name == "elevator")
+        {
+            elevator.isBroken = true;
+        }
     }
 
     //Adding bomb GameObjects
@@ -370,8 +379,14 @@ public class PlaneBehaviour : MonoBehaviour
     //If plane collides something(during animation)
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        if (isTurningBack && collision.gameObject.layer != 8) broke();
-        if (collision.gameObject.tag == "bullet" && collision.relativeVelocity.magnitude > 5f) plane.HP--;
+        if (isTurningBack && collision.gameObject.layer != 8)
+        {
+            broke();
+        }
+        if (collision.gameObject.tag == "bullet" && collision.relativeVelocity.magnitude > 5f)
+        {
+            plane.HP--;
+        }
         if (plane.HP < 1)
         {
             fullDestruction();
@@ -381,7 +396,10 @@ public class PlaneBehaviour : MonoBehaviour
     //If plane collides a trigger(during animation)
     public void OnTriggerEnter2D()
     {
-        if (isTurningBack) broke();
+        if (isTurningBack)
+        {
+            broke();
+        }
     }
 
     //Break a plane
@@ -428,8 +446,14 @@ public class PlaneBehaviour : MonoBehaviour
     public void switchFlaps(bool on)
     {
         flaps = on;
-        if (flaps) flapMotor.motorSpeed = FLAP_MOTOR_SPEED;
-        else flapMotor.motorSpeed = -FLAP_MOTOR_SPEED;
+        if (flaps)
+        {
+            flapMotor.motorSpeed = FLAP_MOTOR_SPEED;
+        }
+        else
+        {
+            flapMotor.motorSpeed = -FLAP_MOTOR_SPEED;
+        }
     }
 
     public void updateFlaps()
