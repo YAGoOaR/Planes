@@ -82,7 +82,7 @@ public class PlaneBehaviour : MonoBehaviour
     PlanePart gear;
     PlanePart propeller;
     PlanePart flap;
-    Rigidbody2D planerb;
+    Rigidbody2D planeRB;
     JointMotor2D hingemotor;
     JointMotor2D flapMotor;
     HingeJoint2D flapJoint;
@@ -115,7 +115,7 @@ public class PlaneBehaviour : MonoBehaviour
     void defineComponents()
     {
         planeAnimator = GetComponent<Animator>();
-        planerb = GetComponent<Rigidbody2D>();
+        planeRB = GetComponent<Rigidbody2D>();
         hinge = GetComponent<HingeJoint2D>();
         aerofoilList = gameObject.GetComponentsInChildren<Aerofoil>();
         gearCtrl = gear.GetComponent<GearController>();
@@ -200,7 +200,7 @@ public class PlaneBehaviour : MonoBehaviour
             plane.Bullets,
             plane.Bombs.Count,
             transform.position.y,
-            planerb.velocity.magnitude,
+            planeRB.velocity.magnitude,
             gearCtrl.IsGearUp,
             !brakes);
         GameHandler.Instance.PlaneInfo = info;
@@ -244,14 +244,19 @@ public class PlaneBehaviour : MonoBehaviour
                 switchBrakes();
             }
             //Performing a half of barrel roll
-            if (Input.GetKey(KeyCode.Q) && planerb.velocity.magnitude > 10f && gearCtrl.IsGearUp)
+            if (Input.GetKey(KeyCode.Q) && planeRB.velocity.magnitude > 10f && gearCtrl.IsGearUp)
             {
                 turn();
             }
             //Performing simple turn
-            if (Input.GetKey(KeyCode.E) && planerb.velocity.magnitude > 5f && gearCtrl.IsGearUp)
+            if (Input.GetKey(KeyCode.E) && planeRB.velocity.magnitude > 5f && gearCtrl.IsGearUp)
             {
-                turnBack();
+                if (Mathf.Cos(MathUtils.toRadian(planeRB.rotation) - MathUtils.Vector2ToAngle(planeRB.velocity)) < -0.95f)
+                {
+                    Debug.Log("turn");
+                    turnBack();
+                }
+
             }
             //Landing gear
             if (Input.GetKey(KeyCode.G))
@@ -326,7 +331,7 @@ public class PlaneBehaviour : MonoBehaviour
     //Landing gear switch
     public void switchGear()
     {
-        if (planerb.velocity.magnitude > 5f)
+        if (planeRB.velocity.magnitude > 5f)
         {
             gearCtrl.switchGear(!gearCtrl.IsGearUp);
         }
@@ -335,7 +340,7 @@ public class PlaneBehaviour : MonoBehaviour
     //Turn the gear on/off
     public void switchGear(bool on)
     {
-        if (planerb.velocity.magnitude > 5f)
+        if (planeRB.velocity.magnitude > 5f)
         {
             gearCtrl.switchGear(!on);
         }
@@ -353,7 +358,7 @@ public class PlaneBehaviour : MonoBehaviour
         Vector3 gunPos = new Vector2(-Mathf.Cos(rotation + gunOffsetAngle), -Mathf.Sin(rotation + gunOffsetAngle)) * gunOffset;
         GameObject bullet = Instantiate(GameAssets.Instance.Bullet, gunPos + transform.position, transform.rotation);
         bullet.transform.Rotate(new Vector3(0, 0, accuracy));
-        bullet.GetComponent<Rigidbody2D>().velocity = planerb.velocity;
+        bullet.GetComponent<Rigidbody2D>().velocity = planeRB.velocity;
         plane.Bullets--;
         shootingTimer.reset();
     }
@@ -454,7 +459,7 @@ public class PlaneBehaviour : MonoBehaviour
     //Break a plane
     void broke()
     {
-        planeAnimator.enabled = planerb.isKinematic = planerb.freezeRotation = false;
+        planeAnimator.enabled = planeRB.isKinematic = planeRB.freezeRotation = false;
         foreach (Joint2D joint in GetComponents<Joint2D>())
         {
             joint.breakForce = 0;
