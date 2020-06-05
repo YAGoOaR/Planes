@@ -3,7 +3,7 @@
 public class OnTurnBackExit : StateMachineBehaviour
 {
     const float MAX_VELOCITY_COEF = 0.3f;
-    const float MAX_ANGLE_COEF = 0.7f;
+    const float MIN_ANGLE_COEF = 0.9f;
     const float VELOCITY_OFFSET = -0.3f;
     PlaneBehaviour planeBehaviour;
     Rigidbody2D planeRigidbody;
@@ -20,7 +20,7 @@ public class OnTurnBackExit : StateMachineBehaviour
         planeRigidbody = planeBehaviour.GetComponent<Rigidbody2D>();
         planeTransform = planeBehaviour.transform;
         float velocityCoefficient = Mathf.Min(1 / planeRigidbody.velocity.magnitude * 10, MAX_VELOCITY_COEF);
-        float angleCoefficient = Mathf.Max(-Mathf.Sin(planeTransform.rotation.eulerAngles.z / 180 * Mathf.PI) + 1, MAX_ANGLE_COEF);
+        float angleCoefficient = Mathf.Max(-Mathf.Sin(planeTransform.rotation.eulerAngles.z / 180 * Mathf.PI) + 1, MIN_ANGLE_COEF);
         animator.SetFloat("speedMultiplier", velocityCoefficient * angleCoefficient);
         planeBehaviour.isTurningBack = true;
         planeRigidbody.isKinematic = true;

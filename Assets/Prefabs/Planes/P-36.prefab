@@ -20,6 +20,8 @@ GameObject:
   - component: {fileID: 3954668917912571626}
   - component: {fileID: 8937699714619485987}
   - component: {fileID: 434100921603120859}
+  - component: {fileID: 114470212697569966}
+  - component: {fileID: 114935743631948022}
   m_Layer: 0
   m_Name: P-36
   m_TagString: Untagged
@@ -317,6 +319,37 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114470212697569966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1081117711294531131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77538f96ed844524d8350506e4146cbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hostile: 1
+  targetAltitude: 40
+  targetPosition: -30
+  targetSpeed: 40
+  startThrottle: 0
+  targetAngle: -15
+  state: 1
+--- !u!114 &114935743631948022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1081117711294531131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9cb810cb0f56554180173ea4dc93c4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2780530029292694444
 GameObject:
   m_ObjectHideFlags: 0

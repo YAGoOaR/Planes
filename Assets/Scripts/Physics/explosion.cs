@@ -2,7 +2,7 @@
 //Script for a bomb
 public class explosion : MonoBehaviour
 {
-    float EXPLOSION_FORCE_COEF = 500;
+    float EXPLOSION_FORCE_COEF = 400;
     private bool isDropped = false;
     private float timer = 0;
     public float minDetonationTime = 0f;

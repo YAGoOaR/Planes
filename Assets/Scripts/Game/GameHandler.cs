@@ -13,7 +13,8 @@ public class GameHandler : MonoBehaviour
     public infoText planeInfo;
 
     Transform cameraTransform;
-    GameObject player;
+    [HideInInspector]
+    public GameObject player;
     PlaneBehaviour planeBehaviour;
 
     public bool startInOtherHeading = false;
@@ -50,6 +51,7 @@ public class GameHandler : MonoBehaviour
     void Start()
     {
         cameraTransform = Camera.main.transform;
+
     }
 
     //Called once per frame

@@ -20,7 +20,7 @@ public class Destructable : MonoBehaviour
             buoyancyComponent.volume = DESTROYED_OBJECT_VOLUME;
             if (gameObject.name == "AirCarrier")
             {
-                Timers.TimeoutTimer timer = new Timers.TimeoutTimer(0, () => { Game.instance.gameOver("air carrier is destroyed"); });
+                Timers.Timeout timer = new Timers.Timeout(20, () => { Game.instance.gameOver("air carrier is destroyed"); });
             }
             return;
         }

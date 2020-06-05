@@ -15,7 +15,6 @@ public class PlaneBehaviour : MonoBehaviour
     Vector3 bombOffset = new Vector3(0, -0.5f, 0);
 
     public bool isPlayer = true;
-    [HideInInspector]
     public bool upsideDown = false;
     [HideInInspector]
     public bool flaps = false;
@@ -94,7 +93,7 @@ public class PlaneBehaviour : MonoBehaviour
         flap = plane.getPart("flap");
         throttleTimer = new Timers.CooldownTimer(0.01f);
         turnTimer = new Timers.CooldownTimer(1f);
-        shootingTimer = new Timers.CooldownTimer(0.1f);
+        shootingTimer = new Timers.CooldownTimer(0.08f);
     }
 
     //Set variables

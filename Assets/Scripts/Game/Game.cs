@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class Game : MonoBehaviour
 {
-    const float WAIT_BEFORE_EXIT = 5;
+    const float WAIT_BEFORE_EXIT = 10;
     public static Game instance;
 
     public static void quitGame()
@@ -22,7 +22,7 @@ public class Game : MonoBehaviour
         {
             quitGame();
         };
-        Timers.TimeoutTimer exitTimer = new Timers.TimeoutTimer(WAIT_BEFORE_EXIT, callback);
+        Timers.Timeout exitTimer = new Timers.Timeout(WAIT_BEFORE_EXIT, callback);
     }
 
     void Awake()
