@@ -6,7 +6,7 @@ public class ActiveTimeout : MonoBehaviour
 {
     public float timeout;
 
-    void Start()
+    void Awake()
     {
         gameObject.SetActive(false);
         Timers.timeout(timeout, () => { gameObject.SetActive(true); });
