@@ -42,6 +42,7 @@ public class Game : MonoBehaviour
         Timers.timeout(WAIT_BEFORE_EXIT, callback);
     }
 
+    //Called after game initialization
     void Awake()
     {
         setInstance(this);

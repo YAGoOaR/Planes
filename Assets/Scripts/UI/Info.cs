@@ -7,6 +7,7 @@ public class Info : MonoBehaviour
     const float SPEED_MULTIPLIER = 6;
     private Text infoText;
 
+    //Called after text object initialization
     void Awake()
     {
         infoText = transform.Find("InfoText").GetComponent<Text>();

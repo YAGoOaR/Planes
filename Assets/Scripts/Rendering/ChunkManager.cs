@@ -90,12 +90,14 @@ public class ChunkManager : MonoBehaviour
         public GameObject obj;
     }
 
+    //Called after chunk manager initialization
     void Start()
     {
         cameraTransform = Camera.main.transform;
         chunkArray = new ChunksArray(chunkSize);
     }
 
+    //Called each frame
     void Update()
     {
         prevPosition = position;

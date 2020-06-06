@@ -41,6 +41,7 @@ public class AeroPlane : MonoBehaviour
         get { return bombs; }
     }
 
+    //Called after plane initialization
     void Awake()
     {
         bombs = new Queue<GameObject>();
@@ -63,6 +64,7 @@ public class AeroPlane : MonoBehaviour
         }
         return null;
     }
+
     public void Damage()
     {
         hp--;

@@ -14,10 +14,13 @@ public class GameAssets : MonoBehaviour
         instance = gameAssets;
     }
 
+    //Called after game assets initialization
     void Awake()
     {
         setInstance(this);
     }
+
+    // Game object prefabs
 
     [SerializeField]
     GameObject playerCam;
@@ -46,6 +49,7 @@ public class GameAssets : MonoBehaviour
     {
         get { return bullet; }
     }
+
 
     [SerializeField]
     GameObject[] clouds;

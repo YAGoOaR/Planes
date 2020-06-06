@@ -94,12 +94,14 @@ public class Water : MonoBehaviour
     //Create water texture and collider
     void createFace(int i)
     {
+        // Texture coordinates of a mesh;
         Vector2[] UVs = new Vector2[UV_COUNT];
         UVs[0] = new Vector2(0, 1);
         UVs[1] = new Vector2(1, 1);
         UVs[2] = new Vector2(0, 0);
         UVs[3] = new Vector2(1, 0);
 
+        //Triangles in mesh
         int[] triangles = { 0, 1, 3, 3, 2, 0 };
 
         Vector3[] vertices = new Vector3[4];
