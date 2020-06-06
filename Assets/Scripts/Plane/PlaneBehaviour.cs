@@ -9,15 +9,16 @@ public class PlaneBehaviour : MonoBehaviour
     const float FLAP_MOTOR_SPEED = 20;
     const float FLAP_MAX_TORQUE = 1000;
     const float PITCH_FORCE_COEF = 15;
+    const float GEAR_UP_VELOCITY = 5;
     readonly Vector3 bombOffset = new Vector3(0, -0.5f, 0);
 
     AeroPlane plane;
-
     public AeroPlane Plane
     {
         get { return plane; }
     }
 
+    GearController gearCtrl;
     public GearController GearCtrl
     {
         get { return gearCtrl; }
@@ -25,21 +26,18 @@ public class PlaneBehaviour : MonoBehaviour
 
     [SerializeField]
     bool isPlayer = true;
-
     public bool IsPlayer
     {
         get { return isPlayer; }
     }
 
     bool upsideDown;
-
     public bool UpsideDown
     {
         get { return upsideDown; }
     }
 
     bool isTurningBack;
-
     public bool IsTurningBack
     {
         get { return isTurningBack; }
@@ -47,7 +45,6 @@ public class PlaneBehaviour : MonoBehaviour
     }
 
     float pitch;
-
     public float Pitch
     {
         get { return pitch; }
@@ -55,16 +52,12 @@ public class PlaneBehaviour : MonoBehaviour
     }
 
     int throttle;
-
     public int Throttle
     {
         get { return throttle; }
         set { throttle = value; }
     }
 
-    bool flaps;
-    bool brakes;
-    float flapAngle = 30;
     [SerializeField]
     bool invertPitch;
     [SerializeField]
@@ -76,6 +69,9 @@ public class PlaneBehaviour : MonoBehaviour
     [SerializeField]
     float trimPitch;
 
+    bool flaps;
+    bool brakes;
+    float flapAngle = 30;
     float maxPitch;
     float minPitch;
     PlanePart elevator;
@@ -93,7 +89,6 @@ public class PlaneBehaviour : MonoBehaviour
     Timers.CooldownTimer throttleTimer;
     Timers.CooldownTimer shootingTimer;
     Aerofoil[] aerofoilList;
-    GearController gearCtrl;
 
     //Called once when this object initializes
     void Start()
@@ -137,7 +132,7 @@ public class PlaneBehaviour : MonoBehaviour
         shootingTimer = new Timers.CooldownTimer(0.08f);
     }
 
-    //Set variables
+    //Set up plane
     void planeSetup()
     {
         reloadBombs();
@@ -155,13 +150,12 @@ public class PlaneBehaviour : MonoBehaviour
         if (invertPitch)
         {
             maxPitch = -1;
-            minPitch = 1;
         }
         else
         {
             maxPitch = 1;
-            minPitch = -1;
         }
+        minPitch = -maxPitch;
     }
 
     void updateControls()
@@ -191,6 +185,7 @@ public class PlaneBehaviour : MonoBehaviour
     //Information about plane that will be taken by UI 
     void updateInfo()
     {
+        //Send information only if it is player
         if (!isPlayer)
         {
             return;
@@ -206,8 +201,10 @@ public class PlaneBehaviour : MonoBehaviour
         GameHandler.Instance.PlaneInfo = info;
     }
 
+    //Player controls
     void controls()
     {
+        //Control only player's plane 
         if (!isPlayer)
         {
             return;
@@ -286,14 +283,8 @@ public class PlaneBehaviour : MonoBehaviour
         {
             pitch = trimPitch;
         }
-        if (throttle > 100)
-        {
-            throttle = 100;
-        }
-        else if (throttle < 0)
-        {
-            throttle = 0;
-        }
+
+        MathUtils.clamp(throttle, 0, 100);
     }
 
     // A half of barrel roll
@@ -309,12 +300,15 @@ public class PlaneBehaviour : MonoBehaviour
     {
         gunOffsetAngle = -gunOffsetAngle;
         Vector3 scale = gameObject.transform.localScale;
+        //Mirroring model
         gameObject.transform.localScale = new Vector3(scale.x, -scale.y, scale.z);
+        //Inverting aerofoil
         for (int i = 0; i < aerofoilList.Length; i++)
         {
             aerofoilList[i].Upside = -aerofoilList[i].Upside;
         }
         upsideDown = !upsideDown;
+        //Inverting flaps
         turnFlaps();
     }
 
@@ -324,6 +318,7 @@ public class PlaneBehaviour : MonoBehaviour
         if (plane.Bombs.Count > 0)
         {
             GameObject bomb = plane.Bombs.Dequeue();
+            //Disconnecting bomb
             bomb.GetComponent<FixedJoint2D>().breakForce = 0;
         }
     }
@@ -331,7 +326,8 @@ public class PlaneBehaviour : MonoBehaviour
     //Landing gear switch
     public void switchGear()
     {
-        if (planeRB.velocity.magnitude > 5f)
+        //Switch only if velocity is reached
+        if (planeRB.velocity.magnitude > GEAR_UP_VELOCITY)
         {
             gearCtrl.switchGear(!gearCtrl.IsGearUp);
         }
@@ -340,7 +336,8 @@ public class PlaneBehaviour : MonoBehaviour
     //Turn the gear on/off
     public void switchGear(bool on)
     {
-        if (planeRB.velocity.magnitude > 5f)
+        //Switch only if velocity is reached
+        if (planeRB.velocity.magnitude > GEAR_UP_VELOCITY)
         {
             gearCtrl.switchGear(!on);
         }
@@ -353,14 +350,15 @@ public class PlaneBehaviour : MonoBehaviour
         {
             return;
         }
-        float accuracy = (Random.value - .5f) * SHOOTING_ACCURACY;
+        shootingTimer.reset();
+
+        float accuracy = (Random.value - 0.5f) * SHOOTING_ACCURACY;
         float rotation = transform.rotation.eulerAngles.z / 180 * Mathf.PI;
         Vector3 gunPos = new Vector2(-Mathf.Cos(rotation + gunOffsetAngle), -Mathf.Sin(rotation + gunOffsetAngle)) * gunOffset;
         GameObject bullet = Instantiate(GameAssets.Instance.Bullet, gunPos + transform.position, transform.rotation);
         bullet.transform.Rotate(new Vector3(0, 0, accuracy));
         bullet.GetComponent<Rigidbody2D>().velocity = planeRB.velocity;
         plane.Bullets--;
-        shootingTimer.reset();
     }
 
     //Update if part breaks

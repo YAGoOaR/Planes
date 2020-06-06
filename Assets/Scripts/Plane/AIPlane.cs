@@ -195,8 +195,8 @@ public class AIPlane : MonoBehaviour
         }
 
         //Smooth reaching altitude and lining when speed is too low
-        float velocityCoef = MathUtils.clamp(velocity.magnitude / VELOCITY_SENSIVITY, MAX_VELOCITY_COEF);
-        float altitudeCoef = -MathUtils.clamp(targetAltitude - altitude, MAX_TARGET_ANGLE);
+        float velocityCoef = MathUtils.clamped(velocity.magnitude / VELOCITY_SENSIVITY, MAX_VELOCITY_COEF);
+        float altitudeCoef = -MathUtils.clamped(targetAltitude - altitude, MAX_TARGET_ANGLE);
         targetAngle = altitudeCoef * velocityCoef * heading;
 
         //Reaching target angle
@@ -237,11 +237,11 @@ public class AIPlane : MonoBehaviour
     void land()
     {
         //Smooth altitude lowering
-        targetAltitude = MathUtils.clamp(Mathf.Abs(deltaPosition / LANDING_SENSITIVITY), 1) * (DEFAULT_ALTITUDE - LANDING_ALTITUDE) + LANDING_ALTITUDE;
+        targetAltitude = MathUtils.clamped(Mathf.Abs(deltaPosition / LANDING_SENSITIVITY), 1) * (DEFAULT_ALTITUDE - LANDING_ALTITUDE) + LANDING_ALTITUDE;
         //Reach landing speed if not missed altitude, otherwise reach normal
         if (deltaAltitude < 2)
         {
-            targetSpeed = MathUtils.clamp(Mathf.Abs(deltaPosition / LANDING_SENSITIVITY * 2), 1) * DEFAULT_SPEED;
+            targetSpeed = MathUtils.clamped(Mathf.Abs(deltaPosition / LANDING_SENSITIVITY * 2), 1) * DEFAULT_SPEED;
         }
         else
         {
@@ -336,7 +336,7 @@ public class AIPlane : MonoBehaviour
     void setPitch(float deltaAngle)
     {
         float pitch = -Mathf.Sin(deltaAngle) * SENSITIVITY;
-        planeBehaviour.Pitch = MathUtils.clamp(pitch, 1);
+        planeBehaviour.Pitch = MathUtils.clamped(pitch, 1);
     }
 
     //Degrees to radian
