@@ -24,6 +24,10 @@ On this stage of development player have to defend his base from bombing and to 
 
 > To launch the game, open newest release archive and launch Planes.exe
 
+## Contacts
+Telegram: https://t.me/YAGOoaR
+</br>E-mail: yegorgribenko68@gmail.com
+
 ## License 
 [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
 </br>- Copyright 2020 © <a href="https://github.com/YAGoOaR" target="_blank">YAGoOaR</a>.
