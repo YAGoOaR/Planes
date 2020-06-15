@@ -35,7 +35,7 @@ public class AIPlane : MonoBehaviour
     const float UP_ANGLE = 270;
     const float SAFE_ANGLE = 60;
     const float DEFAULT_ANGLE = 10;
-    const float BREAK_VELOCITY = 20;
+    const float BRAKE_VELOCITY = 20;
 
     private bool enemyDestroyed;
     public bool EnemyDestroyed
@@ -155,7 +155,7 @@ public class AIPlane : MonoBehaviour
     void reachTarget()
     {
         //Turn to target
-        if (turnCooldown.check() && velocity.magnitude > MIN_TURN_VELOCITY && !CheckRotationBounds(DEFAULT_ANGLE, PI - DEFAULT_ANGLE))
+        if (turnCooldown.check() && checkTurnSafety() && velocity.magnitude > MIN_TURN_VELOCITY && !CheckRotationBounds(DEFAULT_ANGLE, PI - DEFAULT_ANGLE))
         {
             if (!planeBehaviour.UpsideDown && position < targetPosition)
             {
@@ -262,7 +262,7 @@ public class AIPlane : MonoBehaviour
                 planeBehaviour.switchFlaps(true);
                 targetSpeed = 0;
                 //Now do nothing
-                if (velocity.magnitude < BREAK_VELOCITY)
+                if (velocity.magnitude < BRAKE_VELOCITY)
                 {
                     state = AIState.idle;
                 }
@@ -287,7 +287,7 @@ public class AIPlane : MonoBehaviour
         float deltaAngle = targetAngle - toRadian(rotation);
         setPitch(deltaAngle);
 
-        if (Mathf.Cos(deltaAngle) < TURN_BACK_THRESHOLD)
+        if (Mathf.Cos(deltaAngle) < TURN_BACK_THRESHOLD && checkTurnSafety())
         {
             planeBehaviour.turnBack();
         }
@@ -356,6 +356,15 @@ public class AIPlane : MonoBehaviour
         {
             return rotation > Mathf.Max(a, b) || rotation < Mathf.Min(a, b);
         }
+    }
+
+    bool checkTurnSafety() {
+        const float MAX_VELOCITY = 0.3f;
+        const float MIN_ANGLE = 0.9f;
+        const float SAFE_ALTITUDE = 5;
+        float velocityCoefficient = Mathf.Min(1 / velocity.magnitude * 10, MAX_VELOCITY);
+        float angleCoefficient = Mathf.Max(-Mathf.Sin(toRadian(rotation)) + 1, MIN_ANGLE);
+        return altitude - velocity.y * velocityCoefficient * angleCoefficient > SAFE_ALTITUDE;
     }
 
     //Heading of the plane. -1 when looking left, 1 when right.

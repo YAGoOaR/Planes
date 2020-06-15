@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-//Script that handles main funcrions in game
+//Script that handles main functions in game
 public class Game : MonoBehaviour
 {
     const float WAIT_BEFORE_EXIT = 10;

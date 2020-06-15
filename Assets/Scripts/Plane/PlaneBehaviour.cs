@@ -283,8 +283,7 @@ public class PlaneBehaviour : MonoBehaviour
         {
             pitch = trimPitch;
         }
-
-        MathUtils.clamp(throttle, 0, 100);
+        throttle = Mathf.FloorToInt(MathUtils.clamped(throttle, 0, 100));
     }
 
     // A half of barrel roll
