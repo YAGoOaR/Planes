@@ -358,7 +358,8 @@ public class AIPlane : MonoBehaviour
         }
     }
 
-    bool checkTurnSafety() {
+    bool checkTurnSafety()
+    {
         const float MAX_VELOCITY = 0.3f;
         const float MIN_ANGLE = 0.9f;
         const float SAFE_ALTITUDE = 5;

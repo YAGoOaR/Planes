@@ -25,7 +25,7 @@ public class OnTurnBackExit : StateMachineBehaviour
         planeRigidbody.freezeRotation = true;
         velocity = new Vector3(planeRigidbody.velocity.x, planeRigidbody.velocity.y, 0);
         planeBehaviour.switchAerofoilActive();
-        planeBehaviour.switchBombsActive();
+        planeBehaviour.hideBombs();
     }
 
     //Called each frame of animation
@@ -42,7 +42,7 @@ public class OnTurnBackExit : StateMachineBehaviour
         planeRigidbody.freezeRotation = false;
         animator.SetBool("turningBack", false);
         planeBehaviour.switchAerofoilActive();
-        planeBehaviour.switchBombsActive();
+        planeBehaviour.hideBombs();
         planeBehaviour.IsTurningBack = false;
     }
 }

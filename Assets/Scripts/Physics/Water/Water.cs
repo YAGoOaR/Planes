@@ -61,7 +61,7 @@ public class Water : MonoBehaviour
         }
     }
 
-    //create our water Gameobject
+    //create a water Gameobject
     public void SpawnWater()
     {
         BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
@@ -240,6 +240,7 @@ public class Water : MonoBehaviour
 
         }
     }
+
     //Create a splash when an object hits water
     public void Splash(float xpos, float velocity)
     {
@@ -268,6 +269,7 @@ public class Water : MonoBehaviour
         UpdatePhysics();
         generateWaves();
     }
+
     //Create an offset in node and face arrays
     void moveNodesInArray(int offset)
     {
