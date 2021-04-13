@@ -8,7 +8,7 @@ public class Aerofoil : MonoBehaviour
     const float STAB_COEF = 0.7f;
     const float EFFECTIVE_ANGLE_OFFSET = -0.04f;
     [SerializeField]
-    bool lift;
+    bool lift = false;
     [SerializeField]
     float liftForceCoef = 0.1f;
     Rigidbody2D rigidBody;

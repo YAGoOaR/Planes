@@ -4,38 +4,38 @@ using UnityEngine;
 public class AeroPlane : MonoBehaviour
 {
     [SerializeField]
-    string[] partNames = { "gear", "wing", "flap", "tail", "elevator", "propeller" };
-
-    PlanePart[] parts;
+    private string[] partNames = { "gear", "wing", "flap", "tail", "elevator", "propeller" };
+    private PlanePart[] parts;
+    [SerializeField]
+    private int hp = 4;
+    [SerializeField]
+    private int bullets = 150;
+    [SerializeField]
+    private int bombCount = 1;
+    Queue<GameObject> bombs;
+    
     public PlanePart[] Parts
     {
         get { return parts; }
     }
 
-    [SerializeField]
-    int hp = 4;
     public int HP
     {
         get { return hp; }
     }
 
-    [SerializeField]
-    int bullets = 150;
     public int Bullets
     {
         get { return bullets; }
         set { bullets = value; }
     }
 
-    [SerializeField]
-    int bombCount = 1;
     public int BombCount
     {
         get { return bombCount; }
         set { bombCount = value; }
     }
 
-    Queue<GameObject> bombs;
     public Queue<GameObject> Bombs
     {
         get { return bombs; }

@@ -13,61 +13,24 @@ public class PlaneBehaviour : MonoBehaviour
     readonly Vector3 bombOffset = new Vector3(0, -0.5f, 0);
 
     AeroPlane plane;
-    public AeroPlane Plane
-    {
-        get { return plane; }
-    }
-
     GearController gearCtrl;
-    public GearController GearCtrl
-    {
-        get { return gearCtrl; }
-    }
-
     [SerializeField]
     bool isPlayer = true;
-    public bool IsPlayer
-    {
-        get { return isPlayer; }
-    }
-
-    bool upsideDown;
-    public bool UpsideDown
-    {
-        get { return upsideDown; }
-    }
-
     bool isTurningBack;
-    public bool IsTurningBack
-    {
-        get { return isTurningBack; }
-        set { isTurningBack = value; }
-    }
-
     float pitch;
-    public float Pitch
-    {
-        get { return pitch; }
-        set { pitch = value; }
-    }
-
+    bool upsideDown;
     int throttle;
-    public int Throttle
-    {
-        get { return throttle; }
-        set { throttle = value; }
-    }
 
     [SerializeField]
-    bool invertPitch;
+    bool invertPitch = false;
     [SerializeField]
-    bool startInOtherHeading;
+    bool startInOtherHeading = false;
     [SerializeField]
     float gunOffset = 1.6f;
     [SerializeField]
     float gunOffsetAngle = -0.2f;
     [SerializeField]
-    float trimPitch;
+    float trimPitch = 0f;
 
     bool flaps;
     bool brakes;
@@ -89,6 +52,44 @@ public class PlaneBehaviour : MonoBehaviour
     Timers.CooldownTimer throttleTimer;
     Timers.CooldownTimer shootingTimer;
     Aerofoil[] aerofoilList;
+
+    public AeroPlane Plane
+    {
+        get { return plane; }
+    }
+
+    public GearController GearCtrl
+    {
+        get { return gearCtrl; }
+    }
+
+    public bool IsPlayer
+    {
+        get { return isPlayer; }
+    }
+
+    public bool UpsideDown
+    {
+        get { return upsideDown; }
+    }
+
+    public bool IsTurningBack
+    {
+        get { return isTurningBack; }
+        set { isTurningBack = value; }
+    }
+
+    public float Pitch
+    {
+        get { return pitch; }
+        set { pitch = value; }
+    }
+
+    public int Throttle
+    {
+        get { return throttle; }
+        set { throttle = value; }
+    }
 
     //Called after this object initialization
     void Start()

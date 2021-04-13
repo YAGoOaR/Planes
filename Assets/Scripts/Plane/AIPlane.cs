@@ -29,20 +29,15 @@ public class AIPlane : MonoBehaviour
     const float SHOOTING_DISTANCE = 100;
     const float TURN_BACK_THRESHOLD = -0.1f;
     const float TIME_TO_COLLISION = 4;
-    const float SAFE_ALTITUDE = 30;
+    const float SAFE_ALTITUDE = 40;
     const float STALL_VELOCITY = 15;
     const float LANDING_SENSITIVITY = 1000;
-    const float UP_ANGLE = 270;
+    const float UP_ANGLE = 250;
     const float SAFE_ANGLE = 60;
     const float DEFAULT_ANGLE = 10;
     const float BRAKE_VELOCITY = 20;
 
     private bool enemyDestroyed;
-    public bool EnemyDestroyed
-    {
-        get { return enemyDestroyed; }
-        set { enemyDestroyed = value; }
-    }
 
     [SerializeField]
     float targetPosition = -30;
@@ -51,7 +46,9 @@ public class AIPlane : MonoBehaviour
     float targetSpeed = DEFAULT_SPEED;
     float targetAngle = -15;
     AeroPlane plane;
+    [SerializeField]
     AIState state = AIState.takingOff;
+    AIState prevState = AIState.takingOff;
     GameObject enemy;
     PlaneBehaviour planeBehaviour;
     Timers.CooldownTimer turnCooldown;
@@ -78,6 +75,12 @@ public class AIPlane : MonoBehaviour
         reachingTarget,
     }
 
+    public bool EnemyDestroyed
+    {
+        get { return enemyDestroyed; }
+        set { enemyDestroyed = value; }
+    }
+
     //Called once when this object initializes
     void Start()
     {
@@ -98,6 +101,9 @@ public class AIPlane : MonoBehaviour
 
         updateVariables();
 
+        turnOver();
+        preventCollision();
+
         if (state == AIState.attacking)
         {
             attack();
@@ -116,15 +122,15 @@ public class AIPlane : MonoBehaviour
             climb();
             if (altitude > SAFE_ALTITUDE)
             {
-                state = AIState.bombingTarget;
+                setState(prevState);
             }
         }
-        else
+        else if (state != AIState.attacking)
         {
             if (distanceToEnemy < ATTACK_DISTANCE && plane.Bullets > 0 && !enemyDestroyed && deltaPosition > BOMBING_DISTANCE)
             {
                 planeBehaviour.Throttle = 100;
-                state = AIState.attacking;
+                setState(AIState.attacking);
             }
         }
 
@@ -136,6 +142,16 @@ public class AIPlane : MonoBehaviour
         {
             land();
         }
+    }
+
+    void setState(AIState newState)
+    {
+        if(state == newState)
+        {
+            return;
+        }
+        prevState = state;
+        state = newState;
     }
 
     void updateVariables()
@@ -209,7 +225,7 @@ public class AIPlane : MonoBehaviour
         if (!planeBehaviour.GearCtrl.IsGearUp && altitude > GEAR_UP_ALTITUDE)
         {
             planeBehaviour.switchGear();
-            state = AIState.bombingTarget;
+            setState(AIState.bombingTarget);
         }
     }
 
@@ -222,13 +238,13 @@ public class AIPlane : MonoBehaviour
         if (distanceToAttack < BOMB_THROW_ACCURACY)
         {
             planeBehaviour.throwBomb();
-            state = AIState.reachingTarget;
+            setState(state = AIState.reachingTarget);
             Timers.timeout(2, () =>
             {
                 targetPosition = BASE_POSITION;
                 deltaPosition = targetPosition - position;
                 distance = Mathf.Abs(deltaPosition);
-                state = AIState.landing;
+                setState(state = AIState.landing);
             });
         }
     }
@@ -264,7 +280,7 @@ public class AIPlane : MonoBehaviour
                 //Now do nothing
                 if (velocity.magnitude < BRAKE_VELOCITY)
                 {
-                    state = AIState.idle;
+                    setState(state = AIState.idle);
                 }
             }
         }
@@ -274,13 +290,7 @@ public class AIPlane : MonoBehaviour
     void attack()
     {
         turnOver();
-
-        bool willCollide = altitude + TIME_TO_COLLISION * velocity.y < 0;
-        bool falling = altitude < SAFE_ALTITUDE && CheckRotationBounds(SAFE_ANGLE, PI - SAFE_ANGLE);
-        if (willCollide || falling || velocity.magnitude < STALL_VELOCITY)
-        {
-            state = AIState.climbing;
-        }
+        preventCollision();
 
         targetAngle = MathUtils.Vector2ToAngle(enemyPos - transform.position) + Mathf.PI;
 
@@ -337,6 +347,16 @@ public class AIPlane : MonoBehaviour
     {
         float pitch = -Mathf.Sin(deltaAngle) * SENSITIVITY;
         planeBehaviour.Pitch = MathUtils.clamped(pitch, 1);
+    }
+
+    void preventCollision()
+    {
+        bool willCollide = altitude + TIME_TO_COLLISION * velocity.y < 0;
+        bool falling = altitude < SAFE_ALTITUDE && CheckRotationBounds(SAFE_ANGLE, PI - SAFE_ANGLE);
+        if (willCollide || falling || velocity.magnitude < STALL_VELOCITY)
+        {
+            setState(AIState.climbing);
+        }
     }
 
     //Degrees to radian

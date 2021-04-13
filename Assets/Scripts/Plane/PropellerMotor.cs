@@ -10,13 +10,14 @@ public class PropellerMotor : MonoBehaviour
     FixedJoint2D fixedJoint;
 
     int throttle;
+    bool jointIsActive = true;
+
     public int Throttle
     {
         get { return throttle; }
         set { throttle = value; }
     }
 
-    bool jointIsActive = true;
     public bool JointIsActive
     {
         get { return jointIsActive; }
