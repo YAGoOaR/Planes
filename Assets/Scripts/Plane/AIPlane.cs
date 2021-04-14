@@ -138,7 +138,7 @@ public class AIPlane : MonoBehaviour
         {
             bombTarget();
         }
-        if (state == AIState.landing && !planeBehaviour.IsTurningBack)
+        if (state == AIState.landing && !(planeBehaviour.State == PlaneBehaviour.PlaneState.turningBack))
         {
             land();
         }
@@ -185,7 +185,7 @@ public class AIPlane : MonoBehaviour
             }
         }
 
-        if (!planeBehaviour.IsTurningBack)
+        if (!(planeBehaviour.State == PlaneBehaviour.PlaneState.turningBack))
         {
             //Reaching target speed
             if (deltaSpeed > SPEED_ACCURACY)
@@ -302,7 +302,7 @@ public class AIPlane : MonoBehaviour
             planeBehaviour.turnBack();
         }
 
-        if (Mathf.Abs(deltaAngle) < SHOOTING_ACCURACY && distanceToEnemy < SHOOTING_DISTANCE && !planeBehaviour.IsTurningBack)
+        if (Mathf.Abs(deltaAngle) < SHOOTING_ACCURACY && distanceToEnemy < SHOOTING_DISTANCE && !(planeBehaviour.State == PlaneBehaviour.PlaneState.turningBack))
         {
             planeBehaviour.shoot();
         }

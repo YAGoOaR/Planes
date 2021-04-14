@@ -10,13 +10,16 @@ public class PlaneBehaviour : MonoBehaviour
     const float FLAP_MAX_TORQUE = 1000;
     const float PITCH_FORCE_COEF = 15;
     const float GEAR_SWITCH_VELOCITY = 5;
+    const float MAX_VELOCITY_COEF = 0.2f;
+    const float MIN_ANGLE_COEF = 0.9f;
+    const float VELOCITY_OFFSET = 0.3f;
+    const float TURN_BACK_DRAG = 0.1f;
     readonly Vector3 bombOffset = new Vector3(0, -0.5f, 0);
 
     AeroPlane plane;
     GearController gearCtrl;
     [SerializeField]
     bool isPlayer = true;
-    bool isTurningBack;
     float pitch;
     bool upsideDown;
     int throttle;
@@ -47,49 +50,41 @@ public class PlaneBehaviour : MonoBehaviour
     HingeJoint2D flapJoint;
     HingeJoint2D hinge;
     PropellerMotor propellerMotor;
-    Animator planeAnimator;
-    Timers.CooldownTimer turnTimer;
     Timers.CooldownTimer throttleTimer;
     Timers.CooldownTimer shootingTimer;
     Aerofoil[] aerofoilList;
+    PlaneAnimator planeAnimator;
+    PlaneState state;
+    Vector3 lastVelocity;
+    float turnTimer = 0;
+    float turnSpeedMultiplier = 1;
 
-    public AeroPlane Plane
-    {
-        get { return plane; }
-    }
+    bool isBroken = false;
+
+    public AeroPlane Plane { get;  }
+
+    public PlaneState State { get; }
 
     public GearController GearCtrl
     {
         get { return gearCtrl; }
     }
 
-    public bool IsPlayer
+    public enum PlaneState
     {
-        get { return isPlayer; }
+        common,
+        turning,
+        stalling,
+        turningBack
     }
 
-    public bool UpsideDown
-    {
-        get { return upsideDown; }
-    }
+    public bool IsPlayer{ get; }
 
-    public bool IsTurningBack
-    {
-        get { return isTurningBack; }
-        set { isTurningBack = value; }
-    }
+    public bool UpsideDown { get; }
 
-    public float Pitch
-    {
-        get { return pitch; }
-        set { pitch = value; }
-    }
+    public float Pitch { get; set; }
 
-    public int Throttle
-    {
-        get { return throttle; }
-        set { throttle = value; }
-    }
+    public int Throttle { get; set; }
 
     //Called after this object initialization
     void Start()
@@ -109,7 +104,7 @@ public class PlaneBehaviour : MonoBehaviour
 
     void defineComponents()
     {
-        planeAnimator = GetComponent<Animator>();
+        planeAnimator = GetComponent<PlaneAnimator>();
         planeRB = GetComponent<Rigidbody2D>();
         hinge = GetComponent<HingeJoint2D>();
         aerofoilList = gameObject.GetComponentsInChildren<Aerofoil>();
@@ -128,8 +123,8 @@ public class PlaneBehaviour : MonoBehaviour
         propeller = plane.getPart("propeller");
         flap = plane.getPart("flap");
         throttleTimer = new Timers.CooldownTimer(0.01f);
-        turnTimer = new Timers.CooldownTimer(1f);
         shootingTimer = new Timers.CooldownTimer(0.08f);
+        state = PlaneState.common;
     }
 
     void planeSetup()
@@ -200,7 +195,7 @@ public class PlaneBehaviour : MonoBehaviour
 
     void controls()
     {
-        if (!isPlayer)
+        if (!isPlayer || isBroken)
         {
             return;
         }
@@ -226,8 +221,15 @@ public class PlaneBehaviour : MonoBehaviour
                 throttleTimer.reset();
             }
         }
+
+        if(state == PlaneState.turningBack)
+        {
+            planeRB.velocity = lastVelocity * Mathf.Cos(Mathf.Max(Mathf.PI * turnTimer  * (1 - turnTimer * TURN_BACK_DRAG) + VELOCITY_OFFSET, 0));
+            turnTimer += Time.deltaTime * turnSpeedMultiplier;
+        }
+
         //Checking if turning animation is ended
-        if (turnTimer.check())
+        if (state != PlaneState.turning && state != PlaneState.turningBack)
         {
             if (Input.GetKeyDown(KeyCode.B))
             {
@@ -280,9 +282,10 @@ public class PlaneBehaviour : MonoBehaviour
     // A half of barrel roll
     public void turn()
     {
-        turnOver();
-        planeAnimator.SetBool("turning", true);
-        turnTimer.reset();
+        planeAnimator.turn();
+        state = PlaneState.turning;
+        hideParts(true);
+        hideBombs();
     }
 
     //Place a plane upside down
@@ -386,11 +389,28 @@ public class PlaneBehaviour : MonoBehaviour
         gameObject.transform.Rotate(0, 0, 180);
     }
 
+    public void rotate(float angle)
+    {
+        gameObject.transform.Rotate(0, 0, angle / Mathf.PI * 180);
+    }
+
     public void turnBack()
     {
-        turnOver();
-        planeAnimator.SetBool("turningBack", true);
-        turnTimer.reset();
+        turnTimer = 0f;
+        hideParts(true);
+        state = PlaneState.turningBack;
+        float velocityCoefficient = Mathf.Min(1 / planeRB.velocity.magnitude * 10, MAX_VELOCITY_COEF);
+        float velocityAngle = MathUtils.Vector2ToAngle(planeRB.velocity);
+        float angleCoefficient = Mathf.Max(-Mathf.Cos(velocityAngle + Mathf.PI / 2) + 1, MIN_ANGLE_COEF);
+        turnSpeedMultiplier = velocityCoefficient * angleCoefficient;
+        planeAnimator.turnBack(turnSpeedMultiplier);
+        planeRB.isKinematic = true;
+        planeRB.freezeRotation = true;
+        lastVelocity = new Vector3(planeRB.velocity.x, planeRB.velocity.y, 0);
+        switchAerofoilActive();
+        hideBombs();
+        float headingAngle = transform.rotation.eulerAngles.z / 180 * Mathf.PI + Mathf.PI;
+        rotate(velocityAngle - headingAngle);
     }
 
     //Turn off aerofoil physics(during animation)
@@ -414,7 +434,7 @@ public class PlaneBehaviour : MonoBehaviour
     //If plane collides something(during animation)
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        if (isTurningBack && collision.gameObject.layer != 8)
+        if (state == PlaneState.turningBack && collision.gameObject.layer != 8)
         {
             breakPlane();
         }
@@ -431,7 +451,7 @@ public class PlaneBehaviour : MonoBehaviour
     //If plane collides a trigger(water, etc)(during animation)
     public void OnTriggerEnter2D()
     {
-        if (isTurningBack)
+        if (state == PlaneState.turningBack)
         {
             breakPlane();
         }
@@ -440,7 +460,9 @@ public class PlaneBehaviour : MonoBehaviour
     //Stop plane animation, behaviour, etc
     void breakPlane()
     {
-        planeAnimator.enabled = planeRB.isKinematic = planeRB.freezeRotation = false;
+        planeRB.isKinematic = planeRB.freezeRotation = false;
+        planeAnimator.StopAnimation();
+        isBroken = true;
         foreach (Joint2D joint in GetComponents<Joint2D>())
         {
             joint.breakForce = 0;
@@ -530,5 +552,44 @@ public class PlaneBehaviour : MonoBehaviour
         {
             AddBomb();
         }
+    }
+
+    void hideParts(bool hide)
+    {
+        foreach (PlanePart part in plane.Parts)
+        {
+            if (part.PartName != "propeller")
+            {
+                part.hide(hide);
+            }
+        }
+    }
+
+    public void onTurnExit()
+    {
+        state = PlaneState.common;
+        turnOver();
+        hideParts(false);
+        hideBombs();
+    }
+
+    public void onTurnBackMiddle()
+    {
+        forceTurnBack();
+    }
+
+    public void onTurnBackExit()
+    {
+        state = PlaneState.common;
+        //turnOver();
+        hideParts(false);
+        planeRB.isKinematic = false;
+        planeRB.freezeRotation = false;
+        switchAerofoilActive();
+        hideBombs();
+    }
+    public void hidePropeller(bool hide)
+    {
+        propeller.hide(hide);
     }
 }

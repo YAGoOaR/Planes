@@ -419,6 +419,7 @@ MonoBehaviour:
   chunks:
   - {fileID: 5852664580031710359, guid: cc4c6c1c9935c0046b41021c131593eb, type: 3}
   - {fileID: 9044224134951599345, guid: b03e53e25a7f736418cf51e1b091af4b, type: 3}
+  emptyTexture: {fileID: 21300000, guid: 9e8b88de6608142408de883b74ee469e, type: 3}
 --- !u!4 &216855325
 Transform:
   m_ObjectHideFlags: 0
@@ -1292,7 +1293,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1002289166
 Transform:
   m_ObjectHideFlags: 0

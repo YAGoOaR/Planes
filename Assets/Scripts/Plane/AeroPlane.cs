@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class AeroPlane : MonoBehaviour
 {
-    [SerializeField]
-    private string[] partNames = { "gear", "wing", "flap", "tail", "elevator", "propeller" };
     private PlanePart[] parts;
     [SerializeField]
     private int hp = 4;
@@ -42,22 +40,17 @@ public class AeroPlane : MonoBehaviour
     }
 
     //Called after plane initialization
-    void Awake()
+    void Start()
     {
         bombs = new Queue<GameObject>();
-        int count = partNames.Length;
-        parts = new PlanePart[count];
-        for (int i = 0; i < count; i++)
-        {
-            parts[i] = transform.Find(partNames[i]).gameObject.AddComponent<PlanePart>();
-        }
+        parts = transform.GetComponentsInChildren<PlanePart>(true);
     }
 
     public PlanePart getPart(string name)
     {
-        for (int i = 0; i < partNames.Length; i++)
+        for (int i = 0; i < parts.Length; i++)
         {
-            if (partNames[i] == name)
+            if (parts[i].PartName == name)
             {
                 return parts[i];
             }

@@ -79,6 +79,13 @@ public class GameAssets : MonoBehaviour
         get { return chunks; }
     }
 
+    [SerializeField]
+    Sprite emptyTexture;
+    public Sprite EmptyTexture
+    {
+        get { return emptyTexture; }
+    }
+
     public GameObject pickRandomCloud()
     {
         return clouds[Random.Range(0, clouds.Length)];
