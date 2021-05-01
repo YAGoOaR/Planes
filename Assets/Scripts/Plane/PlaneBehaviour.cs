@@ -4,36 +4,13 @@ using UnityEngine;
 //A script that controls a plane
 public class PlaneBehaviour : MonoBehaviour
 {
-    const float SHOOTING_ACCURACY = 2;
-    const float JOINT_FORCE = 20f;
-    const float FLAP_MOTOR_SPEED = 20;
-    const float FLAP_MAX_TORQUE = 1000;
-    const float PITCH_FORCE_COEF = 15;
-    const float GEAR_SWITCH_VELOCITY = 5;
-    const float MAX_VELOCITY_COEF = 0.2f;
-    const float MIN_ANGLE_COEF = 0.9f;
-    const float VELOCITY_OFFSET = 0.3f;
-    const float TURN_BACK_DRAG = 0.1f;
-    readonly Vector3 bombOffset = new Vector3(0, -0.5f, 0);
-
     AeroPlane plane;
     GearController gearCtrl;
-    [SerializeField]
-    bool isPlayer = true;
     float pitch;
     bool upsideDown;
     int throttle;
 
-    [SerializeField]
     bool invertPitch = false;
-    [SerializeField]
-    bool startInOtherHeading = false;
-    [SerializeField]
-    float gunOffset = 1.6f;
-    [SerializeField]
-    float gunOffsetAngle = -0.2f;
-    [SerializeField]
-    float trimPitch = 0f;
 
     bool flaps;
     bool brakes;
@@ -60,6 +37,14 @@ public class PlaneBehaviour : MonoBehaviour
     float turnSpeedMultiplier = 1;
 
     bool isBroken = false;
+
+    float gunOffsetAngle
+    {
+        get
+        {
+            return upsideDown ? -plane.Model.GunOffsetAngle : plane.Model.GunOffsetAngle;
+        }
+    }
 
     public AeroPlane Plane { get;  }
 
@@ -133,10 +118,10 @@ public class PlaneBehaviour : MonoBehaviour
 
         flapAngle = flapJoint.limits.min;
         hingemotor.maxMotorTorque = 100;
-        flapMotor.maxMotorTorque = FLAP_MAX_TORQUE;
-        flapMotor.motorSpeed = -FLAP_MOTOR_SPEED;
+        flapMotor.maxMotorTorque = plane.Model.FlapMaxTorque;
+        flapMotor.motorSpeed = -plane.Model.FlapMotorSpeed;
 
-        if (startInOtherHeading)
+        if (plane.StartInOtherHeading)
         {
             forceTurnBack();
         }
@@ -158,7 +143,7 @@ public class PlaneBehaviour : MonoBehaviour
         //Plane pitch
         if (!elevator.IsBroken)
         {
-            hingemotor.motorSpeed = (pitch * PITCH_FORCE_COEF - hinge.jointAngle) * JOINT_FORCE;
+            hingemotor.motorSpeed = (pitch * plane.Model.PitchForceCoef - hinge.jointAngle) * plane.Model.JointForce;
             hinge.motor = hingemotor;
         }
         //Changing controls if animation puts plane upside down
@@ -166,7 +151,7 @@ public class PlaneBehaviour : MonoBehaviour
         {
             JointMotor2D reverse = new JointMotor2D();
             reverse.motorSpeed = -flapMotor.motorSpeed;
-            reverse.maxMotorTorque = FLAP_MAX_TORQUE;
+            reverse.maxMotorTorque = plane.Model.FlapMaxTorque;
             flapJoint.motor = reverse;
         }
         else
@@ -178,7 +163,7 @@ public class PlaneBehaviour : MonoBehaviour
     //Information about plane that will be taken by UI 
     void updateInfo()
     {
-        if (!isPlayer)
+        if (!plane.IsPlayer)
         {
             return;
         }
@@ -195,7 +180,7 @@ public class PlaneBehaviour : MonoBehaviour
 
     void controls()
     {
-        if (!isPlayer || isBroken)
+        if (!plane.IsPlayer || isBroken)
         {
             return;
         }
@@ -224,7 +209,7 @@ public class PlaneBehaviour : MonoBehaviour
 
         if(state == PlaneState.turningBack)
         {
-            planeRB.velocity = lastVelocity * Mathf.Cos(Mathf.Max(Mathf.PI * turnTimer  * (1 - turnTimer * TURN_BACK_DRAG) + VELOCITY_OFFSET, 0));
+            planeRB.velocity = lastVelocity * Mathf.Cos(Mathf.Max(Mathf.PI * turnTimer  * (1 - turnTimer * plane.Model.TurnBackDrag) + plane.Model.VelocityOffset, 0));
             turnTimer += Time.deltaTime * turnSpeedMultiplier;
         }
 
@@ -269,12 +254,12 @@ public class PlaneBehaviour : MonoBehaviour
             }
             else
             {
-                pitch = trimPitch;
+                pitch = plane.Model.TrimPitch;
             }
         }
         else
         {
-            pitch = trimPitch;
+            pitch = plane.Model.TrimPitch;
         }
         throttle = Mathf.FloorToInt(MathUtils.clamped(throttle, 0, 100));
     }
@@ -291,7 +276,6 @@ public class PlaneBehaviour : MonoBehaviour
     //Place a plane upside down
     public void turnOver()
     {
-        gunOffsetAngle = -gunOffsetAngle;
         Vector3 scale = gameObject.transform.localScale;
         //Mirroring model
         gameObject.transform.localScale = new Vector3(scale.x, -scale.y, scale.z);
@@ -318,7 +302,7 @@ public class PlaneBehaviour : MonoBehaviour
     //Landing gear
     public void switchGear()
     {
-        if (planeRB.velocity.magnitude > GEAR_SWITCH_VELOCITY)
+        if (planeRB.velocity.magnitude > plane.Model.GearSwitchVelocity)
         {
             gearCtrl.switchGear(!gearCtrl.IsGearUp);
         }
@@ -326,7 +310,7 @@ public class PlaneBehaviour : MonoBehaviour
 
     public void switchGear(bool on)
     {
-        if (planeRB.velocity.magnitude > GEAR_SWITCH_VELOCITY)
+        if (planeRB.velocity.magnitude > plane.Model.GearSwitchVelocity)
         {
             gearCtrl.switchGear(!on);
         }
@@ -340,9 +324,9 @@ public class PlaneBehaviour : MonoBehaviour
         }
         shootingTimer.reset();
 
-        float accuracy = (Random.value - 0.5f) * SHOOTING_ACCURACY;
+        float accuracy = (Random.value - 0.5f) * plane.Model.ShootingAccuracy;
         float rotation = transform.rotation.eulerAngles.z / 180 * Mathf.PI;
-        Vector3 gunPos = new Vector2(-Mathf.Cos(rotation + gunOffsetAngle), -Mathf.Sin(rotation + gunOffsetAngle)) * gunOffset;
+        Vector3 gunPos = new Vector2(-Mathf.Cos(rotation + gunOffsetAngle), -Mathf.Sin(rotation + gunOffsetAngle)) * plane.Model.GunOffset;
         GameObject bullet = Instantiate(GameAssets.Instance.Bullet, gunPos + transform.position, transform.rotation);
         bullet.transform.Rotate(new Vector3(0, 0, accuracy));
         bullet.GetComponent<Rigidbody2D>().velocity = planeRB.velocity;
@@ -361,9 +345,9 @@ public class PlaneBehaviour : MonoBehaviour
     //Creating a bomb GameObject
     public void AddBomb()
     {
-        GameObject bmb = GameObject.Instantiate(GameAssets.Instance.Bomb, bombOffset + transform.position, Quaternion.identity);
+        GameObject bmb = GameObject.Instantiate(GameAssets.Instance.Bomb, plane.BombOffset + transform.position, Quaternion.identity);
         FixedJoint2D joint = bmb.GetComponent<FixedJoint2D>();
-        joint.connectedAnchor = bombOffset;
+        joint.connectedAnchor = plane.BombOffset;
         joint.connectedBody = GetComponent<Rigidbody2D>();
         plane.Bombs.Enqueue(bmb);
     }
@@ -399,9 +383,9 @@ public class PlaneBehaviour : MonoBehaviour
         turnTimer = 0f;
         hideParts(true);
         state = PlaneState.turningBack;
-        float velocityCoefficient = Mathf.Min(1 / planeRB.velocity.magnitude * 10, MAX_VELOCITY_COEF);
+        float velocityCoefficient = Mathf.Min(1 / planeRB.velocity.magnitude * 10, plane.Model.MaxVelocityCoef);
         float velocityAngle = MathUtils.Vector2ToAngle(planeRB.velocity);
-        float angleCoefficient = Mathf.Max(-Mathf.Cos(velocityAngle + Mathf.PI / 2) + 1, MIN_ANGLE_COEF);
+        float angleCoefficient = Mathf.Max(-Mathf.Cos(velocityAngle + Mathf.PI / 2) + 1, plane.Model.MinAngleCoef);
         turnSpeedMultiplier = velocityCoefficient * angleCoefficient;
         planeAnimator.turnBack(turnSpeedMultiplier);
         planeRB.isKinematic = true;
@@ -467,7 +451,7 @@ public class PlaneBehaviour : MonoBehaviour
         {
             joint.breakForce = 0;
         }
-        if (isPlayer)
+        if (plane.IsPlayer)
         {
             Game.Instance.gameOver("plane is broken");
         }
@@ -496,11 +480,11 @@ public class PlaneBehaviour : MonoBehaviour
         flaps = !flaps;
         if (flaps)
         {
-            flapMotor.motorSpeed = FLAP_MOTOR_SPEED;
+            flapMotor.motorSpeed = plane.Model.FlapMotorSpeed;
         }
         else
         {
-            flapMotor.motorSpeed = -FLAP_MOTOR_SPEED;
+            flapMotor.motorSpeed = -plane.Model.FlapMotorSpeed;
         }
     }
 
@@ -509,11 +493,11 @@ public class PlaneBehaviour : MonoBehaviour
         flaps = on;
         if (flaps)
         {
-            flapMotor.motorSpeed = FLAP_MOTOR_SPEED;
+            flapMotor.motorSpeed = plane.Model.FlapMotorSpeed;
         }
         else
         {
-            flapMotor.motorSpeed = -FLAP_MOTOR_SPEED;
+            flapMotor.motorSpeed = -plane.Model.FlapMotorSpeed;
         }
     }
 
@@ -521,11 +505,11 @@ public class PlaneBehaviour : MonoBehaviour
     {
         if (flaps)
         {
-            flapMotor.motorSpeed = FLAP_MOTOR_SPEED;
+            flapMotor.motorSpeed = plane.Model.FlapMotorSpeed;
         }
         else
         {
-            flapMotor.motorSpeed = -FLAP_MOTOR_SPEED;
+            flapMotor.motorSpeed = -plane.Model.FlapMotorSpeed;
         }
     }
 

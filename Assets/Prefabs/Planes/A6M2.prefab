@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1439771299854524634}
   - component: {fileID: 114976178271036614}
-  - component: {fileID: 114646388665939438}
   - component: {fileID: 9052198950687221418}
   - component: {fileID: 6922862073916242376}
   - component: {fileID: 2442132375263519806}
@@ -63,27 +62,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248ebb83b3fe79742ba7b8138db50312, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlayer: 1
+  startInOtherHeading: 0
   hp: 4
   bullets: 150
   bombCount: 1
---- !u!114 &114646388665939438
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1081117711294531131}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36fd2588820fd614299746ebf17c4401, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isPlayer: 1
-  invertPitch: 0
-  startInOtherHeading: 0
-  gunOffset: 1.6
-  gunOffsetAngle: -0.2
-  trimPitch: 0
+  model:
+    shootingAccuracy: 2
+    jointForce: 20
+    flapMotorSpeed: 20
+    flapMaxTorque: 1000
+    pitchForceCoef: 15
+    gearSwitchVelocity: 5
+    maxVelocityCoef: 0.2
+    minAngleCoef: 0.9
+    velocityOffset: 0.3
+    turnBackDrag: 0.1
+    trimPitch: 0
+    gunOffset: 1.6
+    gunOffsetAngle: -0.2
+  bombOffset: {x: 0, y: -0.5, z: 0}
 --- !u!212 &9052198950687221418
 SpriteRenderer:
   m_ObjectHideFlags: 0

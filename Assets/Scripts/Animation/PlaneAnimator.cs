@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(SpriteAnimator), typeof(AeroPlane))]
+[RequireComponent(typeof(SpriteAnimator), typeof(AeroPlane), typeof(PlaneBehaviour))]
 public class PlaneAnimator : MonoBehaviour
 {
     private SpriteAnimator spriteAnimator;
