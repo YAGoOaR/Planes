@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 //Any physical plane part
 public class PlanePart : MonoBehaviour
 {
+    public UnityEvent OnBreak;
     private bool isBroken;
     private Sprite defaultSprite;
-    private SpriteRenderer spriteRenderer;
+    [SerializeField] SpriteRenderer spriteRenderer;
+    AnchoredJoint2D joint;
 
     public string PartName
     {
@@ -14,7 +17,13 @@ public class PlanePart : MonoBehaviour
 
     public virtual void Start()
     {
-        if (!TryGetComponent<SpriteRenderer>(out spriteRenderer)) return;
+        joint = GetComponent<AnchoredJoint2D>();
+
+        GameObject hull = transform.parent.GetComponent<Hull>().hull;
+        joint.connectedBody = hull.GetComponent<Rigidbody2D>();
+
+        if (spriteRenderer == null) TryGetComponent(out spriteRenderer);
+        if (spriteRenderer == null) return;
         defaultSprite = spriteRenderer.sprite;
     }
 
@@ -23,13 +32,26 @@ public class PlanePart : MonoBehaviour
         get { return isBroken; }
         set { isBroken = value; }
     }
+
     public bool getConnection()
     {
-        return GetComponent<Joint2D>();
+        return joint;
     }
     public virtual void hide(bool hide)
     {
         if (spriteRenderer == null) return;
         spriteRenderer.sprite = hide ? GameAssets.Instance.EmptyTexture : defaultSprite;
+    }
+
+    private void OnJointBreak2D(Joint2D joint)
+    {
+        isBroken = true;
+        OnBreak.Invoke();
+    }
+
+    public void Break()
+    {
+        if (joint == null) return;
+        joint.breakForce = 0;
     }
 }

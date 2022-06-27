@@ -116,13 +116,12 @@ public class Water : MonoBehaviour
         mesh.triangles = triangles;
         meshes[i] = mesh;
 
-        GameObject meshObject = Object.Instantiate(waterMesh, Vector3.zero, Quaternion.identity);
+        GameObject meshObject = Instantiate(waterMesh, Vector3.zero, Quaternion.identity, transform);
         meshObject.GetComponent<MeshFilter>().mesh = meshes[i];
         meshObject.GetComponent<MeshRenderer>().sortingLayerName = "water";
-        meshObject.transform.parent = transform;
         meshObjects[i] = meshObject;
 
-        GameObject water = GameObject.Instantiate(waterCollider, transform);
+        GameObject water = Instantiate(waterCollider, transform);
         water.transform.position = new Vector3(leftPosition + WIDTH * (i + HALF) / edgeCount, (bottomPosition + TOP_POSITION) / 2, DEFAULT_Z_POSITION);
         water.transform.localScale = new Vector3(WIDTH / edgeCount, TOP_POSITION - bottomPosition, DEFAULT_Z_SCALE);
         nodes[i].buoyancyCollider = water;

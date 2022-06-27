@@ -15,12 +15,14 @@ public class RandomObjects : MonoBehaviour
     int prevPosition = -1;
     List<int> chunks;
     List<GameObject> chunksObj;
+    Transform chunkHolder;
 
     void Start()
     {
         cameraTransform = Camera.main.transform;
         chunks = new List<int>();
         chunksObj = new List<GameObject>();
+        chunkHolder = GameHandler.Instance.chunkHolder;
     }
 
     void Update()
@@ -56,12 +58,12 @@ public class RandomObjects : MonoBehaviour
     void createCloudChunk(int pos)
     {
         chunks.Add(pos);
-        chunksObj.Add(GameObject.Instantiate(GameAssets.Instance.pickRandomCloud(), new Vector3(pos + Random.Range(0, chunkSize - objectSize), cloudHeight, 0), Quaternion.identity));
+        chunksObj.Add(Instantiate(GameAssets.Instance.pickRandomCloud(), new Vector3(pos + Random.Range(0, chunkSize - objectSize), cloudHeight, 0), Quaternion.identity, chunkHolder));
     }
 
     void removeCloudChunk(int i)
     {
-        GameObject.Destroy(chunksObj[i]);
+        Destroy(chunksObj[i]);
         chunksObj.RemoveAt(i);
         chunks.RemoveAt(i);
     }

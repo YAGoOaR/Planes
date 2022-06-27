@@ -3,42 +3,9 @@
 //My utilities for math
 public static class MathUtils
 {
-    public static void clamp(float variable, float min, float max)
+    public static float clampPlusMinus(float variable, float value)
     {
-        if (variable > max)
-        {
-            variable = max;
-        }
-        if (variable < min)
-        {
-            variable = min;
-        }
-    }
-
-    public static float clamped(float variable, float value)
-    {
-        if (variable > value)
-        {
-            return value;
-        }
-        if (variable < -value)
-        {
-            return -value;
-        }
-        return variable;
-    }
-
-    public static float clamped(float variable, float min, float max)
-    {
-        if (variable > max)
-        {
-            return max;
-        }
-        if (variable < min)
-        {
-            return min;
-        }
-        return variable;
+        return Mathf.Clamp(variable, -value, value);
     }
 
     public static float Vector2ToAngle(Vector2 heading)

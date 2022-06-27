@@ -6,45 +6,30 @@ public class Game : MonoBehaviour
 {
     const float WAIT_BEFORE_EXIT = 10;
     bool gameIsOver;
-
-    static Game instance;
-    public static Game Instance
-    {
-        get { return Game.instance; }
-    }
-
-    public static void quitGame()
+    bool gameIsWon;
+    public void quitGame()
     {
         SceneManager.LoadScene(0);
     }
 
-    public static void restartGame()
+    public void restartGame()
     {
         SceneManager.LoadScene(1);
     }
 
-    public static void setInstance(Game game)
+    public void gameOver(string reason)
     {
-        instance = game;
-    }
-
-    public virtual void gameOver(string reason)
-    {
-        if (gameIsOver)
-        {
-            return;
-        }
+        if (gameIsOver || gameIsWon) return;
+        Debug.Log(reason);
         gameIsOver = true;
-        Timers.customFunc callback = () =>
-        {
-            quitGame();
-        };
-        Timers.timeout(WAIT_BEFORE_EXIT, callback);
+        Timers.delay(WAIT_BEFORE_EXIT, quitGame);
     }
 
-    //Called after game initialization
-    void Awake()
+    public void gameWin(string reason)
     {
-        setInstance(this);
+        if (gameIsWon || gameIsOver) return;
+        Debug.Log(reason);
+        gameIsWon = true;
+        Timers.delay(WAIT_BEFORE_EXIT, quitGame);
     }
 }

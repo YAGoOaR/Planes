@@ -27,6 +27,7 @@ public class ChunkManager : MonoBehaviour
     {
         readonly int chunkSize;
         readonly List<Chunk> chunks;
+        public Transform chunkHolder;
 
         public ChunksArray(int chunkSize)
         {
@@ -51,8 +52,8 @@ public class ChunkManager : MonoBehaviour
             GameObject chunkAsset = GameAssets.Instance.GetChunk(pos);
             if (chunkAsset != null)
             {
-                Chunk newChunk = new Chunk(pos, GameObject.Instantiate(chunkAsset, new Vector3((-pos + HALF) * this.chunkSize, 0, 0), Quaternion.identity));
-                this.chunks.Add(newChunk);
+                Chunk newChunk = new Chunk(pos, Instantiate(chunkAsset, new Vector3((-pos + HALF) * this.chunkSize, 0, 0), Quaternion.identity, chunkHolder));
+                chunks.Add(newChunk);
             }
         }
 
@@ -95,6 +96,7 @@ public class ChunkManager : MonoBehaviour
     {
         cameraTransform = Camera.main.transform;
         chunkArray = new ChunksArray(chunkSize);
+        chunkArray.chunkHolder = GameHandler.Instance.chunkHolder;
     }
 
     //Called each frame

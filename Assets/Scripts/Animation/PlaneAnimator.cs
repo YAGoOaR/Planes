@@ -2,19 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(SpriteAnimator), typeof(AeroPlane), typeof(PlaneBehaviour))]
 public class PlaneAnimator : MonoBehaviour
 {
-    private SpriteAnimator spriteAnimator;
-    private PlaneBehaviour planeBehaviour;
-    [SerializeField]
-    private Sprite[] turnAnimation;
-    [SerializeField]
-    private Sprite[] shakeAnimation;
-    [SerializeField]
-    private Sprite[] turnBackStartAnimation;
-    [SerializeField]
-    private Sprite[] turnBackEndAnimation;
+    SpriteAnimator spriteAnimator;
+    PlaneBehaviour planeBehaviour;
+    [SerializeField] Sprite[] turnAnimation;
+    [SerializeField] Sprite[] shakeAnimation;
+    [SerializeField] Sprite[] turnBackStartAnimation;
+    [SerializeField] Sprite[] turnBackEndAnimation;
     void Start()
     {
         spriteAnimator = GetComponent<SpriteAnimator>();
@@ -28,26 +23,26 @@ public class PlaneAnimator : MonoBehaviour
 
     public void turn()
     {
-        spriteAnimator.PlayAnimation(turnAnimation, 1, () => { planeBehaviour.onTurnExit(); });
+        spriteAnimator.PlayAnimation(turnAnimation, 1, () => { planeBehaviour.OnTurnExit(); });
     }
 
-    public void turnBack(float multiplier)
+    public void turnBack(float duration)
     {
-        spriteAnimator.PlayAnimation(turnBackStartAnimation, 1 / multiplier / 2, () => {
-            planeBehaviour.onTurnBackMiddle();
-            spriteAnimator.PlayAnimation(turnBackEndAnimation, 1 / multiplier / 2, () => {
-                planeBehaviour.onTurnBackExit();
+        spriteAnimator.PlayAnimation(turnBackStartAnimation, duration / 2, () => {
+            planeBehaviour.OnTurnBackMiddle();
+            spriteAnimator.PlayAnimation(turnBackEndAnimation, duration / 2, () => {
+                planeBehaviour.OnTurnBackExit();
             });
             spriteAnimator.OnFrame = (frame) => {
                 if (frame == 3) {
-                    planeBehaviour.hidePropeller(false);
+                    planeBehaviour.HidePropeller(false);
                 }
             };
         });
         spriteAnimator.OnFrame = (frame) => {
             if (frame == 3)
             {
-                planeBehaviour.hidePropeller(true);
+                planeBehaviour.HidePropeller(true);
             }
         };
 

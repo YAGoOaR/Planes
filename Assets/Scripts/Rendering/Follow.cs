@@ -5,12 +5,13 @@ public class Follow : MonoBehaviour
 {
     readonly Vector3 startPosition = new Vector3(0, 0, 21);
     [SerializeField]
-    float moveStep = 1f;
+    float moveStep = 0.5f;
     [SerializeField]
     float offset = 10f;
     Camera Cam;
     Transform camTransform;
     Transform background;
+    Rigidbody2D rb;
 
     //Called instantly after initialization
     void Awake()
@@ -20,6 +21,7 @@ public class Follow : MonoBehaviour
         camTransform.position = new Vector3(transform.position.x, transform.position.y, camTransform.position.z);
         background = camTransform.Find("background");
         Cam = cameraObject.GetComponent<Camera>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     //Called after "Awake"
@@ -29,18 +31,9 @@ public class Follow : MonoBehaviour
     }
 
     //Called once per frame
-    void Update()
+    void LateUpdate()
     {
-        float size = Cam.orthographicSize * (1 - Input.GetAxis("Mouse ScrollWheel"));
-        if (size > 100)
-        {
-            size = 100;
-        }
-        else if (size < 2f)
-        {
-            size = 2;
-        }
-
+        float size = Mathf.Clamp(Cam.orthographicSize * (1 - Input.GetAxis("Mouse ScrollWheel")), 5, 65);
         Cam.orthographicSize = size;
         background.transform.localScale = new Vector3(size / 2, size / 4, 1);
         Vector3 playerPosition = transform.position;
@@ -54,7 +47,7 @@ public class Follow : MonoBehaviour
         {
             move = delta;
         }
-        camTransform.position -= move;
+        camTransform.position += (Vector3)rb.velocity * Time.deltaTime - move;
     }
 
 }

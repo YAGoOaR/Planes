@@ -8,6 +8,8 @@ public class explosion : MonoBehaviour
     float timer;
     [SerializeField]
     float minDetonationTime;
+    [SerializeField]
+    GameObject explosionEffect;
 
     //Called when the bomb drops from plane
     public void OnJointBreak2D()
@@ -30,10 +32,6 @@ public class explosion : MonoBehaviour
         if (timer > minDetonationTime)
         {
             detonated();
-            if (collision.gameObject.tag == "Destructable")
-            {
-                collision.gameObject.GetComponent<Destructable>().hit();
-            }
         }
     }
 
@@ -52,10 +50,9 @@ public class explosion : MonoBehaviour
         detonated();
     }
 
-    //start explosion animation
     void detonated()
     {
-        GetComponent<Animator>().SetBool("detonated", true);
-        GetComponent<PointEffector2D>().enabled = true;
+        Instantiate(explosionEffect, transform.position, transform.rotation, GameHandler.Instance.projectileHolder);
+        Destroy(gameObject);
     }
 }

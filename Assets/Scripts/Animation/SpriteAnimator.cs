@@ -6,7 +6,7 @@ public class SpriteAnimator : MonoBehaviour
 {
     [SerializeField]
     private Sprite[] frameArray;
-    private SpriteRenderer spriteRenderer;
+    [SerializeField] SpriteRenderer spriteRenderer;
     private float timer;
     private int currentFrame;
     private float duration = 5;
@@ -71,6 +71,7 @@ public class SpriteAnimator : MonoBehaviour
 
     private void Start()
     {
+        if (spriteRenderer != null) return;
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
     }
 

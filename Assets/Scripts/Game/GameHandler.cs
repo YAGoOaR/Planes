@@ -5,48 +5,30 @@ using UnityEngine;
 //Main script of the game
 public class GameHandler : MonoBehaviour
 {
-    const float FREEZE_DISTANCE = 235;
+    string planeBrokenMsg = "The plane is broken";
+    const float FREEZE_DISTANCE = 270;
+
+    public Transform projectileHolder;
+    public Transform chunkHolder;
+    public Transform enemyHolder;
+    public PlaneInfoShow planeinfoShow;
+    public GameMessageHandler messageBox;
 
     private static GameHandler instance;
-    public static GameHandler Instance
-    {
-        get { return GameHandler.instance; }
-    }
+    public static GameHandler Instance { get => instance; }
+
+    Game game;
+
 
     Transform cameraTransform;
     List<GameObject> objectsToFreeze;
     [SerializeField]
     Vector2 spawnPosition;
 
-    infoText planeInfo;
-    public infoText PlaneInfo
-    {
-        get { return planeInfo; }
-        set { planeInfo = value; }
-    }
-
     GameObject player;
     public GameObject Player
     {
         get { return player; }
-    }
-
-    //info that will be showed on UI
-    public struct infoText
-    {
-        public readonly int throttle, bullets, bombs;
-        public readonly float speed, altitude;
-        public readonly bool gear, brakes;
-        public infoText(int throttle, int bullets, int bombs, float altitude, float speed, bool gear, bool brakes)
-        {
-            this.throttle = throttle;
-            this.bullets = bullets;
-            this.bombs = bombs;
-            this.speed = speed;
-            this.gear = gear;
-            this.brakes = brakes;
-            this.altitude = altitude;
-        }
     }
 
     public static void setInstance(GameHandler gameHandler) {
@@ -58,8 +40,23 @@ public class GameHandler : MonoBehaviour
     {
         setInstance(this);
         objectsToFreeze = new List<GameObject>();
-        player = Object.Instantiate(GameAssets.Instance.Player, new Vector3(spawnPosition.x, spawnPosition.y, 0), Quaternion.identity);
-        player.AddComponent<Follow>();
+        player = Instantiate(GameAssets.Instance.Player, new Vector3(spawnPosition.x, spawnPosition.y, 0), Quaternion.identity);
+        GameObject hull = player.GetComponent<Hull>().hull;
+        hull.AddComponent<Follow>();
+        hull.GetComponent<Health>().OnDeath.AddListener(() => GameOver(planeBrokenMsg));
+        game = GetComponent<Game>();
+    }
+
+    public void GameOver(string msg) 
+    {
+        messageBox.ShowMessage(msg, true);
+        game.gameOver(msg);
+    }
+
+    public void GameWin(string msg)
+    {
+        messageBox.ShowMessage(msg, true);
+        game.gameWin(msg);
     }
 
     //Called after "Awake"
@@ -74,6 +71,7 @@ public class GameHandler : MonoBehaviour
         //freeze objects if they are too far from camera
         foreach (GameObject gameobject in objectsToFreeze)
         {
+            if (gameobject == null) continue;
             gameobject.SetActive(Mathf.Abs(cameraTransform.position.x - gameobject.transform.position.x) < FREEZE_DISTANCE);
         }
         controls();
@@ -83,11 +81,11 @@ public class GameHandler : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Game.quitGame();
+            instance.game.quitGame();
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
-            Game.restartGame();
+            instance.game.restartGame();
         }
     }
 
