@@ -17,8 +17,9 @@ public class GameMessageHandler : MonoBehaviour
         Debug.Log(message);
         timer?.Abort();
 
+        if (text == null) return;
         text.text = message;
         text.enabled = true;
-        timer = Timers.delay(messageTime , () => { if (text != null) text.enabled = false; });
+        timer = Timers.Delay(messageTime , () => { if (text != null) text.enabled = false; });
     }
 }

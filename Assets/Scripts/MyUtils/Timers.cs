@@ -32,7 +32,7 @@ public class Timers : MonoBehaviour
             this.destroyAfterTimeout = destroyAfterTimeout;
         }
 
-        public static void refresh()
+        public static void Refresh()
         {
             foreach (CooldownTimer timer in cooldownTimers)
             {
@@ -43,7 +43,7 @@ public class Timers : MonoBehaviour
             }
         }
 
-        public bool check()
+        public bool Check()
         {
             if (currentTime > maxTime)
             {
@@ -56,7 +56,7 @@ public class Timers : MonoBehaviour
             return false;
         }
 
-        public void reset()
+        public void Reset()
         {
             currentTime = 0;
         }
@@ -69,7 +69,7 @@ public class Timers : MonoBehaviour
         float currentTime;
         customFunc callback;
 
-        public static Timeout setTimeout(float time, customFunc callback)
+        public static Timeout SetTimeout(float time, customFunc callback)
         {
             Timeout timer = new Timeout();
             timer.callback = callback;
@@ -78,7 +78,7 @@ public class Timers : MonoBehaviour
             return timer;
         }
 
-        public static void refresh()
+        public static void Refresh()
         {
             List<Timeout> timerList = new List<Timeout>(timeoutTimers);
             foreach (Timeout timer in timerList)
@@ -126,7 +126,7 @@ public class Timers : MonoBehaviour
             intervalTimers.Remove(this);
         }
 
-        public static void refresh()
+        public static void Refresh()
         {
             List<Interval> timerList = new List<Interval>(intervalTimers);
             foreach (Interval timer in timerList)
@@ -144,22 +144,22 @@ public class Timers : MonoBehaviour
         }
     }
 
-    public static Interval interval(float time, customFunc callback)
+    public static Interval SetInterval(float time, customFunc callback)
     {
         Interval timer = new Interval(time, callback);
         return timer;
     }
 
-    public static Timeout delay(float time, customFunc callback)
+    public static Timeout Delay(float time, customFunc callback)
     {
-        return Timeout.setTimeout(time, callback);
+        return Timeout.SetTimeout(time, callback);
     }
 
     void Update()
     {
-        CooldownTimer.refresh();
-        Timeout.refresh();
-        Interval.refresh();
+        CooldownTimer.Refresh();
+        Timeout.Refresh();
+        Interval.Refresh();
     }
     private void OnDestroy()
     {

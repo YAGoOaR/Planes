@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 //Script for a bomb
-public class explosion : MonoBehaviour
+public class Explosion : MonoBehaviour
 {
     const float EXPLOSION_FORCE_COEF = 400;
     bool isDropped;
@@ -31,7 +31,7 @@ public class explosion : MonoBehaviour
     {
         if (timer > minDetonationTime)
         {
-            detonated();
+            Detonated();
         }
     }
 
@@ -47,10 +47,10 @@ public class explosion : MonoBehaviour
         Vector2 position = transform.position;
         float mass = rigidbody.mass;
         water.GetComponent<Water>().Splash(position.x, mass * EXPLOSION_FORCE_COEF);
-        detonated();
+        Detonated();
     }
 
-    void detonated()
+    void Detonated()
     {
         Instantiate(explosionEffect, transform.position, transform.rotation, GameHandler.Instance.projectileHolder);
         Destroy(gameObject);

@@ -23,7 +23,7 @@ public class planeInfo : MonoBehaviour
 
     void Update()
     {
-        PlaneInfoShow.infoText infoText = new PlaneInfoShow.infoText {
+        PlaneInfoShow.InfoText infoText = new PlaneInfoShow.InfoText {
             throttle = propellerMotor.Throttle,
             bullets = gun.Bullets,
             altitude = transform.position.y,

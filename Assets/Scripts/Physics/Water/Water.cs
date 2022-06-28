@@ -13,7 +13,7 @@ public class Water : MonoBehaviour
     const float MASS = 1;
     const float TOP_WIDTH = 0.1f;
     const float EDGE_WIDTH = 10f;
-    const float WAVE_VELOCITY = 0.04f;
+    const float WAVE_VELOCITY = 0.025f;
     const float HALF = 0.5f;
     const float DEFAULT_Z_POSITION = 0;
     const float DEFAULT_Z_SCALE = 0;

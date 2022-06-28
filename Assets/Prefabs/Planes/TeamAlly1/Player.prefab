@@ -388,6 +388,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: -1.79
       objectReference: {fileID: 0}
+    - target: {fileID: 7560270634609814654, guid: 931102013410de34c84fc0d626047854,
+        type: 3}
+      propertyPath: bombCount
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7573495947662751529, guid: 931102013410de34c84fc0d626047854,
         type: 3}
       propertyPath: m_RootOrder
@@ -443,6 +448,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7679001241333348171, guid: 931102013410de34c84fc0d626047854,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 01402705f3db4074d9c35b87a5f7a283, type: 2}
     - target: {fileID: 8234562319506566046, guid: 931102013410de34c84fc0d626047854,
         type: 3}
       propertyPath: m_Name

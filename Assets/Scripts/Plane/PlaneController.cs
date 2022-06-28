@@ -6,6 +6,11 @@ public class PlaneController : MonoBehaviour
 {
     public float GunRange { get => guns[0].Range; }
     public bool GearUp { get => plane.GearUp; }
+    public bool HasBombs { get => bombBay.BombCount > 0; }
+
+    public bool HasAmmo { get => guns[0].Bullets > 0; }
+
+    public Transform BombBay { get => bombBay.transform; }
 
     PlaneBehaviour plane;
     Rigidbody2D rb;
@@ -50,22 +55,22 @@ public class PlaneController : MonoBehaviour
     {
         foreach (Gun gun in guns)
         {
-            gun.shoot();
+            gun.Shoot();
         }
     }
 
     public void SetFlaps(bool on)
     {
-        plane.setFlaps(on);
+        plane.SetFlaps(on);
     }
     public void SwitchFlaps()
     {
-        plane.setFlaps(!plane.Flaps);
+        plane.SetFlaps(!plane.Flaps);
     }
 
     public void SwitchBrakes()
     {
-        plane.setBrakes(!plane.Brakes);
+        plane.SetBrakes(!plane.Brakes);
     }
 
     public void IncreaseThrottle()
@@ -89,22 +94,22 @@ public class PlaneController : MonoBehaviour
 
     public void Roll()
     {
-        plane.turn();
+        plane.Turn();
     }
 
     public void TurnBack()
     {
-        plane.turnBack();
+        plane.TurnBack();
     }
 
     public void SwitchGear()
     {
-        plane.switchGear();
+        plane.SwitchGear();
     }
 
     public void ThrowBomb()
     {
-        bombBay.throwBomb();
+        bombBay.ThrowBomb();
     }
 
     public void SetPitch(float pitch)
@@ -117,10 +122,10 @@ public class PlaneController : MonoBehaviour
     }
     public void SetGear(bool on)
     {
-        plane.setGear(on);
+        plane.SetGear(on);
     }
     public void SetBrakes(bool on)
     {
-        plane.setBrakes(on);
+        plane.SetBrakes(on);
     }
 }

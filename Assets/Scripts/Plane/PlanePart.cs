@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-//Any physical plane part
 public class PlanePart : MonoBehaviour
 {
     public UnityEvent OnBreak;
@@ -9,6 +8,7 @@ public class PlanePart : MonoBehaviour
     private Sprite defaultSprite;
     [SerializeField] SpriteRenderer spriteRenderer;
     AnchoredJoint2D joint;
+    public PlanePartManager.PartType partType = PlanePartManager.PartType.other;
 
     public string PartName
     {
@@ -33,11 +33,11 @@ public class PlanePart : MonoBehaviour
         set { isBroken = value; }
     }
 
-    public bool getConnection()
+    public bool GetConnection()
     {
         return joint;
     }
-    public virtual void hide(bool hide)
+    public virtual void Hide(bool hide)
     {
         if (spriteRenderer == null) return;
         spriteRenderer.sprite = hide ? GameAssets.Instance.EmptyTexture : defaultSprite;

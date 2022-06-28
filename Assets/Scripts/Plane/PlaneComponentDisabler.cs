@@ -14,21 +14,15 @@ public class PlaneComponentDisabler : MonoBehaviour
         bombBay = GetComponentInChildren<BombBay>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void setPartsActive(bool active)
+    public void SetPartsActive(bool active)
     {
         foreach (PlanePart part in partManager.Parts)
         {
             if (part.PartName != "propeller")
             {
-                part.hide(!active);
+                part.Hide(!active);
             }
         }
-        bombBay.setBombsActive(active);
+        bombBay.SetBombsActive(active);
     }
 }

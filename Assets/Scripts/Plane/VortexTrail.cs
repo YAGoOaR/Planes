@@ -11,7 +11,7 @@ public class VortexTrail : PlanePart
         trailRenderer = GetComponent<TrailRenderer>();
     }
 
-    public override void hide(bool hide)
+    public override void Hide(bool hide)
     {
         trailRenderer.enabled = !hide;
     }

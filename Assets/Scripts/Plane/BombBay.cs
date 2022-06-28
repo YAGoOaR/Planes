@@ -11,7 +11,6 @@ public class BombBay : MonoBehaviour
     public int BombCount
     {
         get { return bombCount; }
-        set { bombCount = value; }
     }
 
     [SerializeField] int bombCount = 2;
@@ -27,40 +26,32 @@ public class BombBay : MonoBehaviour
         bombs = new Queue<GameObject>();
         bombTimer = new Timers.CooldownTimer(0.5f);
         projectileHolder = GameHandler.Instance.projectileHolder;
-    }
-
-    private void Start()
-    {
         plane = transform.parent.GetComponent<PlaneBehaviour>();
-        reloadBombs();
+        ReloadBombs();
     }
 
-    void Update()
+    public void ThrowBomb()
     {
-        
-    }
-
-    public void throwBomb()
-    {
-        if (!plane.checkNormalState()) return;
+        if (!plane.CheckNormalState()) return;
         if (bombs.Count > 0)
         {
-            if (!bombTimer.check())
+            if (!bombTimer.Check())
             {
                 return;
             }
-            bombTimer.reset();
+            bombTimer.Reset();
 
             GameObject bomb = bombs.Dequeue();
             //Disconnecting bomb
             bomb.GetComponent<FixedJoint2D>().breakForce = 0;
+            bombCount = bombs.Count;
         }
     }
 
     //Creating a bomb GameObject
     public void AddBomb()
     {
-        GameObject bmb = Instantiate(GameAssets.Instance.Bomb, transform.position, Quaternion.identity, projectileHolder);
+        GameObject bmb = Instantiate(GameAssets.Instance.Bomb, transform.position, transform.rotation, projectileHolder);
         FixedJoint2D joint = bmb.GetComponent<FixedJoint2D>();
         joint.connectedAnchor = transform.localPosition;
         joint.connectedBody = plane.GetComponent<Rigidbody2D>();
@@ -68,7 +59,7 @@ public class BombBay : MonoBehaviour
     }
 
     //Hide bomb textures(during animation)
-    public void setBombsActive(bool active)
+    public void SetBombsActive(bool active)
     {
         foreach (GameObject bomb in bombs)
         {
@@ -76,7 +67,7 @@ public class BombBay : MonoBehaviour
         }
     }
 
-    void reloadBombs()
+    void ReloadBombs()
     {
         for (int a = 0; a < bombCount; a++)
         {

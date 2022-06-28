@@ -204,6 +204,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   spriteRenderer: {fileID: 0}
+  partType: 2
 --- !u!114 &4447409669867828485
 MonoBehaviour:
   m_ObjectHideFlags: 0

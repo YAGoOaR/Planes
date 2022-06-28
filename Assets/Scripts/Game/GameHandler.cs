@@ -5,7 +5,7 @@ using UnityEngine;
 //Main script of the game
 public class GameHandler : MonoBehaviour
 {
-    string planeBrokenMsg = "The plane is broken";
+    readonly string planeBrokenMsg = "The plane is broken";
     const float FREEZE_DISTANCE = 270;
 
     public Transform projectileHolder;
@@ -31,14 +31,14 @@ public class GameHandler : MonoBehaviour
         get { return player; }
     }
 
-    public static void setInstance(GameHandler gameHandler) {
+    public static void SetInstance(GameHandler gameHandler) {
         instance = gameHandler;
     }
 
     //Called instantly after initialization
     public void Awake()
     {
-        setInstance(this);
+        SetInstance(this);
         objectsToFreeze = new List<GameObject>();
         player = Instantiate(GameAssets.Instance.Player, new Vector3(spawnPosition.x, spawnPosition.y, 0), Quaternion.identity);
         GameObject hull = player.GetComponent<Hull>().hull;
@@ -50,13 +50,13 @@ public class GameHandler : MonoBehaviour
     public void GameOver(string msg) 
     {
         messageBox.ShowMessage(msg, true);
-        game.gameOver(msg);
+        game.GameOver(msg);
     }
 
     public void GameWin(string msg)
     {
         messageBox.ShowMessage(msg, true);
-        game.gameWin(msg);
+        game.GameWin(msg);
     }
 
     //Called after "Awake"
@@ -74,26 +74,26 @@ public class GameHandler : MonoBehaviour
             if (gameobject == null) continue;
             gameobject.SetActive(Mathf.Abs(cameraTransform.position.x - gameobject.transform.position.x) < FREEZE_DISTANCE);
         }
-        controls();
+        Controls();
     }
 
-    static void controls()
+    static void Controls()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            instance.game.quitGame();
+            instance.game.QuitGame();
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
-            instance.game.restartGame();
+            instance.game.RestartGame();
         }
     }
 
-    public void addObjectsToFreeze(GameObject gameobject)
+    public void AddObjectsToFreeze(GameObject gameobject)
     {
         objectsToFreeze.Add(gameobject);
     }
-    public void removeObjectToFreeze(GameObject gameobject)
+    public void RemoveObjectToFreeze(GameObject gameobject)
     {
         objectsToFreeze.Add(gameobject);
     }

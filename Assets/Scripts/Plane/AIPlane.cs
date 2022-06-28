@@ -3,104 +3,112 @@
 public class AIPlane : MonoBehaviour
 {
     //Take off
-    const float GEAR_UP_ALTITUDE = 25;
-    const float TAKE_OFF_ALTITUDE = 40;
+    const float gearUpAltitude = 25;
+    const float takeOffAltitude = 30;
 
     //Climb
     const float climbAngle = 30;
-    const float CLIMB_ALTITUDE = 40;
 
     //Attack
-    const float SHOOTING_ACCURACY = 5;
+    const float shootingAccuracy = 5;
+    const float stallVelocity = 15;
+    const float stallExitVelocity = 40;
+    const float groundAttackRange = 200;
+
+    const float AttackAirMinDist = 70;
+    const float AvoidCollisionVelocityThreshold = 70;
+
+    const float AttackGroundMinDist = 60;
+    const float AttackGroundExit = 200;
+
+    const float collisionAvoidAngle = 20;
 
     //PreventCollision
-    const float DANGEROUS_ALT = 50;
-    const float DANGEROUS_ANGLE = -20;
+    const float dangerousAlt = 50;
+    const float dangerousAngle = -20;
+    [SerializeField] bool preventCollisions = false;
 
+    //Bomb
+    const float bombThrowAccuracy = 1f;
+    const float bombAttackDist = 400;
+    [SerializeField] float climbBombAlt = 70;
+    [SerializeField] float climbBombAltMin = 50;
 
-    //const float TIME_TO_COLLISION = 2;
+    //Target
+    const float maxGroundTargetAlt = 15;
+    const float maxGroundTargetSpeed = 20;
+
+    //Land
+    const float LandAccuracy = 80;
 
     [SerializeField] Teams.Team enemyTeam = Teams.Team.Allies;
 
-    ////Land
-    //const float GEAR_DOWN_DISTANCE = 200;
-    //const float BRAKE_DISTANCE = GEAR_DOWN_DISTANCE * 2 / 3;
-
-    //const float PI = 180;
-    //const float GRAVITY = 9.8f;
-    //const float BASE_POSITION = -860;
-    //const float LANDING_ALTITUDE = 21.2f;
-    //const float DEFAULT_SPEED = 40;
-    //const float DEFAULT_ALTITUDE = 40;
-    //const float SENSITIVITY = 5;
-    //const float BOMB_THROW_ACCURACY = 0.5f;
-    //const float BOMB_OFFSET = 18;
-    //const float MIN_TURN_VELOCITY = 30;
-    //const float SPEED_ACCURACY = 2;
-
-    //const float VELOCITY_SENSIVITY = 30;
-    //const float MAX_VELOCITY_COEF = 2;
-
-
-    //const float MAX_TARGET_ANGLE = 15;
-    //const float ATTACK_DISTANCE = 240;
-    //const float BOMBING_DISTANCE = 250;
-
-    //const float TURN_BACK_THRESHOLD = -0.1f;
-
-    //const float SAFE_ALTITUDE = 40;
-    //const float STALL_VELOCITY = 15;
-    //const float LANDING_SENSITIVITY = 1000;
-    //const float UP_ANGLE = 250;
-    //const float SAFE_ANGLE = 120;
-    //const float DEFAULT_ANGLE = 10;
-    //const float BRAKE_VELOCITY = 20;
-
-
-    //float targetSpeed = DEFAULT_SPEED;
+    Vector3 home;
 
     [SerializeField]
     AIState state = AIState.takingOff;
     AIState prevState = AIState.takingOff;
 
-    GameObject currentEnemy = null;
+    Transform currentEnemy = null;
+    Rigidbody2D enemyRB = null;
 
     PlaneBehaviour planeBehaviour;
     PlaneController planeController;
     Timers.CooldownTimer turnCooldown;
-
+    Timers.CooldownTimer waitCooldown;
+    Rigidbody2D rb;
     Teams teamsInstance;
+    Transform bombBayTransform;
+
+    [SerializeField] AIType attackerType;
+
+    public enum AIType
+    {
+        fighter,
+        bomber,
+    }
+
+    public enum TargetType
+    {
+        air,
+        ground,
+    }
 
     public enum AIState
     {
         idle,
         takingOff,
         landing,
-        bombingTarget,
         attacking,
         climbing,
+        climbingToBomb,
         reachingTarget,
+        stalling,
+        waiting,
+        chargingAttack,
     }
 
     void Start()
     {
         turnCooldown = new Timers.CooldownTimer(3);
+        waitCooldown = new Timers.CooldownTimer(2);
         planeController = GetComponent<PlaneController>();
         planeBehaviour = GetComponent<PlaneBehaviour>();
+        bombBayTransform = planeController.BombBay;
         teamsInstance = Teams.Instance;
+        rb = GetComponent<Rigidbody2D>();
+        home = transform.position;
     }
 
-    void setState(AIState newState)
+    void SetState(AIState newState)
     {
-        Debug.Log(newState);
         prevState = state;
         state = newState;
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        if (!PreventCollision()) TurnOver();
-
+        if (!OnCollisionCourseWithGround()) TurnOver();
 
         switch (state)
         {
@@ -116,6 +124,21 @@ public class AIPlane : MonoBehaviour
             case AIState.climbing:
                 Climb();
                 break;
+            case AIState.climbingToBomb:
+                ClimbToBomb();
+                break;
+            case AIState.stalling:
+                PreventStall();
+                break;
+            case AIState.landing:
+                Land();
+                break;
+            case AIState.waiting:
+                Wait();
+                break;
+            case AIState.chargingAttack:
+                ChargeAttack();
+                break;
             default:
                 break;
         }
@@ -123,24 +146,35 @@ public class AIPlane : MonoBehaviour
 
     void FindSomethingToDo()
     {
-        if (!planeBehaviour.GearUp) setState(AIState.takingOff);
+        if (!planeBehaviour.GearUp) { SetState(AIState.takingOff); return; }
 
-        currentEnemy = teamsInstance.FindClosestToMe(enemyTeam, transform.position)?.gameObject;
+        if(attackerType == AIType.fighter)
+        {
+            currentEnemy = teamsInstance.FindClosestToMe(enemyTeam, transform.position)?.transform;
+        }
+        else if (attackerType == AIType.bomber)
+        {
+            currentEnemy = teamsInstance.FindBiggest(enemyTeam)?.transform;
+        }
+
+        enemyRB = currentEnemy?.GetComponent<Rigidbody2D>();
+
         if (currentEnemy != null)
         {
-            setState(AIState.attacking);
+            SetState(AIState.attacking);
         }
     }
 
     void TakeOff()
     {
         bool gearUp = planeBehaviour.GearUp;
-        if (transform.position.y > GEAR_UP_ALTITUDE && !gearUp) {
+        if (transform.position.y > gearUpAltitude && !gearUp) {
             planeController.SetGear(false);
+            planeController.SetFlaps(false);
         }
-        if (transform.position.y > TAKE_OFF_ALTITUDE && gearUp)
+        if (transform.position.y > takeOffAltitude && gearUp)
         {
-            setState(AIState.idle);
+            SetState(AIState.idle);
             return;
         }
         GainAltitude();
@@ -153,9 +187,9 @@ public class AIPlane : MonoBehaviour
 
     void Climb()
     {
-        if (transform.position.y > DANGEROUS_ALT)
+        if (transform.position.y > dangerousAlt)
         {
-            setState(AIState.idle);
+            SetState(AIState.idle);
             return;
         }
         GainAltitude();
@@ -169,20 +203,224 @@ public class AIPlane : MonoBehaviour
         planeController.SetHeading(Quaternion.Euler(0, 0, climbAngle * Mathf.Sign(forwardHorizontalDir.x)) * forwardHorizontalDir);
     }
 
+    void PreventStall()
+    {
+        if (rb.velocity.magnitude > stallExitVelocity)
+        {
+            SetState(AIState.idle);
+            return;
+        }
+        if (transform.position.y < dangerousAlt)
+        {
+            SetState(AIState.climbing);
+            return;
+        }
+        GainSpeed();
+    }
+
+    void GainSpeed()
+    {
+        planeController.SetThrottle(100);
+        planeController.SetHeading(GetForwardHorizontalDir());
+    }
+
+    TargetType DefineTargetType()
+    {
+        return (
+            currentEnemy.position.y < maxGroundTargetAlt
+            ? enemyRB.velocity.magnitude < maxGroundTargetSpeed
+                ? TargetType.ground
+                : TargetType.air
+            : TargetType.air
+        );
+    }
+
     void Attack()
     {
-        Vector2 enemyDir = currentEnemy.transform.position - transform.position;
+        if (rb.velocity.magnitude < stallVelocity)
+        {
+            SetState(AIState.stalling);
+            return;
+        }
+
+        if(currentEnemy == null)
+        {
+            SetState(AIState.idle);
+            return;
+        }
+
+        switch (DefineTargetType())
+        {
+            case TargetType.air:
+                AttackAir();
+                break;
+            case TargetType.ground:
+                AttackGround();
+                break;
+            default:
+                break;
+        }
+    }
+
+    void TurnOver()
+    {
+        if (IsUpsideDown() && turnCooldown.Check())
+        {
+            planeController.Roll();
+            turnCooldown.Reset();
+        }
+    }
+
+    void ShootTarget(float overrideRange = 0)
+    {
+        Vector2 enemyDir = currentEnemy.position - transform.position;
         Vector2 forwardDir = -transform.right;
 
         float deltaAngle = Vector2.Angle(enemyDir, forwardDir);
 
-        planeController.SetTarget(currentEnemy.transform.position);
-        float dist = (currentEnemy.transform.position - transform.position).magnitude;
+        planeController.SetTarget(currentEnemy.position);
+        float dist = (currentEnemy.position - transform.position).magnitude;
+        float range = overrideRange == 0 ? planeController.GunRange : overrideRange;
 
-        if (Mathf.Abs(deltaAngle) < SHOOTING_ACCURACY && dist < planeController.GunRange && planeBehaviour.NormalState)
+        if (Mathf.Abs(deltaAngle) < shootingAccuracy && dist < range && planeBehaviour.NormalState)
         {
             planeController.Shoot();
         }
+    }
+
+    void ClimbToBomb()
+    {
+        if (transform.position.y > climbBombAlt)
+        {
+            SetState(AIState.attacking);
+            return;
+        }
+        GainAltitude();
+    }
+
+    bool IsHeadingTowardsHome()
+    {
+        return Mathf.Sign(rb.velocity.x) == Mathf.Sign(home.x - transform.position.x);
+    }
+
+    void AttackAir()
+    {
+        if (!planeController.HasAmmo)
+        {
+            SetState(AIState.landing);
+            return;
+        }
+
+        if (preventCollisions)
+        {
+            Vector3 velocityDelta = enemyRB.velocity - rb.velocity;
+            float closingSpeed = (Vector2.Angle(velocityDelta, EnemyDelta) > 90 ? 1 : -1) * velocityDelta.magnitude;
+
+            if (EnemyDelta.magnitude < AttackAirMinDist && closingSpeed > AvoidCollisionVelocityThreshold)
+            {
+                float angleBetweenVelocities = Vector2.SignedAngle(enemyRB.velocity, rb.velocity);
+                planeController.SetHeading(Quaternion.Euler(0, 0, -Mathf.Sign(angleBetweenVelocities) * collisionAvoidAngle) * -EnemyDelta.normalized);
+                return;
+            }
+        }
+
+        ShootTarget();
+    }
+
+    void AttackGround()
+    {
+        if (!planeController.HasBombs && planeController.HasAmmo)
+        {
+            if (EnemyDelta.magnitude < AttackGroundMinDist)
+            {
+                if (Vector2.Angle(EnemyDelta, -transform.right) < 90) planeController.TurnBack();
+                SetState(AIState.chargingAttack);
+                return;
+            }
+            ShootTarget(groundAttackRange);
+        }
+        else
+        {
+            BombTarget();
+        }
+    }
+
+    void ChargeAttack()
+    {
+        Vector3 delta = EnemyDelta;
+        if (delta.magnitude > AttackGroundExit)
+        {
+            SetState(AIState.attacking);
+            return;
+        }
+        planeController.SetHeading(-delta);
+    }
+
+    void BombTarget()
+    {
+        if (transform.position.y < climbBombAltMin)
+        {
+            SetState(AIState.climbingToBomb);
+            return;
+        }
+
+        if (!planeController.HasBombs && IsHeadingTowardsHome())
+        {
+            SetState(AIState.landing);
+            return;
+        }
+
+        Vector3 forwardDir = GetForwardHorizontalDir();
+
+        Vector3 delta = currentEnemy.position - bombBayTransform.position;
+
+        planeController.SetHeading(forwardDir);
+
+        bool sameDir = Mathf.Sign(forwardDir.x) == Mathf.Sign(delta.x);
+
+        if (!sameDir && Mathf.Abs(delta.x) > bombAttackDist) planeController.TurnBack();
+
+        float g = 9.81f;
+        float D = Mathf.Pow(-rb.velocity.y, 2) - 2 * g * (delta.y);
+
+        float timeToCollision = (rb.velocity.y + Mathf.Sqrt(D)) / (2 * g / 2);
+
+        float fallPoint = rb.velocity.x * timeToCollision;
+        bombPos = new Vector3(transform.position.x + fallPoint, currentEnemy.position.y, 0);
+
+        if (Mathf.Abs(delta.x - fallPoint) < bombThrowAccuracy)
+        {
+            planeController.ThrowBomb();
+            waitCooldown.Reset();
+            SetState(AIState.waiting);
+            return;
+        }
+    }
+
+    void Wait()
+    {
+        if (waitCooldown.Check())
+        {
+            SetState(AIState.idle);
+            return;
+        }
+    }
+
+    bool OnCollisionCourseWithGround()
+    {
+        bool falling = CheckIfIsFalling();
+        if (state != AIState.climbing && falling)
+        {
+            planeController.TurnBack();
+            SetState(AIState.climbing);
+        }
+        return falling;
+    }
+
+    bool CheckIfIsFalling()
+    {
+        float alt = transform.position.y;
+        return alt < dangerousAlt && Vector2.Angle(Vector2.down, -transform.right) < 90 + dangerousAngle;
     }
 
     bool IsUpsideDown()
@@ -190,110 +428,36 @@ public class AIPlane : MonoBehaviour
         return (transform.up * (planeBehaviour.UpsideDown ? -1 : 1)).y < 0;
     }
 
-    void TurnOver()
+    bool IsNotUpsideDownTowards(Vector3 destination)
     {
-        if (IsUpsideDown() && turnCooldown.check())
+        Vector3 delta = destination - transform.position;
+        float dir = Mathf.Sign(delta.x);
+        float currentDir = IsUpsideDown() ? 1 : -1;
+        return dir == currentDir;
+    }
+
+    void Land()
+    {
+        Vector2 delta = home - transform.position;
+        if (rb.velocity.magnitude < stallVelocity && Mathf.Abs(delta.x) > LandAccuracy)
         {
-            planeController.Roll();
-            turnCooldown.reset();
+            SetState(AIState.stalling);
+            return;
         }
+        planeController.SetFlaps(true);
+        planeController.SetTarget(home);
+        planeController.SetBrakes(true);
+        if (IsNotUpsideDownTowards(home)) planeController.SetGear(true);
+        planeController.SetThrottle(0);
     }
 
-    bool CheckIfIsFalling()
+    Vector3 bombPos = Vector3.zero;
+    private void OnDrawGizmos()
     {
-        float alt = transform.position.y;
-        return alt < DANGEROUS_ALT && Vector2.Angle(Vector2.down, -transform.right) < 90 + DANGEROUS_ANGLE;
+        if (bombPos == Vector3.zero) return;
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(bombPos, 1);
     }
 
-    bool PreventCollision()
-    {
-        //bool willCollide = altitude + TIME_TO_COLLISION * velocity.y < 0;
-        //bool falling = checkIfIsFalling();
-        //if (willCollide || falling || velocity.magnitude < STALL_VELOCITY)
-        //{
-        //    setState(AIState.climbing);
-        //}
-        bool falling = CheckIfIsFalling();
-        if (state != AIState.climbing && falling) 
-        {
-            planeController.TurnBack();
-            setState(AIState.climbing);
-        }
-        return falling;
-    }
-
-    //void reachTarget()
-    //{
-    //    planeController.SetTarget(enemyPos);
-    //}
-
-
-
-    //void bombTarget()
-    //{
-    //    float timeToCollision = Mathf.Sqrt(altitude / GRAVITY);
-    //    float attackPosition = Mathf.Abs(timeToCollision * GetComponent<Rigidbody2D>().velocity.x) + BOMB_OFFSET;
-    //    float distanceToAttack = Mathf.Abs(attackPosition - Mathf.Abs(deltaPosition));
-    //    if (distanceToAttack < BOMB_THROW_ACCURACY)
-    //    {
-    //        bombBay.throwBomb();
-    //        setState(state = AIState.reachingTarget);
-    //        Timers.delay(2, () =>
-    //        {
-    //            targetPosition = BASE_POSITION;
-    //            deltaPosition = targetPosition - position;
-    //            distance = Mathf.Abs(deltaPosition);
-    //            setState(state = AIState.landing);
-    //        });
-    //    }
-    //}
-
-    //void land()
-    //{
-    //    //Smooth altitude lowering
-    //    targetAltitude = MathUtils.clampPlusMinus(Mathf.Abs(deltaPosition / LANDING_SENSITIVITY), 1) * (DEFAULT_ALTITUDE - LANDING_ALTITUDE) + LANDING_ALTITUDE;
-    //    //Reach landing speed if not missed altitude, otherwise reach normal
-    //    if (deltaAltitude < 2)
-    //    {
-    //        targetSpeed = MathUtils.clampPlusMinus(Mathf.Abs(deltaPosition / LANDING_SENSITIVITY * 2), 1) * DEFAULT_SPEED;
-    //    }
-    //    else
-    //    {
-    //        targetSpeed = DEFAULT_SPEED;
-    //    }
-    //    //When close to base
-    //    if (distance < GEAR_DOWN_DISTANCE)
-    //    {
-    //        //Gear down if it is still up
-    //        if (planeBehaviour.GearUp)
-    //        {
-    //            planeController.SetGear(true);
-    //            planeController.SetBrakes(true);
-    //        }
-    //        //Stop
-    //        if (distance < BRAKE_DISTANCE)
-    //        {
-    //            planeController.SetFlaps(true);
-    //            targetSpeed = 0;
-    //            //Now do nothing
-    //            if (velocity.magnitude < BRAKE_VELOCITY)
-    //            {
-    //                setState(state = AIState.idle);
-    //            }
-    //        }
-    //    }
-    //}
-
-
-
-
-    //bool checkTurnSafety()
-    //{
-    //    const float MAX_VELOCITY = 0.3f;
-    //    const float MIN_ANGLE = 0.9f;
-    //    const float SAFE_ALTITUDE = 5;
-    //    float velocityCoefficient = Mathf.Min(1 / velocity.magnitude * 10, MAX_VELOCITY);
-    //    float angleCoefficient = Mathf.Max(-Mathf.Sin(rotation * Mathf.Deg2Rad) + 1, MIN_ANGLE);
-    //    return altitude - velocity.y * velocityCoefficient * angleCoefficient > SAFE_ALTITUDE;
-    //}
+    Vector3 EnemyDelta { get => currentEnemy.position - transform.position; }
 }

@@ -3,7 +3,8 @@
 //My utilities for math
 public static class MathUtils
 {
-    public static float clampPlusMinus(float variable, float value)
+    public static float 
+        ClampPlusMinus(float variable, float value)
     {
         return Mathf.Clamp(variable, -value, value);
     }
@@ -20,12 +21,12 @@ public static class MathUtils
         return Mathf.Acos(normalized.x) * Mathf.Sign(normalized.y);
     }
 
-    public static Vector2 angleToVector2(float angle)
+    public static Vector2 AngleToVector2(float angle)
     {
         return new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
     }
 
-    public static float toRadian(float angle)
+    public static float ToRadian(float angle)
     {
         return angle / 180 * Mathf.PI;
     }

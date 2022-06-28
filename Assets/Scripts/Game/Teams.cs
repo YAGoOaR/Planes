@@ -15,7 +15,9 @@ public class Teams : MonoBehaviour
         Allies,
         Enemies,
     }
-    Dictionary<Team, List<Health>> teams = new Dictionary<Team, List<Health>>();
+
+    readonly Dictionary<Team, List<Health>> teams = new Dictionary<Team, List<Health>>();
+    readonly Dictionary<Team, List<EnemySpawner>> spawners = new Dictionary<Team, List<EnemySpawner>>();
 
     void Awake()
     {
@@ -24,6 +26,7 @@ public class Teams : MonoBehaviour
         foreach (Team team in Enum.GetValues(typeof(Team)))
         {
             teams.Add(team, new List<Health>());
+            spawners.Add(team, new List<EnemySpawner>());
         }
 
         Health[] entities = FindObjectsOfType<Health>();     
@@ -39,9 +42,20 @@ public class Teams : MonoBehaviour
         OnRemove.Invoke();
     }
 
-    public int GetTeamMemberCount(Team team)
+    int GetTeamSpawnableCount(Team team)
     {
-        return teams[team].Count;
+        int count = 0;
+
+        foreach (EnemySpawner spawner in spawners[team])
+        {
+            count += spawner.EnemiesToSpawn;
+        }
+        return count;
+    }
+
+    public int GetTeamMemberCount(Team team, bool includeSpawners)
+    {
+        return teams[team].Count + (includeSpawners ? GetTeamSpawnableCount(team) : 0);
     }
 
     public Health FindClosestToMe(Team team, Vector3 me)
@@ -60,5 +74,28 @@ public class Teams : MonoBehaviour
         }
 
         return closest;
+    }
+
+    public Health FindBiggest(Team team)
+    {
+        Health biggest = null;
+        float biggestHP = 0;
+
+        foreach (Health health in teams[team])
+        {
+            float hp = health.MaxHP;
+            if (hp > biggestHP)
+            {
+                biggest = health;
+                biggestHP = hp;
+            }
+        }
+
+        return biggest;
+    }
+
+    public void AddSpawner(Team team, EnemySpawner spawner)
+    {
+        spawners[team].Add(spawner);
     }
 }

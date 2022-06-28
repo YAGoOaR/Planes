@@ -35,7 +35,7 @@ public class Follow : MonoBehaviour
     {
         float size = Mathf.Clamp(Cam.orthographicSize * (1 - Input.GetAxis("Mouse ScrollWheel")), 5, 65);
         Cam.orthographicSize = size;
-        background.transform.localScale = new Vector3(size / 2, size / 4, 1);
+        background.transform.localScale = new Vector3(size, size / 2, 1);
         Vector3 playerPosition = transform.position;
         float rotation = transform.rotation.eulerAngles.z / 180 * Mathf.PI;
         Vector3 rotationVector = new Vector2(-Mathf.Cos(rotation), -Mathf.Sin(rotation));
@@ -43,10 +43,7 @@ public class Follow : MonoBehaviour
         float distance = delta.magnitude;
 
         Vector3 move = delta.normalized * moveStep * (1 + 3 * distance) * Time.deltaTime;
-        if (move.magnitude > distance)
-        {
-            move = delta;
-        }
+        if (move.magnitude > distance) move = delta;
         camTransform.position += (Vector3)rb.velocity * Time.deltaTime - move;
     }
 

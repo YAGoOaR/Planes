@@ -60,7 +60,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5483709978772792284}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7b749d9e9e05e1145a0be7b2858db9ab, type: 3}
   m_Name: 
@@ -167,7 +167,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 7
-  m_LinearDrag: 0.1
+  m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 1
   m_Material: {fileID: 0}
@@ -231,6 +231,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c45b9939e485a346a737ca1571e3d25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDetonationTime: 0.3
+  minDetonationTime: 0.4
   explosionEffect: {fileID: 9188880211693560713, guid: 662916dff3e7c3347847b1649bbe2e62,
     type: 3}

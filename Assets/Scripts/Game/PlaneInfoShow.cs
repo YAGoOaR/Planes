@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 public class PlaneInfoShow : MonoBehaviour
 {
-    infoText info;
+    InfoText info;
     private Text text;
 
     //TODO: remove
     const float SPEED_MULTIPLIER = 6;
 
-    public struct infoText
+    public struct InfoText
     {
         public int throttle, bullets, bombs;
         public float speed, altitude;
@@ -31,17 +31,17 @@ public class PlaneInfoShow : MonoBehaviour
         "ALT: " + Mathf.Floor(info.altitude).ToString() + "\n" +
         "Ammo: " + info.bullets + "\n" +
         "Bombs: " + info.bombs + "\n" +
-        "Gear: " + boolToSwitch(!info.gear) + "\n" +
-        "Brakes: " + boolToSwitch(!info.brakes) + "\n" +
-        "Flaps: " + boolToSwitch(info.flaps) + "\n";
+        "Gear: " + BoolToSwitch(!info.gear) + "\n" +
+        "Brakes: " + BoolToSwitch(!info.brakes) + "\n" +
+        "Flaps: " + BoolToSwitch(info.flaps) + "\n";
     }
 
-    static string boolToSwitch(bool value)
+    static string BoolToSwitch(bool value)
     {
         return value ? "on" : "off";
     }
 
-    public void SetInfo(infoText info)
+    public void SetInfo(InfoText info)
     {
         this.info = info;
     }

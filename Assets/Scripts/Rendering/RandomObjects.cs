@@ -58,7 +58,7 @@ public class RandomObjects : MonoBehaviour
     void createCloudChunk(int pos)
     {
         chunks.Add(pos);
-        chunksObj.Add(Instantiate(GameAssets.Instance.pickRandomCloud(), new Vector3(pos + Random.Range(0, chunkSize - objectSize), cloudHeight, 0), Quaternion.identity, chunkHolder));
+        chunksObj.Add(Instantiate(GameAssets.Instance.PickRandomCloud(), new Vector3(pos + Random.Range(0, chunkSize - objectSize), cloudHeight, 0), Quaternion.identity, chunkHolder));
     }
 
     void removeCloudChunk(int i)

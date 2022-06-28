@@ -7,29 +7,28 @@ public class Game : MonoBehaviour
     const float WAIT_BEFORE_EXIT = 10;
     bool gameIsOver;
     bool gameIsWon;
-    public void quitGame()
+    public void QuitGame()
     {
         SceneManager.LoadScene(0);
     }
 
-    public void restartGame()
+    public void RestartGame()
     {
         SceneManager.LoadScene(1);
     }
 
-    public void gameOver(string reason)
+    public void GameOver(string reason)
     {
         if (gameIsOver || gameIsWon) return;
         Debug.Log(reason);
         gameIsOver = true;
-        Timers.delay(WAIT_BEFORE_EXIT, quitGame);
+        Timers.Delay(WAIT_BEFORE_EXIT, QuitGame);
     }
 
-    public void gameWin(string reason)
+    public void GameWin(string reason)
     {
         if (gameIsWon || gameIsOver) return;
-        Debug.Log(reason);
         gameIsWon = true;
-        Timers.delay(WAIT_BEFORE_EXIT, quitGame);
+        Timers.Delay(WAIT_BEFORE_EXIT, QuitGame);
     }
 }

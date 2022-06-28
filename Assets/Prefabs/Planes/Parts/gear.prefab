@@ -97,7 +97,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba78dd05b707b4a4a8cbd07814e4680b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnBreak:
+    m_PersistentCalls:
+      m_Calls: []
   spriteRenderer: {fileID: 0}
+  partType: 1
 --- !u!255 &4432560044002354218
 FixedJoint2D:
   m_ObjectHideFlags: 0

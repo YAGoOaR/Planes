@@ -232,6 +232,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tracer
       objectReference: {fileID: 0}
+    - target: {fileID: 9040258771195411079, guid: 2d7c13d289076464c9b800dcbf2d9565,
+        type: 3}
+      propertyPath: m_Parameters.widthMultiplier
+      value: 0.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d7c13d289076464c9b800dcbf2d9565, type: 3}
 --- !u!4 &7075972701641223784 stripped

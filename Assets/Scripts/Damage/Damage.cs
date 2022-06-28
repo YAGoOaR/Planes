@@ -11,7 +11,7 @@ public class Damage : MonoBehaviour
     [SerializeField] bool useTeamId = true;
     [SerializeField] Teams.Team team = Teams.Team.Enemies;
 
-    void applyDmg(Health health)
+    private void ApplyDmg(Health health)
     {
         if (useTeamId) health.Damage(damageAmount, team); else health.Damage(damageAmount);
     }
@@ -22,7 +22,7 @@ public class Damage : MonoBehaviour
         Health health;
         if (collision.gameObject.TryGetComponent(out health) && collision.relativeVelocity.magnitude >= velocityThreshold)
         {
-            applyDmg(health);
+            ApplyDmg(health);
         }
     }
 
@@ -32,7 +32,7 @@ public class Damage : MonoBehaviour
         Health health;
         if (collision.gameObject.TryGetComponent(out health))
         {
-            applyDmg(health);
+            ApplyDmg(health);
         }
     }
 }

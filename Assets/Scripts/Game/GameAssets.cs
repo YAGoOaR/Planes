@@ -9,7 +9,7 @@ public class GameAssets : MonoBehaviour
         get { return GameAssets.instance; }
     }
 
-    public static void setInstance(GameAssets gameAssets)
+    public static void SetInstance(GameAssets gameAssets)
     {
         instance = gameAssets;
     }
@@ -17,7 +17,7 @@ public class GameAssets : MonoBehaviour
     //Called after game assets initialization
     void Awake()
     {
-        setInstance(this);
+        SetInstance(this);
     }
 
     // Game object prefabs
@@ -86,7 +86,7 @@ public class GameAssets : MonoBehaviour
         get { return emptyTexture; }
     }
 
-    public GameObject pickRandomCloud()
+    public GameObject PickRandomCloud()
     {
         return clouds[Random.Range(0, clouds.Length)];
     }

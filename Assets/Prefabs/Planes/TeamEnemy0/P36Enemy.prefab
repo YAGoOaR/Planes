@@ -691,8 +691,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77538f96ed844524d8350506e4146cbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  climbBombAlt: 100
+  climbBombAltMin: 60
   enemyTeam: 0
   state: 1
+  attackerType: 0
 --- !u!1001 &8524410933603108553
 PrefabInstance:
   m_ObjectHideFlags: 0

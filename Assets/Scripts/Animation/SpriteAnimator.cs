@@ -33,7 +33,7 @@ public class SpriteAnimator : MonoBehaviour
         set { loop = value; }
     }
 
-    private float framerate
+    private float Framerate
     {
         get
         {
@@ -41,9 +41,9 @@ public class SpriteAnimator : MonoBehaviour
         }
     }
 
-    public int frames { get { return frameArray.Length; } }
+    public int Frames { get { return frameArray.Length; } }
 
-    public int frame
+    public int Frame
     {
         set
         {
@@ -60,11 +60,11 @@ public class SpriteAnimator : MonoBehaviour
         animating = true;
         currentFrame = 0;
         this.duration = duration;
-        timer = framerate;
+        timer = Framerate;
         cb = onLoopEnd;
     }
 
-    public void stopAnimation()
+    public void StopAnimation()
     {
         animating = false;
     }
@@ -79,12 +79,12 @@ public class SpriteAnimator : MonoBehaviour
     {
         if (!animating) return;
         timer += Time.deltaTime;
-        float maxtime = framerate;
+        float maxtime = Framerate;
         if(timer >= maxtime)
         {
             timer -= maxtime;
             currentFrame++;
-            if (currentFrame >= frames)
+            if (currentFrame >= Frames)
             {
                 animating = loop;
                 currentFrame = 0;

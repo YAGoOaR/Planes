@@ -18,15 +18,15 @@ public class PlaneAnimator : MonoBehaviour
 
     public void StopAnimation()
     {
-        spriteAnimator.stopAnimation();
+        spriteAnimator.StopAnimation();
     }
 
-    public void turn()
+    public void Turn()
     {
         spriteAnimator.PlayAnimation(turnAnimation, 1, () => { planeBehaviour.OnTurnExit(); });
     }
 
-    public void turnBack(float duration)
+    public void TurnBack(float duration)
     {
         spriteAnimator.PlayAnimation(turnBackStartAnimation, duration / 2, () => {
             planeBehaviour.OnTurnBackMiddle();

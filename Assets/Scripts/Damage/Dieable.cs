@@ -9,7 +9,7 @@ public class Dieable : MonoBehaviour
 
     void Start()
     {
-        health.OnDeath.AddListener(() => Timers.delay(destroyDelay, () => Destroy(gameObject)));
+        health.OnDeath.AddListener(() => Timers.Delay(destroyDelay, () => Destroy(gameObject)));
     }
 
 }

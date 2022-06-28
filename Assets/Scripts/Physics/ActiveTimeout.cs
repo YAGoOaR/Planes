@@ -9,6 +9,6 @@ public class ActiveTimeout : MonoBehaviour
     void Awake()
     {
         gameObject.SetActive(false);
-        Timers.delay(timeout, () => { gameObject.SetActive(true); });
+        Timers.Delay(timeout, () => { gameObject.SetActive(true); });
     }
 }

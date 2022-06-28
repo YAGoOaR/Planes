@@ -43,9 +43,7 @@ public class PlaneBehaviour : MonoBehaviour
     PlaneState state;
     Vector3 lastVelocity;
     float turnTimer = 0;
-    float turnSpeedMultiplier = 1;
     Health health;
-    GameHandler gameHandler;
     PlanePartManager partManager;
     PlaneComponentDisabler disabler;
 
@@ -53,7 +51,7 @@ public class PlaneBehaviour : MonoBehaviour
 
     public bool GearUp { get => gearCtrl.IsGearUp || gear.IsBroken; }
 
-    public bool NormalState { get => checkNormalState(); }
+    public bool NormalState { get => CheckNormalState(); }
 
     public enum PlaneState
     {
@@ -68,31 +66,31 @@ public class PlaneBehaviour : MonoBehaviour
     //Called after this object initialization
     void Start()
     {
-        defineVariables();
-        defineComponents();
-        planeSetup();
+        DefineVariables();
+        DefineComponents();
+        PlaneSetup();
     }
 
     private void Update()
     {
         if (health.Dead) return;
-        planePhysics();
+        PlanePhysics();
     }
 
     //Called each frame
     void FixedUpdate()
     {
         if (health.Dead) return;
-        updateControls();
+        UpdateControls();
     }
 
-    void defineComponents()
+    void DefineComponents()
     {
         partManager = GetComponent<PlanePartManager>();
-        elevator = partManager.getPart("elevator");
-        gear = partManager.getPart("gear");
-        propeller = partManager.getPart("propeller");
-        flap = partManager.getPart("flap");
+        elevator = partManager.GetPart(PlanePartManager.PartType.elevator);
+        gear = partManager.GetPart(PlanePartManager.PartType.gear);
+        propeller = partManager.GetPart(PlanePartManager.PartType.engine);
+        flap = partManager.GetPart(PlanePartManager.PartType.flap);
 
         planeAnimator = GetComponent<PlaneAnimator>();
         planeRB = GetComponent<Rigidbody2D>();
@@ -107,39 +105,33 @@ public class PlaneBehaviour : MonoBehaviour
         disabler = GetComponent<PlaneComponentDisabler>();
     }
 
-    void defineVariables()
+    void DefineVariables()
     {
-        gameHandler = GameHandler.Instance;
         throttleTimer = new Timers.CooldownTimer(0.01f);
 
 
         state = PlaneState.common;
     }
 
-    void planeSetup()
+    void PlaneSetup()
     {
-        health.OnDeath.AddListener(totalBreakPlane);
+        health.OnDeath.AddListener(TotalBreakPlane);
 
         flapAngle = flapJoint.limits.min;
         hingemotor.maxMotorTorque = 100;
         flapMotor.maxMotorTorque = flapMaxTorque;
         flapMotor.motorSpeed = -flapMotorSpeed;
 
-        if (startInOtherHeading)
-        {
-            turnOver();
-        }
+        if (startInOtherHeading) TurnOver();
     }
 
 
-    void planePhysics()
+    void PlanePhysics()
     {
         if (state == PlaneState.turningBack)
         {
-            turnTimer += Time.deltaTime * turnSpeedMultiplier;
-            //planeRB.velocity = lastVelocity * Mathf.Cos(Mathf.Max(Mathf.PI * turnTimer * (1 - turnTimer * turnBackDrag) + velocityOffset, 0));
+            turnTimer += Time.deltaTime;
             planeRB.velocity = lastVelocity * Mathf.Cos(Mathf.Max(Mathf.PI * turnTimer * (1 - turnTimer * turnBackDrag + velocityOffset) / turnBackTime, 0));
-            //Debug.Log(turnTimer);
         }
 
     }
@@ -153,50 +145,41 @@ public class PlaneBehaviour : MonoBehaviour
         float D = 0;
 
         hingemotor.motorSpeed = P * angleDiff * jointForce + D * elevatorHinge.jointSpeed * D;
-        //Debug.Log(hingemotor.motorSpeed);
         elevatorHinge.motor = hingemotor;
     }
 
-    void updateControls()
+    void UpdateControls()
     {
         propellerMotor.Throttle = throttle;
 
-        //Plane pitch
-        if (!elevator.IsBroken)
-        {
-            UpdatePitch();
-        }
+        if (!elevator.IsBroken) UpdatePitch();
 
-        //Changing controls if animation puts plane upside down
         if (upsideDown)
         {
-            JointMotor2D reverse = new JointMotor2D();
-            reverse.motorSpeed = -flapMotor.motorSpeed;
-            reverse.maxMotorTorque = flapMaxTorque;
+            JointMotor2D reverse = new JointMotor2D
+            {
+                motorSpeed = -flapMotor.motorSpeed,
+                maxMotorTorque = flapMaxTorque
+            };
             flapJoint.motor = reverse;
         }
-        else
-        {
-            if (!flap.IsBroken) flapJoint.motor = flapMotor;
-        }
+        else if (!flap.IsBroken) flapJoint.motor = flapMotor;
     }
 
     // A half of barrel roll
-    public void turn()
+    public void Turn()
     {
-        if (!checkNormalState() || !(planeRB.velocity.magnitude > 10f && (gearCtrl.IsGearUp || gear.IsBroken))) return;
-        planeAnimator.turn();
+        if (!CheckNormalState() || !(planeRB.velocity.magnitude > 10f && (gearCtrl.IsGearUp || gear.IsBroken))) return;
+        planeAnimator.Turn();
         state = PlaneState.turning;
-        disabler.setPartsActive(false);
+        disabler.SetPartsActive(false);
     }
 
     //Place the plane upside down
-    public void turnOver()
+    public void TurnOver()
     {
         Vector3 scale = gameObject.transform.localScale;
-        //Mirroring model
         gameObject.transform.localScale = new Vector3(scale.x, -scale.y, scale.z);
-        //Inverting aerofoil
         for (int i = 0; i < aerofoilList.Length; i++)
         {
             aerofoilList[i].Upside = -aerofoilList[i].Upside;
@@ -211,22 +194,20 @@ public class PlaneBehaviour : MonoBehaviour
             }
         }
 
-        //Inverting flaps
-        turnFlaps();
+        TurnFlaps();
         UpdatePartsPos();
     }
 
-    //Landing gear
-    public void switchGear()
+    public void SwitchGear()
     {
-        if (!checkNormalState()) return;
+        if (!CheckNormalState()) return;
         if (planeRB.velocity.magnitude > gearSwitchVelocity)
         {
             gearCtrl.switchGear(!gearCtrl.IsGearUp);
         }
     }
 
-    public void setGear(bool on)
+    public void SetGear(bool on)
     {
         if (planeRB.velocity.magnitude > gearSwitchVelocity)
         {
@@ -234,9 +215,6 @@ public class PlaneBehaviour : MonoBehaviour
         }
     }
 
-
-
-    //Update if plane part breaks
     public void OnJointBreak2D(Joint2D thejoint)
     {
         if (thejoint.connectedBody.gameObject.transform.name == "elevator")
@@ -245,64 +223,50 @@ public class PlaneBehaviour : MonoBehaviour
         }
     }
 
-
-
-    //Placing plane flaps upside down (after turning animation)
-    public void turnFlaps()
+    public void TurnFlaps()
     {
-        JointAngleLimits2D angle = new JointAngleLimits2D();
-        angle.max = 0;
-        if (upsideDown)
+        flapJoint.limits = new JointAngleLimits2D
         {
-            angle.min = -flapAngle;
-        }
-        else
-        {
-            angle.min = flapAngle;
-        }
-        flapJoint.limits = angle;
+            max = 0,
+            min = upsideDown ? -flapAngle : flapAngle,
+        };
     }
 
-    public void rotate()
+    public void Rotate()
     {
         gameObject.transform.Rotate(0, 0, 180);
     }
 
-    public void rotate(float angle)
+    public void Rotate(float angle)
     {
         gameObject.transform.Rotate(0, 0, angle / Mathf.PI * 180);
     }
 
-    public void turnBack()
+    public void TurnBack()
     {
         if (
-            !checkNormalState() ||
+            !CheckNormalState() ||
             !(planeRB.velocity.magnitude > 10f && (gearCtrl.IsGearUp || gear.IsBroken)) ||
             !(Mathf.Cos(planeRB.rotation * Mathf.Deg2Rad - MathUtils.Vector2ToAngle(planeRB.velocity)) < -0.95f)
         ) { return; }
 
         turnTimer = 0f;
         state = PlaneState.turningBack;
-        //float velocityCoefficient = Mathf.Min(1 / planeRB.velocity.magnitude * 10, maxVelocityCoef);
         float velocityAngle = MathUtils.Vector2ToAngle(planeRB.velocity);
-        //float angleCoefficient = Mathf.Max(-Mathf.Cos(velocityAngle + Mathf.PI / 2) + 1, minAngleCoef);
 
-        //turnSpeedMultiplier = velocityCoefficient * angleCoefficient;
-
-        planeAnimator.turnBack(turnBackTime);
+        planeAnimator.TurnBack(turnBackTime);
         planeRB.isKinematic = true;
         planeRB.freezeRotation = true;
         lastVelocity = new Vector3(planeRB.velocity.x, planeRB.velocity.y, 0);
-        switchAerofoilActive();
+        SwitchAerofoilActive();
 
         float headingAngle = transform.rotation.eulerAngles.z / 180 * Mathf.PI + Mathf.PI;
-        rotate(velocityAngle - headingAngle);
+        Rotate(velocityAngle - headingAngle);
 
-        disabler.setPartsActive(false);
+        disabler.SetPartsActive(false);
     }
 
-    //Turn off aerofoil physics(during animation)
-    public void switchAerofoilActive()
+    public void SwitchAerofoilActive()
     {
         foreach (Aerofoil aerofoil in aerofoilList)
         {
@@ -310,16 +274,14 @@ public class PlaneBehaviour : MonoBehaviour
         }
     }
 
-    //If plane collides something(during animation)
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        if (state == PlaneState.turningBack && collision.gameObject.layer != 8 && collision.gameObject.layer != 10)
+        if (state == PlaneState.turningBack && collision.gameObject.layer == 9)
         {
             health.Kill();
         }
     }
 
-    //If plane collides a trigger(water, etc)(during animation)
     public void OnTriggerEnter2D(Collider2D collider)
     {
         if (state == PlaneState.turningBack)
@@ -328,16 +290,15 @@ public class PlaneBehaviour : MonoBehaviour
         }
     }
 
-    //Stop plane animation, behaviour, etc
-    void breakPlane()
+    void BreakPlane()
     {
         planeRB.isKinematic = planeRB.freezeRotation = false;
         planeAnimator.StopAnimation();
     }
 
-    void totalBreakPlane()
+    void TotalBreakPlane()
     {
-        breakPlane();
+        BreakPlane();
 
         foreach (PlanePart part in partManager.Parts)
         {
@@ -345,49 +306,42 @@ public class PlaneBehaviour : MonoBehaviour
         }
     }
 
-    //Turn plane without animation
-    void forceTurnBack()
+    void ForceTurnBack()
     {
-        rotate();
-        turnOver();
+        Rotate();
+        TurnOver();
     }
 
-    void switchFlaps()
-    {
-        flaps = !flaps;
-        updateFlaps();
-    }
-
-    public void setFlaps(bool on)
+    public void SetFlaps(bool on)
     {
         flaps = on;
-        updateFlaps();
+        UpdateFlaps();
     }
 
-    public void updateFlaps()
+    public void UpdateFlaps()
     {
         flapMotor.motorSpeed = flaps ? flapMotorSpeed : -flapMotorSpeed;
     }
 
-    void switchBrakes()
+    public void SwitchBrakes()
     {
         brakes = !brakes;
-        updateBrakes();
+        UpdateBrakes();
     }
 
-    public bool checkNormalState()
+    public bool CheckNormalState()
     {
         return state != PlaneState.turning && state != PlaneState.turningBack && !health.Dead;
     }
 
-    public void setBrakes(bool on)
+    public void SetBrakes(bool on)
     {
-        if (!checkNormalState()) return;
+        if (!CheckNormalState()) return;
         brakes = on;
-        updateBrakes();
+        UpdateBrakes();
     }
 
-    public void updateBrakes()
+    public void UpdateBrakes()
     {
         gearCtrl.switchBrakes(brakes);
     }
@@ -396,8 +350,7 @@ public class PlaneBehaviour : MonoBehaviour
         foreach (PlanePart part in partManager.Parts)
         {
             part.transform.up = transform.up;
-            AnchoredJoint2D joint;
-            if(!part.TryGetComponent(out joint)) return;
+            if (!part.TryGetComponent(out AnchoredJoint2D joint)) return;
             part.transform.position = transform.position + Vector3.Scale(transform.rotation * joint.connectedAnchor - transform.rotation * joint.anchor, transform.localScale);
             Rigidbody2D partrb = part.GetComponent<Rigidbody2D>();
             partrb.velocity = planeRB.velocity;
@@ -408,13 +361,13 @@ public class PlaneBehaviour : MonoBehaviour
     public void OnTurnExit()
     {
         state = PlaneState.common;
-        turnOver();
-        disabler.setPartsActive(true);
+        TurnOver();
+        disabler.SetPartsActive(true);
     }
 
     public void OnTurnBackMiddle()
     {
-        forceTurnBack();
+        ForceTurnBack();
     }
 
     public void OnTurnBackExit()
@@ -422,23 +375,23 @@ public class PlaneBehaviour : MonoBehaviour
         state = PlaneState.common;
         planeRB.isKinematic = false;
         planeRB.freezeRotation = false;
-        switchAerofoilActive();
-        disabler.setPartsActive(true);
+        SwitchAerofoilActive();
+        disabler.SetPartsActive(true);
     }
 
     public void HidePropeller(bool hide)
     {
-        propeller.hide(hide);
+        propeller.Hide(hide);
     }
 
     public void AdjustThrottle(int diff)
     {
         if (health.Dead) return;
-        if (throttleTimer.check())
+        if (throttleTimer.Check())
         {
             throttle += diff;
             throttle = Mathf.Clamp(throttle, 0, 100);
-            throttleTimer.reset();
+            throttleTimer.Reset();
         }
     }
 

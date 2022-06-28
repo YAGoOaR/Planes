@@ -4,7 +4,6 @@ public class Smoker : MonoBehaviour
 {
     Health health;
     [SerializeField] GameObject smoke;
-    //ParticleSystem particleSystem;
 
     [SerializeField] ParticleSystemRenderer particleSystemRenderer;
     [SerializeField] Material lightSmoke;
@@ -17,12 +16,11 @@ public class Smoker : MonoBehaviour
     {
         health = GetComponent<Health>();
         health.OnDamage.AddListener(OnDamage);
-        //particleSystem = smoke.GetComponent<ParticleSystem>();
     }
 
     void OnDamage()
     {
-        float live = health.HP / health.maxHP;
+        float live = (float)health.HP / health.MaxHP;
         particleSystemRenderer.material = live <= hardThreshold ? hardSmoke : lightSmoke;
         smoke.SetActive(live <= lightThreshold);
     }

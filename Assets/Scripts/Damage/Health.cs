@@ -18,7 +18,7 @@ public class Health : MonoBehaviour
     int maxhp = 4;
 
     public int HP { get => hp; }
-    public int maxHP { get => maxhp; }
+    public int MaxHP { get => maxhp; }
 
     private void Start()
     {
