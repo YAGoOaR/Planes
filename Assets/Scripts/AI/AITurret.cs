@@ -6,6 +6,7 @@ public class AITurret : MonoBehaviour
 {
     [SerializeField] Teams.Team enemyTeam = Teams.Team.Allies;
     GameObject currentEnemy = null;
+    Rigidbody2D enemyRB = null;
     GunsController gunsController;
     Rigidbody2D rb;
 
@@ -47,6 +48,8 @@ public class AITurret : MonoBehaviour
     void FindSomethingToDo()
     {
         currentEnemy = teamsInstance.FindClosestToMe(enemyTeam, transform.position)?.gameObject;
+        enemyRB = currentEnemy?.GetComponent<Rigidbody2D>();
+
         if (currentEnemy != null)
         {
             float dist = (currentEnemy.transform.position - transform.position).magnitude;
@@ -72,18 +75,23 @@ public class AITurret : MonoBehaviour
     Vector3 SimplePredict()
     {
         Vector3 delta = currentEnemy.transform.position - transform.position;
-        Rigidbody2D enemyRB = currentEnemy.GetComponent<Rigidbody2D>();
-        float vel = gunsController.MaxVelocity;
+        float projectileVelocity = gunsController.MaxVelocity;
 
-        Vector2 ort = Vector3.Project(enemyRB.velocity, Vector2.Perpendicular(delta));
-        float ortLen = ort.magnitude;
-        Vector2 tang = delta.normalized * (Mathf.Sqrt(Mathf.Pow(vel, 2) - Mathf.Pow(ortLen, 2)));
-        Vector2 leadVec = tang + ort;
+        Vector2 orthogonalPart = Vector3.Project(enemyRB.velocity, Vector2.Perpendicular(delta));
+        float orthogonalLen = orthogonalPart.magnitude;
 
-        predictedPos = currentEnemy.transform.position + Vector3.Project((delta.magnitude / tang.magnitude) * ort, enemyRB.velocity);
+        float closingSpeed = Mathf.Sqrt(Mathf.Pow(projectileVelocity, 2) - Mathf.Pow(orthogonalLen, 2));
 
-        if (!(leadVec.magnitude > 0)) return delta;
-        return leadVec;
+        Vector2 tangentialPart = delta.normalized * closingSpeed;
+        Vector2 leadVector = tangentialPart + orthogonalPart;
+
+        float interCeptTime = delta.magnitude / tangentialPart.magnitude;
+        Vector3 predictedMovement = Vector3.Project(interCeptTime * orthogonalPart, enemyRB.velocity);
+
+        predictedPos = currentEnemy.transform.position + predictedMovement;
+
+        if (!(leadVector.magnitude > 0)) return delta;
+        return leadVector;
     }
 
     private void OnDrawGizmos()
