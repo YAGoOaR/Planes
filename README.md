@@ -3,26 +3,22 @@
  [![Language](https://img.shields.io/badge/Language-C%23-blueviolet)](https://en.wikipedia.org/wiki/C_Sharp_(programming_language))
  
  ---
+ [PLAY IN BROWSER](https://yagooar.itch.io/planes)
+ ---
+ 
  It is 2D PC game made on C# with Unity
 </br>![icon](/Pictures/icon.png)
 ## Features
-- AI opponents
+- AI opponents and allies
 - plane flight physics
 - realistic water physics
 - plane damage system
 
-</br>![Picture](/Pictures/GameplayScreenshots/9.png)
-</br>![Picture](/Pictures/GameplayScreenshots/10.png)
-
-Enemies are controlled by AI. They can take off, land, attack air and ground targets, throw bombs.
-
-On this stage of development player have to defend his base from bombing and to destroy air enemies.
+https://user-images.githubusercontent.com/55108635/176158633-bbaad182-01f3-4a03-b00e-53f8c38e9219.mp4
 
 ---
 
-> You can find script of the game in /Assets/Scripts.
-
-> To launch the game, open newest release archive and launch Planes.exe
+> To play the game, launch it through the [open in browser link](https://yagooar.itch.io/planes) or open the newest release archive and launch Planes.exe
 
 ## Contacts
 Telegram: https://t.me/YAGOoaR
