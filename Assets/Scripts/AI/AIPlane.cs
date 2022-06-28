@@ -41,6 +41,10 @@ public class AIPlane : MonoBehaviour
     //Land
     const float LandAccuracy = 80;
 
+    //timers
+    const float turnCooldownTime = 3;
+    const float waitTime = 2;
+
     [SerializeField] Teams.Team enemyTeam = Teams.Team.Allies;
 
     Vector3 home;
@@ -59,7 +63,7 @@ public class AIPlane : MonoBehaviour
     Rigidbody2D rb;
     Teams teamsInstance;
     Transform bombBayTransform;
-
+    Vector3 EnemyDelta { get => currentEnemy.position - transform.position; }
     [SerializeField] AIType attackerType;
 
     public enum AIType
@@ -90,20 +94,14 @@ public class AIPlane : MonoBehaviour
 
     void Start()
     {
-        turnCooldown = new Timers.CooldownTimer(3);
-        waitCooldown = new Timers.CooldownTimer(2);
+        turnCooldown = new Timers.CooldownTimer(turnCooldownTime);
+        waitCooldown = new Timers.CooldownTimer(waitTime);
         planeController = GetComponent<PlaneController>();
         planeBehaviour = GetComponent<PlaneBehaviour>();
         bombBayTransform = planeController.BombBay;
         teamsInstance = Teams.Instance;
         rb = GetComponent<Rigidbody2D>();
         home = transform.position;
-    }
-
-    void SetState(AIState newState)
-    {
-        prevState = state;
-        state = newState;
     }
 
     void FixedUpdate()
@@ -144,6 +142,8 @@ public class AIPlane : MonoBehaviour
         }
     }
 
+    // Initialize AI state if idle
+
     void FindSomethingToDo()
     {
         if (!planeBehaviour.GearUp) { SetState(AIState.takingOff); return; }
@@ -165,65 +165,7 @@ public class AIPlane : MonoBehaviour
         }
     }
 
-    void TakeOff()
-    {
-        bool gearUp = planeBehaviour.GearUp;
-        if (transform.position.y > gearUpAltitude && !gearUp) {
-            planeController.SetGear(false);
-            planeController.SetFlaps(false);
-        }
-        if (transform.position.y > takeOffAltitude && gearUp)
-        {
-            SetState(AIState.idle);
-            return;
-        }
-        GainAltitude();
-    }
-
-    Vector3 GetForwardHorizontalDir()
-    {
-        return Vector3.Project(-transform.right, Vector3.right).normalized;
-    }
-
-    void Climb()
-    {
-        if (transform.position.y > dangerousAlt)
-        {
-            SetState(AIState.idle);
-            return;
-        }
-        GainAltitude();
-    }
-
-    void GainAltitude()
-    {
-        planeController.SetThrottle(100);
-
-        Vector3 forwardHorizontalDir = GetForwardHorizontalDir();
-        planeController.SetHeading(Quaternion.Euler(0, 0, climbAngle * Mathf.Sign(forwardHorizontalDir.x)) * forwardHorizontalDir);
-    }
-
-    void PreventStall()
-    {
-        if (rb.velocity.magnitude > stallExitVelocity)
-        {
-            SetState(AIState.idle);
-            return;
-        }
-        if (transform.position.y < dangerousAlt)
-        {
-            SetState(AIState.climbing);
-            return;
-        }
-        GainSpeed();
-    }
-
-    void GainSpeed()
-    {
-        planeController.SetThrottle(100);
-        planeController.SetHeading(GetForwardHorizontalDir());
-    }
-
+    // Define if the enemy is a ground or air target
     TargetType DefineTargetType()
     {
         return (
@@ -235,8 +177,10 @@ public class AIPlane : MonoBehaviour
         );
     }
 
+    // A method to attack anything while in AIState.attacking state
     void Attack()
     {
+        // if plane is likely to fall because of the lack of speed
         if (rb.velocity.magnitude < stallVelocity)
         {
             SetState(AIState.stalling);
@@ -262,6 +206,7 @@ public class AIPlane : MonoBehaviour
         }
     }
 
+    // If the vehicle is upside down then turn over
     void TurnOver()
     {
         if (IsUpsideDown() && turnCooldown.Check())
@@ -271,6 +216,7 @@ public class AIPlane : MonoBehaviour
         }
     }
 
+    // Shoot anything with guns
     void ShootTarget(float overrideRange = 0)
     {
         Vector2 enemyDir = currentEnemy.position - transform.position;
@@ -288,6 +234,7 @@ public class AIPlane : MonoBehaviour
         }
     }
 
+    // Gather altitude to bomb targets
     void ClimbToBomb()
     {
         if (transform.position.y > climbBombAlt)
@@ -295,14 +242,10 @@ public class AIPlane : MonoBehaviour
             SetState(AIState.attacking);
             return;
         }
-        GainAltitude();
+        GatherAltitude();
     }
 
-    bool IsHeadingTowardsHome()
-    {
-        return Mathf.Sign(rb.velocity.x) == Mathf.Sign(home.x - transform.position.x);
-    }
-
+    // Attack air targets
     void AttackAir()
     {
         if (!planeController.HasAmmo)
@@ -327,6 +270,7 @@ public class AIPlane : MonoBehaviour
         ShootTarget();
     }
 
+    // Attack ground targets
     void AttackGround()
     {
         if (!planeController.HasBombs && planeController.HasAmmo)
@@ -345,6 +289,8 @@ public class AIPlane : MonoBehaviour
         }
     }
 
+
+    // Gather distance to perform a new attack
     void ChargeAttack()
     {
         Vector3 delta = EnemyDelta;
@@ -356,6 +302,7 @@ public class AIPlane : MonoBehaviour
         planeController.SetHeading(-delta);
     }
 
+    // Accurately throw a bomb using ballistics calculation
     void BombTarget()
     {
         if (transform.position.y < climbBombAltMin)
@@ -388,13 +335,75 @@ public class AIPlane : MonoBehaviour
         float fallPoint = rb.velocity.x * timeToCollision;
         bombPos = new Vector3(transform.position.x + fallPoint, currentEnemy.position.y, 0);
 
-        if (Mathf.Abs(delta.x - fallPoint) < bombThrowAccuracy)
+        float accuracy = Mathf.Abs(delta.x - fallPoint);
+
+        if (accuracy < bombThrowAccuracy)
         {
             planeController.ThrowBomb();
             waitCooldown.Reset();
             SetState(AIState.waiting);
             return;
         }
+    }
+
+    // Reach specific altitude and raise the gear
+    void TakeOff()
+    {
+        bool gearUp = planeBehaviour.GearUp;
+        if (transform.position.y > gearUpAltitude && !gearUp)
+        {
+            planeController.SetGear(false);
+            planeController.SetFlaps(false);
+        }
+        if (transform.position.y > takeOffAltitude && gearUp)
+        {
+            SetState(AIState.idle);
+            return;
+        }
+        GatherAltitude();
+    }
+
+    // Perform actions to exit stalling
+    void PreventStall()
+    {
+        if (rb.velocity.magnitude > stallExitVelocity)
+        {
+            SetState(AIState.idle);
+            return;
+        }
+        if (transform.position.y < dangerousAlt)
+        {
+            SetState(AIState.climbing);
+            return;
+        }
+        GatherSpeed();
+    }
+
+    // Gather altitude state
+    void Climb()
+    {
+        if (transform.position.y > dangerousAlt)
+        {
+            SetState(AIState.idle);
+            return;
+        }
+        GatherAltitude();
+    }
+
+    // Gather altitude when called
+    void GatherAltitude()
+    {
+        planeController.SetThrottle(100);
+
+        Vector3 forwardHorizontalDir = GetForwardHorizontalDir();
+        planeController.SetHeading(Quaternion.Euler(0, 0, climbAngle * Mathf.Sign(forwardHorizontalDir.x)) * forwardHorizontalDir);
+    }
+
+    // Gather speed
+    void GatherSpeed()
+    {
+        planeController.SetThrottle(100);
+        planeController.SetHeading(GetForwardHorizontalDir());
     }
 
     void Wait()
@@ -404,6 +413,31 @@ public class AIPlane : MonoBehaviour
             SetState(AIState.idle);
             return;
         }
+    }
+
+    // Draw predicted bomb fall point
+    Vector3 bombPos = Vector3.zero;
+    private void OnDrawGizmos()
+    {
+        if (bombPos == Vector3.zero) return;
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(bombPos, 1);
+    }
+
+    void SetState(AIState newState)
+    {
+        prevState = state;
+        state = newState;
+    }
+
+    Vector3 GetForwardHorizontalDir()
+    {
+        return Vector3.Project(-transform.right, Vector3.right).normalized;
+    }
+
+    bool IsHeadingTowardsHome()
+    {
+        return Mathf.Sign(rb.velocity.x) == Mathf.Sign(home.x - transform.position.x);
     }
 
     bool OnCollisionCourseWithGround()
@@ -450,14 +484,4 @@ public class AIPlane : MonoBehaviour
         if (IsNotUpsideDownTowards(home)) planeController.SetGear(true);
         planeController.SetThrottle(0);
     }
-
-    Vector3 bombPos = Vector3.zero;
-    private void OnDrawGizmos()
-    {
-        if (bombPos == Vector3.zero) return;
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(bombPos, 1);
-    }
-
-    Vector3 EnemyDelta { get => currentEnemy.position - transform.position; }
 }
