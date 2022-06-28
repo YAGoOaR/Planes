@@ -3,6 +3,9 @@
  [![Language](https://img.shields.io/badge/Language-C%23-blueviolet)](https://en.wikipedia.org/wiki/C_Sharp_(programming_language))
  
  ---
+ [PLAY IN BROWSER](https://yagooar.itch.io/planes)
+ ---
+ 
  It is 2D PC game made on C# with Unity
 </br>![icon](/Pictures/icon.png)
 ## Features
