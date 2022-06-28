@@ -7,6 +7,13 @@
 
  ---
 
+Update V0.3
+- Added AI enemies and allies with detailed behaviour
+- Added cool damage effects
+- Added defence turrets with target position prediction
+- Remade all game logic, fixed bugs, added team systems, etc.
+
+
 [View plane AI script](https://github.com/YAGoOaR/Planes/blob/master/Assets/Scripts/AI/AIPlane.cs)
 
 [View turret AI script](https://github.com/YAGoOaR/Planes/blob/master/Assets/Scripts/AI/AITurret.cs)
