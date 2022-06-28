@@ -18,8 +18,6 @@ https://user-images.githubusercontent.com/55108635/176158633-bbaad182-01f3-4a03-
 
 ---
 
-> You can find script of the game in /Assets/Scripts.
-
 > To play the game, launch it through the [open in browser link](https://yagooar.itch.io/planes) or open the newest release archive and launch Planes.exe
 
 ## Contacts
