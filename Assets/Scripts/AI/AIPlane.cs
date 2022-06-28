@@ -321,7 +321,7 @@ public class AIPlane : MonoBehaviour
             return;
         }
 
-        Vector3 forwardDir = GetForwardHorizontalDir();
+        Vector3 forwardDir = GetForwardHorizontalDirection();
 
         Vector3 delta = currentEnemy.position - bombBayTransform.position;
 
@@ -369,6 +369,19 @@ public class AIPlane : MonoBehaviour
         GatherAltitude();
     }
 
+    bool OnCollisionCourseWithGround()
+    {
+        bool falling = CheckIfIsFalling();
+
+        if (state != AIState.climbing && falling)
+        {
+            planeController.TurnBack();
+            SetState(AIState.climbing);
+        }
+
+        return falling;
+    }
+
     // Perform actions to exit stalling
     void PreventStall()
     {
@@ -403,7 +416,7 @@ public class AIPlane : MonoBehaviour
     {
         planeController.SetThrottle(100);
 
-        Vector3 forwardHorizontalDir = GetForwardHorizontalDir();
+        Vector3 forwardHorizontalDir = GetForwardHorizontalDirection();
         planeController.SetHeading(Quaternion.Euler(0, 0, climbAngle * Mathf.Sign(forwardHorizontalDir.x)) * forwardHorizontalDir);
     }
 
@@ -411,9 +424,10 @@ public class AIPlane : MonoBehaviour
     void GatherSpeed()
     {
         planeController.SetThrottle(100);
-        planeController.SetHeading(GetForwardHorizontalDir());
+        planeController.SetHeading(GetForwardHorizontalDirection());
     }
 
+    // Do nothing for some time
     void Wait()
     {
         if (waitCooldown.Check())
@@ -432,13 +446,14 @@ public class AIPlane : MonoBehaviour
         Gizmos.DrawSphere(bombPos, 1);
     }
 
+    // Change state and save previous state
     void SetState(AIState newState)
     {
         prevState = state;
         state = newState;
     }
 
-    Vector3 GetForwardHorizontalDir()
+    Vector3 GetForwardHorizontalDirection()
     {
         return Vector3.Project(-transform.right, Vector3.right).normalized;
     }
@@ -446,19 +461,6 @@ public class AIPlane : MonoBehaviour
     bool IsHeadingTowardsHome()
     {
         return Mathf.Sign(rb.velocity.x) == Mathf.Sign(home.x - transform.position.x);
-    }
-
-    bool OnCollisionCourseWithGround()
-    {
-        bool falling = CheckIfIsFalling();
-
-        if (state != AIState.climbing && falling)
-        {
-            planeController.TurnBack();
-            SetState(AIState.climbing);
-        }
-
-        return falling;
     }
 
     bool CheckIfIsFalling()
@@ -480,6 +482,8 @@ public class AIPlane : MonoBehaviour
         return dir == currentDir;
     }
 
+    // Simple land function
+    // TODO: implement smooth landing using vector reflection method
     void Land()
     {
         Vector2 delta = home - transform.position;
