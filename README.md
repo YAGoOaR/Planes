@@ -4,6 +4,20 @@
  
  ---
  [PLAY IN BROWSER](https://yagooar.itch.io/planes)
+
+ ---
+
+Update V0.3
+- Added AI enemies and allies with detailed behaviour
+- Added cool damage effects
+- Added defence turrets with target position prediction
+- Remade all game logic, fixed bugs, added team systems, etc.
+
+
+[View plane AI script](https://github.com/YAGoOaR/Planes/blob/master/Assets/Scripts/AI/AIPlane.cs)
+
+[View turret AI script](https://github.com/YAGoOaR/Planes/blob/master/Assets/Scripts/AI/AITurret.cs)
+
  ---
  
  It is 2D PC game made on C# with Unity
@@ -14,7 +28,11 @@
 - realistic water physics
 - plane damage system
 
-https://user-images.githubusercontent.com/55108635/176158633-bbaad182-01f3-4a03-b00e-53f8c38e9219.mp4
+
+
+https://user-images.githubusercontent.com/55108635/176163085-1fb582ab-ea19-43e1-8e86-1fa03a2fab6e.mp4
+
+
 
 ---
 
