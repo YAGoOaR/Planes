@@ -63,7 +63,9 @@ public class AIPlane : MonoBehaviour
     Rigidbody2D rb;
     Teams teamsInstance;
     Transform bombBayTransform;
+
     Vector3 EnemyDelta { get => currentEnemy.position - transform.position; }
+
     [SerializeField] AIType attackerType;
 
     public enum AIType
@@ -143,7 +145,6 @@ public class AIPlane : MonoBehaviour
     }
 
     // Initialize AI state if idle
-
     void FindSomethingToDo()
     {
         if (!planeBehaviour.GearUp) { SetState(AIState.takingOff); return; }
@@ -242,6 +243,7 @@ public class AIPlane : MonoBehaviour
             SetState(AIState.attacking);
             return;
         }
+
         GatherAltitude();
     }
 
@@ -281,6 +283,7 @@ public class AIPlane : MonoBehaviour
                 SetState(AIState.chargingAttack);
                 return;
             }
+
             ShootTarget(groundAttackRange);
         }
         else
@@ -299,6 +302,7 @@ public class AIPlane : MonoBehaviour
             SetState(AIState.attacking);
             return;
         }
+
         planeController.SetHeading(-delta);
     }
 
@@ -355,11 +359,13 @@ public class AIPlane : MonoBehaviour
             planeController.SetGear(false);
             planeController.SetFlaps(false);
         }
+
         if (transform.position.y > takeOffAltitude && gearUp)
         {
             SetState(AIState.idle);
             return;
         }
+
         GatherAltitude();
     }
 
@@ -371,11 +377,13 @@ public class AIPlane : MonoBehaviour
             SetState(AIState.idle);
             return;
         }
+
         if (transform.position.y < dangerousAlt)
         {
             SetState(AIState.climbing);
             return;
         }
+
         GatherSpeed();
     }
 
@@ -443,11 +451,13 @@ public class AIPlane : MonoBehaviour
     bool OnCollisionCourseWithGround()
     {
         bool falling = CheckIfIsFalling();
+
         if (state != AIState.climbing && falling)
         {
             planeController.TurnBack();
             SetState(AIState.climbing);
         }
+
         return falling;
     }
 
@@ -478,6 +488,7 @@ public class AIPlane : MonoBehaviour
             SetState(AIState.stalling);
             return;
         }
+
         planeController.SetFlaps(true);
         planeController.SetTarget(home);
         planeController.SetBrakes(true);
