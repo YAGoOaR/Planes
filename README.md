@@ -4,6 +4,11 @@
  
  ---
  [PLAY IN BROWSER](https://yagooar.itch.io/planes)
+
+ ---
+
+[View AI scripts](https://github.com/YAGoOaR/Planes/tree/master/Assets/Scripts/AI)
+
  ---
  
  It is 2D PC game made on C# with Unity
