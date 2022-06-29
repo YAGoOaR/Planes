@@ -5,7 +5,7 @@ using UnityEngine;
 public class AITurret : MonoBehaviour
 {
     [SerializeField] Teams.Team enemyTeam = Teams.Team.Allies;
-    GameObject currentEnemy = null;
+    Health currentEnemy = null;
     Rigidbody2D enemyRB = null;
     GunsController gunsController;
     Rigidbody2D rb;
@@ -47,7 +47,7 @@ public class AITurret : MonoBehaviour
 
     void FindSomethingToDo()
     {
-        currentEnemy = teamsInstance.FindClosestToMe(enemyTeam, transform.position)?.gameObject;
+        currentEnemy = teamsInstance.FindClosestToMe(enemyTeam, transform.position);
         enemyRB = currentEnemy?.GetComponent<Rigidbody2D>();
 
         if (currentEnemy != null)
@@ -60,6 +60,7 @@ public class AITurret : MonoBehaviour
     void Attack()
     {
         if (currentEnemy == null) { state = AITurretState.idle; return; }
+
         Vector3 delta = currentEnemy.transform.position - transform.position;
         float dist = delta.magnitude;
         if (dist > forgetDistanceThreshold)
@@ -67,8 +68,10 @@ public class AITurret : MonoBehaviour
             state = AITurretState.idle;
             return;
         }
-        gunsController.TryShoot(dist);
+
         transform.right = -(SimplePredict()).normalized;
+        if (currentEnemy.HP <= 0) return;
+        gunsController.TryShoot(dist);
     }
 
     Vector2 predictedPos = Vector2.zero;
@@ -77,16 +80,16 @@ public class AITurret : MonoBehaviour
         Vector3 delta = currentEnemy.transform.position - transform.position;
         float projectileVelocity = gunsController.MaxVelocity;
 
-        Vector2 orthogonalPart = Vector3.Project(enemyRB.velocity, Vector2.Perpendicular(delta));
-        float orthogonalLen = orthogonalPart.magnitude;
+        Vector2 tangentialMovement = Vector3.Project(enemyRB.velocity, Vector2.Perpendicular(delta));
+        float tangentialLen = tangentialMovement.magnitude;
 
-        float closingSpeed = Mathf.Sqrt(Mathf.Pow(projectileVelocity, 2) - Mathf.Pow(orthogonalLen, 2));
+        float closingSpeed = Mathf.Sqrt(Mathf.Pow(projectileVelocity, 2) - Mathf.Pow(tangentialLen, 2));
 
-        Vector2 tangentialPart = delta.normalized * closingSpeed;
-        Vector2 leadVector = tangentialPart + orthogonalPart;
+        Vector2 orthogonalMovement = delta.normalized * closingSpeed;
+        Vector2 leadVector = orthogonalMovement + tangentialMovement;
 
-        float interCeptTime = delta.magnitude / tangentialPart.magnitude;
-        Vector3 predictedMovement = Vector3.Project(interCeptTime * orthogonalPart, enemyRB.velocity);
+        float interCeptTime = delta.magnitude / orthogonalMovement.magnitude;
+        Vector3 predictedMovement = Vector3.Project(interCeptTime * tangentialMovement, enemyRB.velocity);
 
         predictedPos = currentEnemy.transform.position + predictedMovement;
 

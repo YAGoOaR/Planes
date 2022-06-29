@@ -16,6 +16,7 @@ public class AIPlane : MonoBehaviour
     const float groundAttackRange = 200;
 
     const float AttackAirMinDist = 70;
+    const float AttackAirCriticalDist = 20;
     const float AvoidCollisionVelocityThreshold = 70;
 
     const float AttackGroundMinDist = 60;
@@ -39,7 +40,9 @@ public class AIPlane : MonoBehaviour
     const float maxGroundTargetSpeed = 20;
 
     //Land
-    const float LandAccuracy = 80;
+    const float turnOffMotorDist = 200;
+    const float landingSpeed = 25;
+    const float landingSpeedAccuracy = 3;
 
     //timers
     const float turnCooldownTime = 3;
@@ -216,6 +219,27 @@ public class AIPlane : MonoBehaviour
             turnCooldown.Reset();
         }
     }
+    
+    // Predict target movement to shoot accurately
+    Vector3 SimplePredict()
+    {
+        Vector3 delta = currentEnemy.transform.position - transform.position;
+        float projectileVelocity = planeController.GunBulletVelocity;
+
+        Vector3 deltaVelocity = enemyRB.velocity - rb.velocity;
+
+        Vector2 tangentialMovement = Vector3.Project(deltaVelocity, Vector2.Perpendicular(delta));
+        float orthogonalLen = tangentialMovement.magnitude;
+
+        float closingSpeed = Mathf.Sqrt(Mathf.Pow(projectileVelocity, 2) - Mathf.Pow(orthogonalLen, 2));
+        if (!(closingSpeed > 0)) return delta;
+
+        Vector2 orthogonalMovement = delta.normalized * closingSpeed;
+        Vector2 leadVector = orthogonalMovement + tangentialMovement;
+
+        if (!(leadVector.magnitude > 0)) return delta;
+        return leadVector;
+    }
 
     // Shoot anything with guns
     void ShootTarget(float overrideRange = 0)
@@ -225,7 +249,7 @@ public class AIPlane : MonoBehaviour
 
         float deltaAngle = Vector2.Angle(enemyDir, forwardDir);
 
-        planeController.SetTarget(currentEnemy.position);
+        planeController.SetHeading(SimplePredict());
         float dist = (currentEnemy.position - transform.position).magnitude;
         float range = overrideRange == 0 ? planeController.GunRange : overrideRange;
 
@@ -261,7 +285,9 @@ public class AIPlane : MonoBehaviour
             Vector3 velocityDelta = enemyRB.velocity - rb.velocity;
             float closingSpeed = (Vector2.Angle(velocityDelta, EnemyDelta) > 90 ? 1 : -1) * velocityDelta.magnitude;
 
-            if (EnemyDelta.magnitude < AttackAirMinDist && closingSpeed > AvoidCollisionVelocityThreshold)
+            float dist = EnemyDelta.magnitude;
+
+            if (dist < AttackAirMinDist && closingSpeed > AvoidCollisionVelocityThreshold || dist < AttackAirCriticalDist)
             {
                 float angleBetweenVelocities = Vector2.SignedAngle(enemyRB.velocity, rb.velocity);
                 planeController.SetHeading(Quaternion.Euler(0, 0, -Mathf.Sign(angleBetweenVelocities) * collisionAvoidAngle) * -EnemyDelta.normalized);
@@ -482,21 +508,27 @@ public class AIPlane : MonoBehaviour
         return dir == currentDir;
     }
 
-    // Simple land function
-    // TODO: implement smooth landing using vector reflection method
+    Vector3 Reject(Vector3 a, Vector3 b) => a - Vector3.Project(a, b);
+    Vector3 ReflectWithCoef(Vector3 a, Vector3 b, float k) => Vector3.Project(a, b) - k * Reject(a, b);
+
+    // Advanced smooth landing path
     void Land()
     {
         Vector2 delta = home - transform.position;
-        if (rb.velocity.magnitude < stallVelocity && Mathf.Abs(delta.x) > LandAccuracy)
-        {
-            SetState(AIState.stalling);
-            return;
-        }
 
         planeController.SetFlaps(true);
-        planeController.SetTarget(home);
+        Vector2 approachDir = Vector3.Project(delta, Vector2.left);
+        Vector2 approachVector = ReflectWithCoef(approachDir, delta, 1f);
+
+        planeController.SetHeading(approachVector, aimVelocity: true);
         planeController.SetBrakes(true);
         if (IsNotUpsideDownTowards(home)) planeController.SetGear(true);
-        planeController.SetThrottle(0);
+
+        float speed = rb.velocity.magnitude;
+        float speedDiff = landingSpeed - speed;
+        int throttle = Mathf.Abs(delta.x) < turnOffMotorDist ? 0 :
+            speedDiff > landingSpeedAccuracy ? 100 :
+            speedDiff < - landingSpeedAccuracy ? 0 : 50;
+        planeController.SetThrottle(throttle);
     }
 }

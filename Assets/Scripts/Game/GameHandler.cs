@@ -42,7 +42,6 @@ public class GameHandler : MonoBehaviour
         objectsToFreeze = new List<GameObject>();
         player = Instantiate(GameAssets.Instance.Player, new Vector3(spawnPosition.x, spawnPosition.y, 0), Quaternion.identity);
         GameObject hull = player.GetComponent<Hull>().hull;
-        hull.AddComponent<Follow>();
         hull.GetComponent<Health>().OnDeath.AddListener(() => GameOver(planeBrokenMsg));
         game = GetComponent<Game>();
     }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SinkableShip : MonoBehaviour
 {
-    const float DESTROYED_OBJECT_VOLUME = 10;
+    const float DESTROYED_OBJECT_VOLUME = 60;
     const float HALF_DESTROYED_OBJECT_VOLUME = 100;
     const float buoyancy = 500;
 

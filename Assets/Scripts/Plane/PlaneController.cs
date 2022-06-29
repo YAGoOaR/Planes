@@ -1,10 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlaneController : MonoBehaviour
 {
     public float GunRange { get => guns[0].Range; }
+    public float GunBulletVelocity { get => guns[0].BulletSpeed; }
+
     public bool GearUp { get => plane.GearUp; }
     public bool HasBombs { get => bombBay.BombCount > 0; }
 
@@ -15,14 +15,12 @@ public class PlaneController : MonoBehaviour
     PlaneBehaviour plane;
     Rigidbody2D rb;
 
-    Vector3 movementTargetDir;
-
     BombBay bombBay;
     Health health;
     Gun[] guns;
 
-    float P = 3;
-    float D = 0f;
+    float P = 10;
+    float D = 0.05f;
 
     void Start()
     {
@@ -33,22 +31,17 @@ public class PlaneController : MonoBehaviour
         guns = GetComponentsInChildren<Gun>();
     }
 
-    void FixedUpdate()
+    Vector2 lastHdg;
+    public void SetHeading(Vector3 hdg, bool aimVelocity = true)
     {
-        maintainHeading();
-    }
+        Vector2 flightDir = aimVelocity ? rb.velocity.normalized : -(Vector2)transform.right;
+        float angleDiff = Vector2.SignedAngle(flightDir, hdg) * Mathf.Deg2Rad;
+        float hdgRate = Vector2.SignedAngle(lastHdg, hdg) * Mathf.Deg2Rad;
 
-    Vector2 prevRotation;
-    void maintainHeading()
-    {
-        Vector3 flightDir = -transform.right;
-        float angleDiff = Vector2.SignedAngle(flightDir, movementTargetDir) * Mathf.Deg2Rad;
-
-        float rotationRate = rb.angularVelocity * Mathf.Deg2Rad;
-        float pitch = angleDiff * P + rotationRate * D;
-
+        float rotationRate = rb.angularVelocity - hdgRate;
+        float pitch = angleDiff * P - rotationRate * D;
         SetPitch(-pitch);
-        prevRotation = flightDir;
+        lastHdg = hdg;
     }
 
     public void Shoot()
@@ -85,12 +78,17 @@ public class PlaneController : MonoBehaviour
 
     public void SetTarget(Vector3 target)
     {
-        movementTargetDir = target - transform.position;
+        SetHeading(target - transform.position);
     }
-    public void SetHeading(Vector3 hdg)
-    {
-        movementTargetDir = hdg;
-    }
+
+    //static Func<Vector3, Vector3, Vector3> Reject = (a, b) => a - Vector3.Project(a, b);
+    //static Func<Vector3, Vector3, float, Vector3> ReflectWithCoef = (a, b, k) => Vector3.Project(a, b) - k * Reject(a, b);
+    //float coef = 0.2f;
+    //public void SetHeadingIncreasedSens(Vector3 hdg)
+    //{
+    //    Vector3 res = ReflectWithCoef(rb.velocity, hdg, coef);
+    //    movementTargetDir = Vector2.Angle(hdg, res) > 60 ? hdg : res;
+    //}
 
     public void Roll()
     {

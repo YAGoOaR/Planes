@@ -43,10 +43,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e75bc502bd00db44b6f562e82ba8ce3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spread: 2
+  spread: 2.5
   coolDown: 0.06
-  bullets: 150
-  bulletShootSpeed: 100
+  useAmmo: 1
+  bullets: 350
+  bulletSpeed: 140
   bulletPrefab: {fileID: 3694224304218080942, guid: f86958d28f6434742ac4eee6914253ac,
     type: 3}
   range: 120
