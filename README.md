@@ -1,5 +1,4 @@
 # Planes
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/82dbf3fe2c584cb096a3f2e6420fc315)](https://www.codacy.com/manual/YAGoOaR/Planes?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=YAGoOaR/Planes&amp;utm_campaign=Badge_Grade)
  [![Language](https://img.shields.io/badge/Language-C%23-blueviolet)](https://en.wikipedia.org/wiki/C_Sharp_(programming_language))
  
  ---
