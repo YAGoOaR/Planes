@@ -39,7 +39,7 @@ TextureImporter:
       213: -9047393278993956552
     second: turnSpriteSheet_11
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -60,6 +60,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -98,6 +99,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -113,6 +115,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -388,6 +402,19 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      turnSpriteSheet_5: 2826416979324657658
+      turnSpriteSheet_3: -9158468408113834380
+      turnSpriteSheet_11: -9047393278993956552
+      turnSpriteSheet_2: 2463417903927492075
+      turnSpriteSheet_0: 342864223133086867
+      turnSpriteSheet_7: 5389069814887700056
+      turnSpriteSheet_6: -2569311671439827885
+      turnSpriteSheet_4: -3781840193229310926
+      turnSpriteSheet_9: -5816507915471556189
+      turnSpriteSheet_10: -8226387902747855269
+      turnSpriteSheet_1: 7555263425384159723
+      turnSpriteSheet_8: -4054296365735216104
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
