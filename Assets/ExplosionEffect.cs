@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ExplosionEffect : MonoBehaviour
 {
-    const float effectTime = 2;
+    const float effectTime = 5;
 
     public void Explode()
     {

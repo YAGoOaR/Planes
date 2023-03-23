@@ -387,7 +387,7 @@ PrefabInstance:
     - target: {fileID: 7560270634609814654, guid: 931102013410de34c84fc0d626047854,
         type: 3}
       propertyPath: bombCount
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7573495947662751529, guid: 931102013410de34c84fc0d626047854,
         type: 3}
@@ -630,7 +630,6 @@ MonoBehaviour:
   - {fileID: 2426720211579252039}
   - {fileID: 5146227517690621703}
   holder: {fileID: 0}
-  dropOnDestroy: 1
 --- !u!1 &5146227517690621703 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8138178578857595859, guid: 931102013410de34c84fc0d626047854,

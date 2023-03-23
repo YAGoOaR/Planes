@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 //Script for a bomb
-public class Explosion : MonoBehaviour
+public class Bomb : MonoBehaviour
 {
     const float EXPLOSION_FORCE_COEF = 400;
     bool isDropped;
