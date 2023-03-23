@@ -10,16 +10,26 @@ PrefabInstance:
     - target: {fileID: -2794570014529546599, guid: 7e7e18c544985fd40a1ee8c32318af8c,
         type: 3}
       propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -2794570014529546599, guid: 7e7e18c544985fd40a1ee8c32318af8c,
         type: 3}
       propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -2794570014529546599, guid: 7e7e18c544985fd40a1ee8c32318af8c,
+        type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -2794570014529546599, guid: 7e7e18c544985fd40a1ee8c32318af8c,
         type: 3}
       propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5353905879519246857}
+    - target: {fileID: -2794570014529546599, guid: 7e7e18c544985fd40a1ee8c32318af8c,
+        type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 7686614613657971734}
     - target: {fileID: -2794570014529546599, guid: 7e7e18c544985fd40a1ee8c32318af8c,
@@ -29,22 +39,42 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -2794570014529546599, guid: 7e7e18c544985fd40a1ee8c32318af8c,
         type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -2794570014529546599, guid: 7e7e18c544985fd40a1ee8c32318af8c,
+        type: 3}
       propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Cleanup
+      objectReference: {fileID: 0}
+    - target: {fileID: -2794570014529546599, guid: 7e7e18c544985fd40a1ee8c32318af8c,
+        type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: DropAndDestroy
       objectReference: {fileID: 0}
     - target: {fileID: -2794570014529546599, guid: 7e7e18c544985fd40a1ee8c32318af8c,
         type: 3}
       propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: BombBay, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: -2794570014529546599, guid: 7e7e18c544985fd40a1ee8c32318af8c,
+        type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: DropoutObjects, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: -2794570014529546599, guid: 7e7e18c544985fd40a1ee8c32318af8c,
         type: 3}
-      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_FloatArgument
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_FloatArgument
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -2794570014529546599, guid: 7e7e18c544985fd40a1ee8c32318af8c,
         type: 3}
       propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: -2794570014529546599, guid: 7e7e18c544985fd40a1ee8c32318af8c,
+        type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 1081117711294531131, guid: 7e7e18c544985fd40a1ee8c32318af8c,
@@ -203,6 +233,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4712081086606916789}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5353905879519246857 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 803973689670633148, guid: 7e7e18c544985fd40a1ee8c32318af8c,
+    type: 3}
+  m_PrefabInstance: {fileID: 4712081086606916789}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 937ff891b04bce6498e2c358369a8937, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5827822694223314409 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1262196556437209436, guid: 7e7e18c544985fd40a1ee8c32318af8c,

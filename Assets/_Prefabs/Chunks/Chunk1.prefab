@@ -393,6 +393,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 7953427316492330660, guid: fe13c49da2c3032459b7dc479b14bcd7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7992705120472771901, guid: fe13c49da2c3032459b7dc479b14bcd7,
         type: 3}
       propertyPath: m_Layer
@@ -559,6 +564,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyBomberSpawner
       objectReference: {fileID: 0}
+    - target: {fileID: 1948952459273058009, guid: 3c044c5eb4790814dbdd1bdedb02c8db,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5238295823460809250, guid: 3c044c5eb4790814dbdd1bdedb02c8db,
         type: 3}
       propertyPath: m_RootOrder
@@ -659,6 +669,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EnemySpawner
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948952459273058009, guid: 3c044c5eb4790814dbdd1bdedb02c8db,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5238295823460809250, guid: 3c044c5eb4790814dbdd1bdedb02c8db,
         type: 3}

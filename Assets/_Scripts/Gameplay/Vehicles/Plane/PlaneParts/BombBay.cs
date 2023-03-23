@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -75,4 +74,11 @@ public class BombBay : MonoBehaviour
         }
     }
 
+    public void Cleanup()
+    {
+        foreach (GameObject bomb in bombs)
+        {
+            Destroy(bomb);
+        }
+    }
 }

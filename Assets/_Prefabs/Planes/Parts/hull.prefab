@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spread: 2.5
-  coolDown: 0.06
+  coolDown: 0.1
   useAmmo: 1
   bullets: 500
   bulletSpeed: 140
@@ -402,8 +402,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   team: 1
-  hp: 4
-  maxhp: 4
+  hp: 5
+  maxhp: 5
 --- !u!114 &109777889477631472
 MonoBehaviour:
   m_ObjectHideFlags: 0

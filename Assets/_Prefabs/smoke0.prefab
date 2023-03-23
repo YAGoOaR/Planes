@@ -75,7 +75,7 @@ TrailRenderer:
   m_SortingLayerID: -2018815051
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Time: 0.4
+  m_Time: 0.6
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.08
