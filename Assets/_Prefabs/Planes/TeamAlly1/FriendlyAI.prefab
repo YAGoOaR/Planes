@@ -77,6 +77,46 @@ PrefabInstance:
       propertyPath: m_Parameters.widthMultiplier
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 5203697446255215976, guid: d055d448def055146bf5e46d9be50514,
+        type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5203697446255215976, guid: d055d448def055146bf5e46d9be50514,
+        type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5203697446255215976, guid: d055d448def055146bf5e46d9be50514,
+        type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 4323388501264288969}
+    - target: {fileID: 5203697446255215976, guid: d055d448def055146bf5e46d9be50514,
+        type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5203697446255215976, guid: d055d448def055146bf5e46d9be50514,
+        type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: Die
+      objectReference: {fileID: 0}
+    - target: {fileID: 5203697446255215976, guid: d055d448def055146bf5e46d9be50514,
+        type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: Dieable, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5203697446255215976, guid: d055d448def055146bf5e46d9be50514,
+        type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_FloatArgument
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5203697446255215976, guid: d055d448def055146bf5e46d9be50514,
+        type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 6704388786001742751, guid: d055d448def055146bf5e46d9be50514,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -87,6 +127,18 @@ PrefabInstance:
     - {fileID: 783891577643401540, guid: d055d448def055146bf5e46d9be50514, type: 3}
     - {fileID: 5833408180641832553, guid: d055d448def055146bf5e46d9be50514, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d055d448def055146bf5e46d9be50514, type: 3}
+--- !u!114 &1863551871329243845 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8983789724217978141, guid: d055d448def055146bf5e46d9be50514,
+    type: 3}
+  m_PrefabInstance: {fileID: 7309482564950507480}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2354531044801276050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8d7a8526ba80e4d900d486f597b0eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2354531044801276050 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5034045993973929802, guid: d055d448def055146bf5e46d9be50514,
@@ -111,3 +163,36 @@ MonoBehaviour:
   enemyTeam: 1
   state: 1
   attackerType: 0
+--- !u!1 &7669798935242815971 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1081117711294531131, guid: d055d448def055146bf5e46d9be50514,
+    type: 3}
+  m_PrefabInstance: {fileID: 7309482564950507480}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4323388501264288969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7669798935242815971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e72c42e2956c2ce4c950de420ce464b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1863551871329243845}
+        m_TargetAssemblyTypeName: DropoutObjects, Assembly-CSharp
+        m_MethodName: DropAndDestroy
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 1
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

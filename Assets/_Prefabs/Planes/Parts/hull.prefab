@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -1.365, y: 0.32, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7573495947662751529}
   m_RootOrder: 5
@@ -46,7 +47,7 @@ MonoBehaviour:
   spread: 2.5
   coolDown: 0.06
   useAmmo: 1
-  bullets: 350
+  bullets: 500
   bulletSpeed: 140
   bulletPrefab: {fileID: 3694224304218080942, guid: f86958d28f6434742ac4eee6914253ac,
     type: 3}
@@ -78,6 +79,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.531, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7573495947662751529}
   m_RootOrder: 4
@@ -122,6 +124,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7573495947662751529}
   m_RootOrder: 0
@@ -137,6 +140,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -215,6 +219,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1289897953309194417}
   - {fileID: 2158185120447624604}
@@ -759,12 +764,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 239db6581d83e0f43a1779abfd24b8af, type: 3}
---- !u!1 &6428826146323256398 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8508988152704094585, guid: 239db6581d83e0f43a1779abfd24b8af,
-    type: 3}
-  m_PrefabInstance: {fileID: 3396339698098505015}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6428826146323256395 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8508988152704094588, guid: 239db6581d83e0f43a1779abfd24b8af,
@@ -774,6 +773,12 @@ Transform:
 --- !u!199 &6428826146323256397 stripped
 ParticleSystemRenderer:
   m_CorrespondingSourceObject: {fileID: 8508988152704094586, guid: 239db6581d83e0f43a1779abfd24b8af,
+    type: 3}
+  m_PrefabInstance: {fileID: 3396339698098505015}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6428826146323256398 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8508988152704094585, guid: 239db6581d83e0f43a1779abfd24b8af,
     type: 3}
   m_PrefabInstance: {fileID: 3396339698098505015}
   m_PrefabAsset: {fileID: 0}

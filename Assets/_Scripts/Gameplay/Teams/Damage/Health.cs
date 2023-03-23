@@ -12,10 +12,8 @@ public class Health : MonoBehaviour
 
     public bool Dead { get => dead; }
     bool dead = false;
-    [SerializeField]
-    int hp = 4;
-    [SerializeField]
-    int maxhp = 4;
+    [SerializeField] int hp = 4;
+    [SerializeField] int maxhp = 4;
 
     public int HP { get => hp; }
     public int MaxHP { get => maxhp; }

@@ -86,6 +86,12 @@ public class GameAssets : MonoBehaviour
         get { return emptyTexture; }
     }
 
+    [SerializeField] GameObject explosionEffect;
+    public GameObject ExplosionEffect
+    {
+        get { return explosionEffect; }
+    }
+
     public GameObject PickRandomCloud()
     {
         return clouds[Random.Range(0, clouds.Length)];

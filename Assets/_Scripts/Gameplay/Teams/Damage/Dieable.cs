@@ -1,15 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Dieable : MonoBehaviour
 {
-    public Health health;
-    public float destroyDelay = 5;
-
-    void Start()
+    public UnityEvent OnDeath = new();
+    public void Die(float time = 5)
     {
-        health.OnDeath.AddListener(() => Timers.Delay(destroyDelay, () => Destroy(gameObject)));
+        SelfDestroy destroyer = gameObject.AddComponent<SelfDestroy>();
+        destroyer.MaxTime = time;
+        destroyer.OnDeath.AddListener(() => OnDeath.Invoke());
     }
-
 }
