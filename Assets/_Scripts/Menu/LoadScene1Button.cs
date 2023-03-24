@@ -2,7 +2,7 @@
 using UnityEngine.SceneManagement;
 
 //A script for buttons in menu
-public class Button1 : MonoBehaviour
+public class LoadScene1Button : MonoBehaviour
 {
     //Start button
     public void StartGame()

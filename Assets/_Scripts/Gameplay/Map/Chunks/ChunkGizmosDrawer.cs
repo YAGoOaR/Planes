@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 //A script that visualizes chunk bounds in editor
-public class ChunkTest : MonoBehaviour
+public class ChunkGizmosDrawer : MonoBehaviour
 {
     const float OFFSET = 200;
     [SerializeField]

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class AddToFreezeList : MonoBehaviour
+public class Freezeable : MonoBehaviour
 {
     void Start()
     {
