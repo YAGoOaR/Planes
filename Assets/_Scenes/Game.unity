@@ -317,7 +317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95d84537e55400c489992fecd0cb3921, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visibleChunks: 1
+  visibleChunks: 3
   chunkSize: 2000
 --- !u!114 &471704030
 MonoBehaviour:
@@ -658,7 +658,7 @@ Transform:
   - {fileID: 1412153267}
   - {fileID: 1993690749}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &773376134
 MonoBehaviour:

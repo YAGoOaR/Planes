@@ -9,8 +9,7 @@ public class ChunkManager : MonoBehaviour
     Transform cameraTransform;
     ChunksArray chunkArray;
 
-    [SerializeField]
-    int visibleChunks;
+    [SerializeField] int visibleChunks;
 
     [SerializeField]
     int chunkSize = 2000;

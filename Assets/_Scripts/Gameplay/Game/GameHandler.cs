@@ -5,7 +5,7 @@ using UnityEngine;
 //Main script of the game
 public class GameHandler : MonoBehaviour
 {
-    const float FREEZE_DISTANCE = 270;
+    const float FREEZE_DISTANCE = 1400;
 
     public Transform projectileHolder;
     public Transform chunkHolder;

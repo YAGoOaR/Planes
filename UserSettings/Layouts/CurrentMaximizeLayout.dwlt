@@ -230,7 +230,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 8a83f0ff34a0f0ff5274f3ffa4cafaff60d9faff18dafaff26dafaff3edafaff2efbffff7659000086590000c2590000ce590000
+      m_ExpandedIDs: 90efe9ff30f0e9fffaf1e9ff0ef2e9ff2637eaff8a83f0ff34a0f0ff5274f3ffa4cafaff60d9faff18dafaff26dafaff3edafaff2efbffff7659000086590000c2590000ce59000030360100
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -414,7 +414,7 @@ MonoBehaviour:
       floating: 0
       collapsed: 0
       displayed: 0
-      snapOffset: {x: -242, y: -116}
+      snapOffset: {x: -247, y: -153}
       snapOffsetDelta: {x: 0, y: 0}
       snapCorner: 3
       id: Scene View/Camera
@@ -530,9 +530,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -39.003708, y: 22.240562, z: -5.116489}
+    m_Target: {x: -76.6818, y: 17.90113, z: -0.9787343}
     speed: 2
-    m_Value: {x: -38.3108, y: 21.03709, z: -5.1545377}
+    m_Value: {x: -75.203995, y: 17.430182, z: -1.0295643}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -583,9 +583,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 80.748856
+    m_Target: 107.87261
     speed: 2
-    m_Value: 84.55377
+    m_Value: 112.95561
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -692,7 +692,7 @@ MonoBehaviour:
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 111}
+    scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 526e0000
     m_LastClickedID: 28242
     m_ExpandedIDs: 000000000464000006640000086400000a6400000c6400000e64000010640000126400001464000016640000186400001a6400001c6400001e640000206400002264000024640000266400002864000000ca9a3b

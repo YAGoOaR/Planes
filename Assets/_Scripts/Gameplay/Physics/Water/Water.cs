@@ -4,7 +4,7 @@
 public class Water : MonoBehaviour
 {
     const float TOP_POSITION = 0;
-    const float WIDTH = 1000;
+    const float WIDTH = 3000;
     const float HEIGHT = 130;
     const float SPRING = 0.001f;
     const float DAMPING = 0.006f;
