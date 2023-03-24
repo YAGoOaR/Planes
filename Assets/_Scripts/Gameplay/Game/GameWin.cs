@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameWin : MonoBehaviour
@@ -14,13 +12,5 @@ public class GameWin : MonoBehaviour
                 GameHandler.Instance.GameWin("Mission success. Enemies have been defeated");
             }
         });
-
-    }
-
-    void FindAllSpawnableEnemies()
-    {
-        EnemySpawner[] spawners = FindObjectsOfType<EnemySpawner>();
-
-
     }
 }

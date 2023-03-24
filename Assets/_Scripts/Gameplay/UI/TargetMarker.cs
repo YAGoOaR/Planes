@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TargetMarker : MonoBehaviour
@@ -8,14 +6,21 @@ public class TargetMarker : MonoBehaviour
     public float distThreshold = 30;
     [SerializeField] Teams.Team targetTeam = Teams.Team.Enemies;
     Transform player;
-
+    GameHandler gameHandler;
     private void Start()
     {
-        player = GameHandler.Instance.Player.GetComponent<Hull>().hull.transform;
+        gameHandler = GameHandler.Instance;
     }
 
     void Update()
     {
+        if (player == null)
+        {
+            GameObject playerObj = gameHandler.Player;
+            if (playerObj == null) return;
+            player = playerObj.GetComponent<Hull>().hull.transform;
+            return;
+        } 
         Transform enemy = Teams.Instance.FindClosestToMe(targetTeam, player.position)?.transform;
         if (enemy == null) return;
         Vector3 delta = enemy.position - player.position;

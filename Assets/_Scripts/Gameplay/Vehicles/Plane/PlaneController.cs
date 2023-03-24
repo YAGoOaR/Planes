@@ -2,22 +2,17 @@ using UnityEngine;
 
 public class PlaneController : MonoBehaviour
 {
-    public float GunRange { get => guns[0].Range; }
-    public float GunBulletVelocity { get => guns[0].BulletSpeed; }
-
     public bool GearUp { get => plane.GearUp; }
     public bool HasBombs { get => bombBay.BombCount > 0; }
 
-    public bool HasAmmo { get => guns[0].Bullets > 0; }
-
     public Transform BombBay { get => bombBay.transform; }
+    public GunsController Guns { get => guns; set => guns = value; }
 
     PlaneBehaviour plane;
     Rigidbody2D rb;
 
     BombBay bombBay;
-    Health health;
-    Gun[] guns;
+    GunsController guns;
 
     float P = 10;
     float D = 0.05f;
@@ -26,9 +21,8 @@ public class PlaneController : MonoBehaviour
     {
         plane = GetComponent<PlaneBehaviour>();
         rb = GetComponent<Rigidbody2D>();
-        health = GetComponent<Health>();
         bombBay = GetComponentInChildren<BombBay>();
-        guns = GetComponentsInChildren<Gun>();
+        guns = GetComponent<GunsController>();
     }
 
     Vector2 lastHdg;
@@ -44,13 +38,7 @@ public class PlaneController : MonoBehaviour
         lastHdg = hdg;
     }
 
-    public void Shoot()
-    {
-        foreach (Gun gun in guns)
-        {
-            gun.Shoot();
-        }
-    }
+    public void Shoot() => guns.Shoot();
 
     public void SetFlaps(bool on)
     {

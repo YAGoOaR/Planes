@@ -17,7 +17,7 @@ public class Teams : MonoBehaviour
     }
 
     readonly Dictionary<Team, List<Health>> teams = new Dictionary<Team, List<Health>>();
-    readonly Dictionary<Team, List<EnemySpawner>> spawners = new Dictionary<Team, List<EnemySpawner>>();
+    readonly Dictionary<Team, List<VehicleSpawner>> spawners = new Dictionary<Team, List<VehicleSpawner>>();
 
     void Awake()
     {
@@ -26,7 +26,7 @@ public class Teams : MonoBehaviour
         foreach (Team team in Enum.GetValues(typeof(Team)))
         {
             teams.Add(team, new List<Health>());
-            spawners.Add(team, new List<EnemySpawner>());
+            spawners.Add(team, new List<VehicleSpawner>());
         }
 
         Health[] entities = FindObjectsOfType<Health>();     
@@ -46,7 +46,7 @@ public class Teams : MonoBehaviour
     {
         int count = 0;
 
-        foreach (EnemySpawner spawner in spawners[team])
+        foreach (VehicleSpawner spawner in spawners[team])
         {
             count += spawner.EnemiesToSpawn;
         }
@@ -94,7 +94,7 @@ public class Teams : MonoBehaviour
         return biggest;
     }
 
-    public void AddSpawner(Team team, EnemySpawner spawner)
+    public void AddSpawner(Team team, VehicleSpawner spawner)
     {
         spawners[team].Add(spawner);
     }

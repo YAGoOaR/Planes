@@ -5,7 +5,6 @@ using UnityEngine;
 //Main script of the game
 public class GameHandler : MonoBehaviour
 {
-    readonly string planeBrokenMsg = "The plane is broken";
     const float FREEZE_DISTANCE = 270;
 
     public Transform projectileHolder;
@@ -19,17 +18,13 @@ public class GameHandler : MonoBehaviour
 
     Game game;
 
-
     Transform cameraTransform;
     List<GameObject> objectsToFreeze;
     [SerializeField]
     Vector2 spawnPosition;
 
     GameObject player;
-    public GameObject Player
-    {
-        get { return player; }
-    }
+    public GameObject Player { get => player; set => player = value; }
 
     public static void SetInstance(GameHandler gameHandler) {
         instance = gameHandler;
@@ -40,9 +35,6 @@ public class GameHandler : MonoBehaviour
     {
         SetInstance(this);
         objectsToFreeze = new List<GameObject>();
-        player = Instantiate(GameAssets.Instance.Player, new Vector3(spawnPosition.x, spawnPosition.y, 0), Quaternion.identity);
-        GameObject hull = player.GetComponent<Hull>().hull;
-        hull.GetComponent<Health>().OnDeath.AddListener(() => GameOver(planeBrokenMsg));
         game = GetComponent<Game>();
     }
 

@@ -1,14 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GunsController : MonoBehaviour
 {
-    Gun[] guns;
     public float MaxShootDistance { get => maxShootDistance; }
     float maxShootDistance = 0;
     public float MaxVelocity { get => maxVelocity; }
+    public bool Full { get => full; set => full = value; }
+
+    public float GunRange { get => guns[0].Range; }
+    public float GunBulletVelocity { get => guns[0].BulletSpeed; }
+    public bool HasAmmo { get => guns[0].Bullets > 0; }
+
+    Gun[] guns;
     float maxVelocity = 0;
+    bool full = true;
 
     void Awake()
     {
@@ -22,7 +27,6 @@ public class GunsController : MonoBehaviour
 
     public void TryShoot(float distance)
     {
-        //Debug.Log($"{distance} {maxShootDistance}");
         foreach (Gun gun in guns)
         {
             if (distance < gun.Range) {
@@ -35,13 +39,22 @@ public class GunsController : MonoBehaviour
     {
         foreach (Gun gun in guns)
         {
-            gun.Shoot();
+            bool success = gun.Shoot();
+            if (full) full = !success;
         }
     }
 
     public bool CanShoot(float distance)
     {
-        //Debug.Log($"{ distance} { maxShootDistance} {distance < maxShootDistance}");
         return distance < maxShootDistance;
+    }
+
+    public void Reload()
+    {
+        foreach (Gun gun in guns)
+        {
+            gun.Reload();
+            full = true;
+        }
     }
 }

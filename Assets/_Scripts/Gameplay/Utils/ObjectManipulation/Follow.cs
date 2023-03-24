@@ -16,7 +16,7 @@ public class Follow : MonoBehaviour
     //Called instantly after initialization
     void Awake()
     {
-        GameObject cameraObject = Instantiate(GameAssets.Instance.PlayerCam);
+        GameObject cameraObject = Camera.main.gameObject;
         camTransform = cameraObject.transform;
         camTransform.position = new Vector3(transform.position.x, transform.position.y, camTransform.position.z);
         background = camTransform.Find("background");

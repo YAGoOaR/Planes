@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Sinkable : MonoBehaviour
 {
-    const float DESTROYED_OBJECT_VOLUME = 60;
+    const float DESTROYED_OBJECT_VOLUME = 70;
     const float HALF_DESTROYED_OBJECT_VOLUME = 100;
     const float buoyancy = 500;
 
@@ -35,7 +35,7 @@ public class Sinkable : MonoBehaviour
         foreach (Buoyancy edge in edges)
         {
             if (edge.Volume == HALF_DESTROYED_OBJECT_VOLUME) continue;
-            edge.Volume = buoyancy * health.HP / health.MaxHP;
+            edge.Volume = buoyancy * Mathf.Max(health.HP, 0) / health.MaxHP;
         }
     }
 }

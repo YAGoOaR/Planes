@@ -24,20 +24,20 @@ public class GearController : MonoBehaviour
         gear = GetComponent<PlanePart>();
     }
 
-    public void switchGear(bool on)
+    public void SwitchGear(bool on)
     {
         if (gear.IsBroken) return;
         gearAnimator.SetBool("gearUp", on);
     }
 
-    public void gearSwitched()
+    public void GearSwitched()
     {
         if (gear.IsBroken) return;
         isGearUp = !isGearUp;
         GetComponent<CircleCollider2D>().enabled = !isGearUp;
     }
 
-    public void switchBrakes(bool on)
+    public void SwitchBrakes(bool on)
     {
         if (gear.IsBroken) return;
 

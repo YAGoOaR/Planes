@@ -204,7 +204,7 @@ public class PlaneBehaviour : MonoBehaviour
         if (!CheckNormalState()) return;
         if (planeRB.velocity.magnitude > gearSwitchVelocity)
         {
-            gearCtrl.switchGear(!gearCtrl.IsGearUp);
+            gearCtrl.SwitchGear(!gearCtrl.IsGearUp);
         }
     }
 
@@ -212,7 +212,7 @@ public class PlaneBehaviour : MonoBehaviour
     {
         if (planeRB.velocity.magnitude > gearSwitchVelocity)
         {
-            gearCtrl.switchGear(!on);
+            gearCtrl.SwitchGear(!on);
         }
     }
 
@@ -344,9 +344,10 @@ public class PlaneBehaviour : MonoBehaviour
 
     public void UpdateBrakes()
     {
-        gearCtrl.switchBrakes(brakes);
+        gearCtrl.SwitchBrakes(brakes);
     }
-    void UpdatePartsPos()
+
+    public void UpdatePartsPos()
     {
         foreach (PlanePart part in partManager.Parts)
         {

@@ -15,7 +15,7 @@ public class Timers : MonoBehaviour
 
         float currentTime;
         readonly float maxTime;
-        readonly bool destroyAfterTimeout;
+        readonly bool destroyAfterTimeout = false;
 
         public CooldownTimer(float max)
         {
@@ -45,15 +45,8 @@ public class Timers : MonoBehaviour
 
         public bool Check()
         {
-            if (currentTime > maxTime)
-            {
-                if (destroyAfterTimeout)
-                {
-                    cooldownTimers.Remove(this);
-                }
-                return true;
-            }
-            return false;
+            if (currentTime > maxTime && destroyAfterTimeout) cooldownTimers.Remove(this);
+            return currentTime > maxTime;
         }
 
         public void Reset()
