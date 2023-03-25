@@ -138,7 +138,6 @@ public class AIPlane : MonoBehaviour
             AIState.preparingToLand => PrepareToLand,
             _ => () => { }
         };
-        //if (enemyTeam == Teams.Team.Enemies) Debug.Log(state);
         stateFunc();
     }
 
@@ -277,9 +276,6 @@ public class AIPlane : MonoBehaviour
 
             if (dist < AttackAirMinDist && closingSpeed > AvoidCollisionVelocityThreshold || dist < AttackAirCriticalDist)
             {
-                //float angleBetweenVelocities = Vector2.SignedAngle(enemyRB.velocity, rb.velocity);
-                //planeController.SetHeading(Quaternion.Euler(0, 0, -Mathf.Sign(angleBetweenVelocities) * collisionAvoidAngle) * -EnemyDelta.normalized);
-
                 Vector3 away = -Vector3.Project(enemyRB.velocity, -Vector2.Perpendicular(rb.velocity));
 
                 planeController.SetHeading(away);

@@ -37,7 +37,7 @@ public class RandomObjects : MonoBehaviour
             {
                 if (Mathf.Abs(chunks[i] - position) > chunkSize * visibleChunks)
                 {
-                    removeCloudChunk(i);
+                    RemoveCloudChunk(i);
                 }
             }
 
@@ -48,20 +48,20 @@ public class RandomObjects : MonoBehaviour
 
                 if (j == -1)
                 {
-                    createCloudChunk(chunkPos);
+                    CreateCloudChunk(chunkPos);
                 }
 
             }
         }
     }
 
-    void createCloudChunk(int pos)
+    void CreateCloudChunk(int pos)
     {
         chunks.Add(pos);
         chunksObj.Add(Instantiate(GameAssets.Instance.PickRandomCloud(), new Vector3(pos + Random.Range(0, chunkSize - objectSize), cloudHeight, 0), Quaternion.identity, chunkHolder));
     }
 
-    void removeCloudChunk(int i)
+    void RemoveCloudChunk(int i)
     {
         Destroy(chunksObj[i]);
         chunksObj.RemoveAt(i);

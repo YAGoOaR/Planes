@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Controller : MonoBehaviour
@@ -13,11 +11,6 @@ public class Controller : MonoBehaviour
     }
 
     void Update()
-    {
-        Controls();
-    }
-
-    void Controls()
     {
         if (Input.GetMouseButton(0)) planeController.Shoot();
         if (Input.GetKeyDown(KeyCode.F)) planeController.SwitchFlaps();
@@ -34,15 +27,9 @@ public class Controller : MonoBehaviour
 
         if (Input.GetKey(KeyCode.G)) planeController.SwitchGear();
 
-
-
         if (Input.GetKeyDown(KeyCode.Space)) planeController.ThrowBomb();
 
-        //float pitch = (Input.GetKey(KeyCode.A) ? -1 : 0) + (Input.GetKey(KeyCode.D) ? 1 : 0);
-        //planeController.SetPitch(pitch);
-
         SetHeading(GetLookPosition());
-
     }
 
     void GearWarning()
@@ -57,12 +44,11 @@ public class Controller : MonoBehaviour
 
     public Vector2 GetLookPosition()
     {
-        //result = new Vector2(inputInput.mousePosition;
         return Input.mousePosition;
     }
 
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.DrawLine(transform.position, Camera.main.ScreenToWorldPoint(GetLookPosition()));
-    //}
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawLine(transform.position, Camera.main.ScreenToWorldPoint(GetLookPosition()));
+    }
 }

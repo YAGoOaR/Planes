@@ -6,7 +6,7 @@ public class GameAssets : MonoBehaviour
     static GameAssets instance;
     public static GameAssets Instance
     {
-        get { return GameAssets.instance; }
+        get { return instance; }
     }
 
     public static void SetInstance(GameAssets gameAssets)
@@ -22,22 +22,19 @@ public class GameAssets : MonoBehaviour
 
     // Game object prefabs
 
-    [SerializeField]
-    GameObject playerCam;
+    [SerializeField] GameObject playerCam;
     public GameObject PlayerCam
     {
         get { return playerCam; }
     }
 
-    [SerializeField]
-    GameObject player;
+    [SerializeField] GameObject player;
     public GameObject Player
     {
         get { return player; }
     }
 
-    [SerializeField]
-    GameObject bomb;
+    [SerializeField] GameObject bomb;
     public GameObject Bomb
     {
         get { return bomb; }
@@ -51,36 +48,31 @@ public class GameAssets : MonoBehaviour
     }
 
 
-    [SerializeField]
-    GameObject[] clouds;
+    [SerializeField] GameObject[] clouds;
     public GameObject[] Clouds
     {
         get { return clouds; }
     }
 
-    [SerializeField]
-    PhysicsMaterial2D wheelMaterial;
+    [SerializeField] PhysicsMaterial2D wheelMaterial;
     public PhysicsMaterial2D WheelMaterial
     {
         get { return wheelMaterial; }
     }
 
-    [SerializeField]
-    PhysicsMaterial2D wheelBrakeMaterial;
+    [SerializeField] PhysicsMaterial2D wheelBrakeMaterial;
     public PhysicsMaterial2D WheelBrakeMaterial
     {
         get { return wheelBrakeMaterial; }
     }
 
-    [SerializeField]
-    GameObject[] chunks;
+    [SerializeField] GameObject[] chunks;
     public GameObject[] Chunks
     {
         get { return chunks; }
     }
 
-    [SerializeField]
-    Sprite emptyTexture;
+    [SerializeField] Sprite emptyTexture;
     public Sprite EmptyTexture
     {
         get { return emptyTexture; }

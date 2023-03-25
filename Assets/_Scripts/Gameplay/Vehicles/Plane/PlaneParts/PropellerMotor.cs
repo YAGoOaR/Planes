@@ -67,10 +67,7 @@ public class PropellerMotor : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.tag != "water" || propellerRigidbody.velocity.magnitude < 10 || !jointIsActive)
-        {
-            return;
-        }
+        if (collider.tag != "water" || propellerRigidbody.velocity.magnitude < 10 || !jointIsActive) return;
         throttle = 0;
         fixedJoint.breakForce = 0;
     }
