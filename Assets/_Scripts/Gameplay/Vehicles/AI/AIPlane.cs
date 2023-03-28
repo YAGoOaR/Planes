@@ -56,7 +56,7 @@ public class AIPlane : MonoBehaviour
 
     Transform home;
 
-    [SerializeField] AIState state = AIState.takingOff;
+    [SerializeField] AIState state = AIState.idle;
 
     Transform currentEnemy = null;
     Rigidbody2D enemyRB = null;
