@@ -24,7 +24,7 @@ public class Gun : MonoBehaviour
     {
         Reload();
         shootingTimer = new Timers.CooldownTimer(coolDown);
-        projectileHolder = GameHandler.Instance.projectileHolder;
+        projectileHolder = GameManager.Instance.projectileHolder;
         rb = GetComponentInParent<Rigidbody2D>();
     }
 

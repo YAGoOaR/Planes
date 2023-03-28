@@ -6,10 +6,10 @@ public class TargetMarker : MonoBehaviour
     public float distThreshold = 30;
     [SerializeField] Teams.Team targetTeam = Teams.Team.Enemies;
     Transform player;
-    GameHandler gameHandler;
+    GameManager gameHandler;
     private void Start()
     {
-        gameHandler = GameHandler.Instance;
+        gameHandler = GameManager.Instance;
     }
 
     void Update()

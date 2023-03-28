@@ -9,6 +9,6 @@ public class ImportantAlly : MonoBehaviour
 
     void Start()
     {
-        GetComponent<Health>().OnDeath.AddListener(() => Timers.Delay(gameOverDelayTime, () => { GameHandler.Instance.GameOver(destroyMessage); }));
+        GetComponent<Health>().OnDeath.AddListener(() => Timers.Delay(gameOverDelayTime, () => { GameManager.Instance.GameOver(destroyMessage); }));
     }
 }

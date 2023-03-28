@@ -52,7 +52,7 @@ public class Bomb : MonoBehaviour
 
     void Detonated()
     {
-        Instantiate(explosionEffect, transform.position, transform.rotation, GameHandler.Instance.projectileHolder);
+        Instantiate(explosionEffect, transform.position, transform.rotation, GameManager.Instance.projectileHolder);
         Destroy(gameObject);
     }
 }

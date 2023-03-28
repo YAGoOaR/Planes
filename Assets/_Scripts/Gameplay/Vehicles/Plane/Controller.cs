@@ -34,7 +34,7 @@ public class Controller : MonoBehaviour
 
     void GearWarning()
     {
-        GameHandler.Instance.messageBox.ShowMessage(gearAndTryTurnMessage);
+        GameManager.Instance.messageBox.ShowMessage(gearAndTryTurnMessage);
     }
 
     private void SetHeading(Vector3 point)

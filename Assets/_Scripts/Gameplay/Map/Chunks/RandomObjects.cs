@@ -22,7 +22,7 @@ public class RandomObjects : MonoBehaviour
         cameraTransform = Camera.main.transform;
         chunks = new List<int>();
         chunksObj = new List<GameObject>();
-        chunkHolder = GameHandler.Instance.chunkHolder;
+        chunkHolder = GameManager.Instance.chunkHolder;
     }
 
     void Update()

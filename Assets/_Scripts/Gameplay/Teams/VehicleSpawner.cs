@@ -10,7 +10,7 @@ public class VehicleSpawner : MonoBehaviour
     [SerializeField] Transform homePoint;
     [SerializeField] float placeObstructionRefreshTime = 1f;
     Timers.Interval timer;
-    GameHandler gameHandler;
+    GameManager gameHandler;
 
     bool busy = false;
 
@@ -19,7 +19,7 @@ public class VehicleSpawner : MonoBehaviour
     void Start()
     {
         Teams.Instance.AddSpawner(team, this);
-        gameHandler = GameHandler.Instance;
+        gameHandler = GameManager.Instance;
 
         if (spawnOnStart)
         {

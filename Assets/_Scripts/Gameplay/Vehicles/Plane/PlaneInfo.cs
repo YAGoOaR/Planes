@@ -13,7 +13,7 @@ public class PlaneInfo : MonoBehaviour
     {
         plane = GetComponent<PlaneBehaviour>();
         rb = GetComponent<Rigidbody2D>();
-        infoShow = GameHandler.Instance.planeinfoShow;
+        infoShow = GameManager.Instance.planeinfoShow;
         propellerMotor = transform.parent.GetComponentInChildren<PropellerMotor>();
         bombBay = GetComponentInChildren<BombBay>();
         gun = GetComponentInChildren<Gun>();

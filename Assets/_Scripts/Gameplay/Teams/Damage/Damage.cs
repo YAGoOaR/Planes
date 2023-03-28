@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Damage : MonoBehaviour
 {
@@ -8,10 +9,13 @@ public class Damage : MonoBehaviour
     [SerializeField] bool damageOnTrigger = false;
     [SerializeField] bool useTeamId = true;
     [SerializeField] Teams.Team team = Teams.Team.Enemies;
+    public UnityEvent OnDamage = new();
 
     private void ApplyDmg(Health health)
     {
-        if (useTeamId) health.Damage(damageAmount, team); else health.Damage(damageAmount);
+        if (useTeamId && team == health.team) return;
+        health.Damage(damageAmount);
+        OnDamage.Invoke();
     }
 
     void OnCollisionEnter2D(Collision2D collision)

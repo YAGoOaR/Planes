@@ -24,7 +24,7 @@ public class BombBay : MonoBehaviour
     {
         bombs = new Queue<GameObject>();
         bombTimer = new Timers.CooldownTimer(0.5f);
-        projectileHolder = GameHandler.Instance.projectileHolder;
+        projectileHolder = GameManager.Instance.projectileHolder;
         plane = transform.parent.GetComponent<PlaneBehaviour>();
         ReloadBombs();
     }

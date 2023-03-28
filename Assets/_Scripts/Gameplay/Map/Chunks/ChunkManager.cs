@@ -95,7 +95,7 @@ public class ChunkManager : MonoBehaviour
     {
         cameraTransform = Camera.main.transform;
         chunkArray = new ChunksArray(chunkSize);
-        chunkArray.chunkHolder = GameHandler.Instance.chunkHolder;
+        chunkArray.chunkHolder = GameManager.Instance.chunkHolder;
     }
 
     //Called each frame

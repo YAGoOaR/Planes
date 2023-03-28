@@ -9,7 +9,7 @@ public class GameWin : MonoBehaviour
         {
             if (teams.GetTeamMemberCount(Teams.Team.Enemies, true) == 0)
             {
-                GameHandler.Instance.GameWin("Mission success. Enemies have been defeated");
+                GameManager.Instance.GameWin("Mission success. Enemies have been defeated");
             }
         });
     }

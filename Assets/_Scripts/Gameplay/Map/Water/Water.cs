@@ -11,7 +11,7 @@ public class Water : MonoBehaviour
     const float SPREAD = 0.003f;
     const float EFFECT = 0.00005f;
     const float MASS = 1;
-    const float TOP_WIDTH = 0.1f;
+    const float TOP_WIDTH = 2f;
     const float EDGE_WIDTH = 10f;
     const float WAVE_VELOCITY = 0.025f;
     const float HALF = 0.5f;
