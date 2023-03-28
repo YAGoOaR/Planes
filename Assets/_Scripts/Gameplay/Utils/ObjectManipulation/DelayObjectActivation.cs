@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 //A script that activates attached game object after specified time
-public class ActiveTimeout : MonoBehaviour
+public class DelayObjectActivation : MonoBehaviour
 {
     [SerializeField]
     float timeout;

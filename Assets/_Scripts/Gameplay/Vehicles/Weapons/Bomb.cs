@@ -46,7 +46,7 @@ public class Bomb : MonoBehaviour
         Rigidbody2D rigidbody = GetComponent<Rigidbody2D>();
         Vector2 position = transform.position;
         float mass = rigidbody.mass;
-        water.GetComponent<Water>().Splash(position.x, mass * EXPLOSION_FORCE_COEF);
+        water.GetComponent<WaterManager>().Splash(position.x, mass * EXPLOSION_FORCE_COEF);
         Detonated();
     }
 

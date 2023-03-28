@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public Transform projectileHolder;
     public Transform chunkHolder;
     public Transform enemyHolder;
-    public PlaneInfoShow planeinfoShow;
+    public PlaneInfoDisplayer planeinfoShow;
     public GameMessageHandler messageBox;
 
     private static GameManager instance;

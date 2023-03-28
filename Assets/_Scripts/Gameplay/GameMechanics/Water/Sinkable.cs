@@ -8,7 +8,7 @@ public class Sinkable : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (!collision.gameObject.TryGetComponent(out WaterDetector _)) return;
+        if (!collision.gameObject.TryGetComponent(out Water _)) return;
         if (timer.Check())
         {
             health.Damage(damagePerSec);

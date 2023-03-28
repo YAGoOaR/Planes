@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Smoker : MonoBehaviour
+public class SmokeEffect : MonoBehaviour
 {
     Health health;
     [SerializeField] GameObject smoke;

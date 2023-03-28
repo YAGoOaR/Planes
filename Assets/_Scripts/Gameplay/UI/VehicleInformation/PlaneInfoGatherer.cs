@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class PlaneInfo : MonoBehaviour
+public class PlaneInfoGatherer : MonoBehaviour
 {
     PlaneBehaviour plane;
-    PlaneInfoShow infoShow;
+    PlaneInfoDisplayer infoShow;
     Rigidbody2D rb;
     PropellerMotor propellerMotor;
     BombBay bombBay;
@@ -21,7 +21,7 @@ public class PlaneInfo : MonoBehaviour
 
     void Update()
     {
-        PlaneInfoShow.InfoText infoText = new PlaneInfoShow.InfoText {
+        PlaneInfoDisplayer.InfoText infoText = new PlaneInfoDisplayer.InfoText {
             throttle = propellerMotor.Throttle,
             bullets = gun.Bullets,
             altitude = transform.position.y,

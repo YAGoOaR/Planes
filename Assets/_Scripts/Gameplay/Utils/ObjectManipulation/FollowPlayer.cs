@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 //A script that makes camera follow player
-public class Follow : MonoBehaviour
+public class FollowPlayer : MonoBehaviour
 {
     readonly Vector3 startPosition = new Vector3(0, 0, 21);
     [SerializeField]

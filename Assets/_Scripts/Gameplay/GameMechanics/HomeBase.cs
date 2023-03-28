@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class ImportantAlly : MonoBehaviour
+public class HomeBase : MonoBehaviour
 {
-    [SerializeField] string destroyMessage = "Ally destroyed";
+    [SerializeField] string destroyMessage = "Home base have been destroyed";
     [SerializeField] float gameOverDelayTime = 10;
 
     void Start()

@@ -1,14 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlaneInfoShow : MonoBehaviour
+public class PlaneInfoDisplayer : MonoBehaviour
 {
     InfoText info;
     private Text text;
 
-    //TODO: remove
     const float SPEED_MULTIPLIER = 6;
 
     public struct InfoText

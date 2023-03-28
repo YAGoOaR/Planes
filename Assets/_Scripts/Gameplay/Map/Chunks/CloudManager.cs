@@ -2,7 +2,7 @@
 using UnityEngine;
 
 //Script that places random visible chunks of clouds
-public class RandomObjects : MonoBehaviour
+public class CloudManager : MonoBehaviour
 {
     private Transform cameraTransform;
     [SerializeField]
