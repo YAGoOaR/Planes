@@ -22,7 +22,11 @@ public class TargetMarker : MonoBehaviour
             return;
         } 
         Transform enemy = Teams.Instance.FindClosestToMe(targetTeam, player.position)?.transform;
-        if (enemy == null) return;
+        if (enemy == null)
+        {
+            transform.localScale = Vector3.zero;
+            return;
+        }
         Vector3 delta = enemy.position - player.position;
         float dist = delta.magnitude;
         bool active = dist > distThreshold;

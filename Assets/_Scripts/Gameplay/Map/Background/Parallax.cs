@@ -7,6 +7,7 @@ public class Parallax : MonoBehaviour
     [SerializeField] private float foregroundCoef = 1;
     [SerializeField] private Transform cameraTransform;
     [SerializeField] private bool moveVertical = false;
+    [SerializeField] Vector3 slideVelocity = Vector3.zero;
 
     private Transform trackTransform;
 
@@ -41,7 +42,7 @@ public class Parallax : MonoBehaviour
         if (foreground)
         {
             Vector3 delta = (Vector2)camPos - prevCamPos;
-            transform.Translate(-delta * foregroundCoef);
+            transform.Translate(-delta * foregroundCoef + slideVelocity * Time.deltaTime);
         }
 
         Vector2 spriteUnitSize = spriteRenderer.sprite.bounds.extents*2;
