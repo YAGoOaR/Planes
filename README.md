@@ -2,7 +2,8 @@
  [![Language](https://img.shields.io/badge/Language-C%23-blueviolet)](https://en.wikipedia.org/wiki/C_Sharp_(programming_language))
  
  ---
- [PLAY IN BROWSER](https://yagooar.itch.io/planes)
+ [PLAY IN BROWSER](https://yagooar.itch.io/planes)  
+ (This is an old version. For the updated game, download the archive from the release)
 
  ---
 
