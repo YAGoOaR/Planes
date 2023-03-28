@@ -265,6 +265,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d7c58849ee4fc24697f9e5502d16c41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &692741166142858817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5827822694223314409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90fe7e1cc47884e44a552730adc5fdc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: {fileID: 6704501629398216651}
+  damagePerSec: 1
 --- !u!1 &5933212534631990692 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1383640366123071761, guid: 7e7e18c544985fd40a1ee8c32318af8c,
