@@ -29,7 +29,7 @@ Update V0.3
 
 
 
-https://user-images.githubusercontent.com/55108635/176163085-1fb582ab-ea19-43e1-8e86-1fa03a2fab6e.mp4
+[![Planes gameplay](http://img.youtube.com/vi/9oXDy-AI5-A/0.jpg)](http://www.youtube.com/watch?v=9oXDy-AI5-A "Planes")
 
 
 
