@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class GearIsSwitched : StateMachineBehaviour
+public class GearAnimationExit : StateMachineBehaviour
 {
     //an event after gear animation is ended
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
