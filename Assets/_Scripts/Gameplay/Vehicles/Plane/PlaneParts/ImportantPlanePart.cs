@@ -4,7 +4,7 @@ public class ImportantPlanePart : MonoBehaviour
 {
     void Start()
     {
-        Health health = transform.parent.GetComponent<Hull>().hull.GetComponent<Health>();
+        Health health = GetComponentInParent<Health>();
         GetComponent<PlanePart>().OnBreak.AddListener(() => health.Kill());
     }
 }

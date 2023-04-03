@@ -8,7 +8,7 @@ public class PlaneController : MonoBehaviour
     public Transform BombBay { get => bombBay.transform; }
     public GunsController Guns { get => guns; set => guns = value; }
 
-    PlaneBehaviour plane;
+    AeroPlane plane;
     Rigidbody2D rb;
 
     BombBay bombBay;
@@ -19,7 +19,7 @@ public class PlaneController : MonoBehaviour
 
     void Start()
     {
-        plane = GetComponent<PlaneBehaviour>();
+        plane = GetComponent<AeroPlane>();
         rb = GetComponent<Rigidbody2D>();
         bombBay = GetComponentInChildren<BombBay>();
         guns = GetComponent<GunsController>();

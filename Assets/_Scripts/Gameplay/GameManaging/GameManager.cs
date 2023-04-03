@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour
     public Transform projectileHolder;
     public Transform chunkHolder;
     public Transform enemyHolder;
-    public PlaneInfoDisplayer planeinfoShow;
     public GameMessageHandler messageBox;
 
     private static GameManager instance;
@@ -22,17 +21,12 @@ public class GameManager : MonoBehaviour
     List<GameObject> objectsToFreeze;
     [SerializeField] Vector2 spawnPosition;
 
-    GameObject player;
-    public GameObject Player { get => player; set => player = value; }
+    Transform player;
+    public Transform Player { get => player; set => player = value; }
 
-    public static void SetInstance(GameManager gameHandler) {
-        instance = gameHandler;
-    }
-
-    //Called instantly after initialization
     public void Awake()
     {
-        SetInstance(this);
+        instance = this;
         objectsToFreeze = new List<GameObject>();
         game = GetComponent<Game>();
     }
@@ -49,13 +43,11 @@ public class GameManager : MonoBehaviour
         game.GameWin(msg);
     }
 
-    //Called after "Awake"
     public void Start()
     {
         cameraTransform = Camera.main.transform;
     }
 
-    //Called once per frame
     public void Update()
     {
         //freeze objects if they are too far from camera

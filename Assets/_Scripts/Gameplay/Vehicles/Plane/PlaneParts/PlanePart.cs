@@ -19,7 +19,7 @@ public class PlanePart : MonoBehaviour
     {
         joint = GetComponent<AnchoredJoint2D>();
 
-        GameObject hull = transform.parent.GetComponent<Hull>().hull;
+        Transform hull = GetComponentInParent<Vehicle>().Hull;
         joint.connectedBody = hull.GetComponent<Rigidbody2D>();
 
         if (spriteRenderer == null) TryGetComponent(out spriteRenderer);

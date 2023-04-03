@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UIElements.Experimental;
+﻿using UnityEngine;
+using UnityEngine.Assertions;
 //A script that controls a plane
-public class PlaneBehaviour : MonoBehaviour
+public class AeroPlane : MonoBehaviour
 {
     [SerializeField] float maxpitch = 1;
     [SerializeField] float jointForce = 300f;
@@ -35,7 +34,7 @@ public class PlaneBehaviour : MonoBehaviour
     JointMotor2D flapMotor;
     HingeJoint2D flapJoint;
     HingeJoint2D elevatorHinge;
-    PropellerMotor propellerMotor;
+    PropellerEngine propellerMotor;
     Timers.CooldownTimer throttleTimer;
 
 
@@ -98,12 +97,15 @@ public class PlaneBehaviour : MonoBehaviour
         elevatorHinge = elevator.GetComponent<HingeJoint2D>();
         aerofoilList = transform.parent.GetComponentsInChildren<Aerofoil>();
         gearCtrl = gear.GetComponent<GearController>();
-        propellerMotor = propeller.GetComponent<PropellerMotor>();
+        propellerMotor = propeller.GetComponent<PropellerEngine>();
         flapJoint = flap.GetComponent<HingeJoint2D>();
         flapMotor = new JointMotor2D();
         hingemotor = new JointMotor2D();
         health = GetComponent<Health>();
         disabler = GetComponent<PlaneComponentDisabler>();
+
+        Assert.IsNotNull(gear);
+        Assert.IsNotNull(gearCtrl);
     }
 
     void DefineVariables()

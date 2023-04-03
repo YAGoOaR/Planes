@@ -16,9 +16,11 @@ public class TargetMarker : MonoBehaviour
     {
         if (player == null)
         {
-            GameObject playerObj = gameHandler.Player;
-            if (playerObj == null) return;
-            player = playerObj.GetComponent<Hull>().hull.transform;
+            if (gameHandler.Player == null) return;
+
+            Transform playerObj = gameHandler.Player;
+            player = playerObj.GetComponent<Vehicle>().Hull;
+
             return;
         } 
         Transform enemy = Teams.Instance.FindClosestToMe(targetTeam, player.position)?.transform;

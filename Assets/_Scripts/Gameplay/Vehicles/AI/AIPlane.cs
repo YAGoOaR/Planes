@@ -61,7 +61,7 @@ public class AIPlane : MonoBehaviour
     Transform currentEnemy = null;
     Rigidbody2D enemyRB = null;
 
-    PlaneBehaviour planeBehaviour;
+    AeroPlane planeBehaviour;
     PlaneController planeController;
     Timers.CooldownTimer turnCooldown;
     Timers.CooldownTimer waitCooldown;
@@ -112,7 +112,7 @@ public class AIPlane : MonoBehaviour
         dodgeCooldown = new Timers.CooldownTimer(dodgeWaitTime);
 
         planeController = GetComponent<PlaneController>();
-        planeBehaviour = GetComponent<PlaneBehaviour>();
+        planeBehaviour = GetComponent<AeroPlane>();
         bombBayTransform = planeController.BombBay;
         teamsInstance = Teams.Instance;
         rb = GetComponent<Rigidbody2D>();

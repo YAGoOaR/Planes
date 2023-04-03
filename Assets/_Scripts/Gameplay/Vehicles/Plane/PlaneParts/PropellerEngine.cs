@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 //A script that controls plane motor
-public class PropellerMotor : MonoBehaviour
+public class PropellerEngine : MonoBehaviour
 {
     const float VELOCITY_OFFSET = 5;
 

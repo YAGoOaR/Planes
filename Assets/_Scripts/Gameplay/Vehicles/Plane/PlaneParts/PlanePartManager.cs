@@ -43,7 +43,14 @@ public class PlanePartManager : MonoBehaviour
 
     public PlanePart GetPart(PartType partType)
     {
-        return parts[partType][0];
+        try
+        {
+            return parts[partType][0];
+        } 
+        catch
+        {
+            return null;
+        }
     }
 
     public PlanePart[] GetParts(PartType partType)

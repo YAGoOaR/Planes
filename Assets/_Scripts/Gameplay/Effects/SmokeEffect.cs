@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SmokeEffect : MonoBehaviour
 {
-    Health health;
+    [SerializeField] Health health;
     [SerializeField] GameObject smoke;
 
     [SerializeField] ParticleSystemRenderer particleSystemRenderer;
@@ -14,7 +14,6 @@ public class SmokeEffect : MonoBehaviour
 
     void Start()
     {
-        health = GetComponent<Health>();
         health.OnDamage.AddListener(OnDamage);
     }
 

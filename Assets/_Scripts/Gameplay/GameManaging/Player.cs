@@ -4,7 +4,7 @@ public class Player : MonoBehaviour
 {
     void Awake()
     {
-        GameManager.Instance.Player = gameObject;
+        GameManager.Instance.Player = transform;
     }
 
     public void DeathMessage()

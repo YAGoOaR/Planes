@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Controller : MonoBehaviour
+public class PlayerInput : MonoBehaviour
 {
     string gearAndTryTurnMessage = "Retract gear before making maneuvers";
     PlaneController planeController;

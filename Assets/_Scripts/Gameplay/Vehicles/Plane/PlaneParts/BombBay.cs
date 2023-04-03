@@ -5,7 +5,7 @@ public class BombBay : MonoBehaviour
 {
     Transform projectileHolder;
     Timers.CooldownTimer bombTimer;
-    PlaneBehaviour plane;
+    AeroPlane plane;
 
     public int BombCount
     {
@@ -25,7 +25,7 @@ public class BombBay : MonoBehaviour
         bombs = new Queue<GameObject>();
         bombTimer = new Timers.CooldownTimer(0.5f);
         projectileHolder = GameManager.Instance.projectileHolder;
-        plane = transform.parent.GetComponent<PlaneBehaviour>();
+        plane = transform.parent.GetComponent<AeroPlane>();
         ReloadBombs();
     }
 

@@ -5,11 +5,10 @@ public class Repairable : MonoBehaviour
     [SerializeField] Health health;
     [SerializeField] GunsController guns;
     [SerializeField] Vehicle vehicle;
-    [SerializeField] float maxVelocity = 5f;
 
     bool repairing = false;
     bool NeedRepair { get => !repairing && (!guns.Full || !health.FullHP); }
-    bool CanRepair { get => vehicle.Rb.velocity.magnitude < maxVelocity; }
+    bool CanRepair { get => vehicle.Rb.velocity.magnitude < RepairZone.MaxSpeed; }
 
     Timers.Timeout timer;
 

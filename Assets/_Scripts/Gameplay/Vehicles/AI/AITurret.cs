@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AITurret : MonoBehaviour
@@ -8,7 +6,6 @@ public class AITurret : MonoBehaviour
     Health currentEnemy = null;
     Rigidbody2D enemyRB = null;
     GunsController gunsController;
-    Rigidbody2D rb;
 
     float forgetDistanceThreshold;
     float forgetBias = 50;
@@ -24,7 +21,6 @@ public class AITurret : MonoBehaviour
 
     void Start()
     {
-        rb = GetComponentInParent<Rigidbody2D>();
         teamsInstance = Teams.Instance;
         gunsController = GetComponent<GunsController>();
         forgetDistanceThreshold = gunsController.MaxShootDistance + forgetBias;

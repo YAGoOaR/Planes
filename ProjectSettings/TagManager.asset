@@ -64,6 +64,12 @@ TagManager:
   - name: high
     uniqueID: 2456156629
     locked: 0
+  - name: smokes
+    uniqueID: 724806403
+    locked: 0
+  - name: explosions
+    uniqueID: 4226025255
+    locked: 0
   - name: underWater
     uniqueID: 2697292515
     locked: 0

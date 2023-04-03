@@ -137,7 +137,6 @@ GameObject:
   - component: {fileID: 118070178}
   - component: {fileID: 118070180}
   - component: {fileID: 118070179}
-  - component: {fileID: 118070181}
   m_Layer: 5
   m_Name: InfoText
   m_TagString: Untagged
@@ -210,18 +209,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 118070177}
   m_CullTransparentMesh: 0
---- !u!114 &118070181
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 118070177}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00caec22b96f476449ee7bfa67e466b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &176954020 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1753601182202891844, guid: b29d9a636eefc9140b2136b13f7dc78f,
@@ -646,7 +633,6 @@ MonoBehaviour:
   projectileHolder: {fileID: 596788417}
   chunkHolder: {fileID: 1412153267}
   enemyHolder: {fileID: 1993690749}
-  planeinfoShow: {fileID: 118070181}
   messageBox: {fileID: 780418159}
   spawnPosition: {x: 0, y: 11.2}
 --- !u!4 &773376133
@@ -1038,6 +1024,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1140207391}
+  - component: {fileID: 1140207392}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -1063,6 +1050,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1140207392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1140207390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1c36f5e87e8a9a4483ac746416818c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vehicleInfo: {fileID: 118070179}
 --- !u!1 &1176653699
 GameObject:
   m_ObjectHideFlags: 0

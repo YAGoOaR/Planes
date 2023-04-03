@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlaneComponentDisabler : MonoBehaviour
@@ -23,6 +21,6 @@ public class PlaneComponentDisabler : MonoBehaviour
                 part.Hide(!active);
             }
         }
-        bombBay.SetBombsActive(active);
+        bombBay?.SetBombsActive(active);
     }
 }

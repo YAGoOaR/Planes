@@ -70,6 +70,9 @@ MonoBehaviour:
   damageOnTrigger: 1
   useTeamId: 0
   team: 0
+  OnDamage:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!58 &5856707626101081149
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -122,6 +125,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8508988152704094586, guid: bbc1d279756317e4fac7552da50d5417,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8508988152704094588, guid: bbc1d279756317e4fac7552da50d5417,
         type: 3}

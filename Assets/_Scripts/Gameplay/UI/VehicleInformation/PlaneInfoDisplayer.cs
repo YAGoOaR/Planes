@@ -1,45 +1,35 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlaneInfoDisplayer : MonoBehaviour
 {
-    InfoText info;
-    private Text text;
-
     const float SPEED_MULTIPLIER = 6;
 
-    public struct InfoText
-    {
-        public int throttle, bullets, bombs;
-        public float speed, altitude;
-        public bool gear, brakes, flaps;
-    }
+    [SerializeField] AeroPlane plane;
+    [SerializeField] Rigidbody2D rb;
+    [SerializeField] BombBay bombBay;
+    [SerializeField] Gun gun;
+    [SerializeField] PropellerEngine propellerMotor;
+
+    UIManager uIManager;
 
     void Start()
     {
-        text = GetComponent<Text>();
+        uIManager = UIManager.Instance;
     }
+
+    static string BoolToSwitch(bool value) => value ? "on" : "off";
 
     void Update()
     {
-
-        text.text = "Throttle: " + info.throttle.ToString() + "\n" +
-        "Speed: " + Mathf.Floor(info.speed * SPEED_MULTIPLIER).ToString() + "\n" +
-        "ALT: " + Mathf.Floor(info.altitude).ToString() + "\n" +
-        "Ammo: " + info.bullets + "\n" +
-        "Bombs: " + info.bombs + "\n" +
-        "Gear: " + BoolToSwitch(!info.gear) + "\n" +
-        "Brakes: " + BoolToSwitch(!info.brakes) + "\n" +
-        "Flaps: " + BoolToSwitch(info.flaps) + "\n";
-    }
-
-    static string BoolToSwitch(bool value)
-    {
-        return value ? "on" : "off";
-    }
-
-    public void SetInfo(InfoText info)
-    {
-        this.info = info;
+        uIManager.VehicleInfo.text = (
+            $"Throttle: {propellerMotor.Throttle}\n" +
+            $"Speed: {Mathf.Floor(rb.velocity.magnitude * SPEED_MULTIPLIER)}\n" +
+            $"ALT: {transform.position.y}\n" +
+            $"Ammo: {(gun != null ? gun.Bullets : 0)}\n" +
+            $"Bombs: {(bombBay != null ? bombBay.BombCount : 0)}\n" +
+            $"Gear: {BoolToSwitch(!plane.GearUp)}\n" +
+            $"Brakes: {BoolToSwitch(plane.Brakes)}\n" +
+            $"Flaps: {BoolToSwitch(plane.Flaps)}\n"
+        );
     }
 }
