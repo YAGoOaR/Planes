@@ -150,6 +150,7 @@ MonoBehaviour:
   moveStep: 0.5
   offset: 10
   player: {fileID: 6809999632882879485}
+  maxZoomOut: 30
 --- !u!114 &8345321959871370897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,6 +320,12 @@ PrefabInstance:
 --- !u!4 &1993387686326424377 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1234003241389071028, guid: ca4fd3f08a3cfd24f82e44d528871cfa,
+    type: 3}
+  m_PrefabInstance: {fileID: 759385277645113741}
+  m_PrefabAsset: {fileID: 0}
+--- !u!233 &7448954790411690260 stripped
+HingeJoint2D:
+  m_CorrespondingSourceObject: {fileID: 7920107747354093721, guid: ca4fd3f08a3cfd24f82e44d528871cfa,
     type: 3}
   m_PrefabInstance: {fileID: 759385277645113741}
   m_PrefabAsset: {fileID: 0}
@@ -879,6 +886,7 @@ MonoBehaviour:
   maxOffset: 0.2
   rb: {fileID: 2969730616505239548}
   wingJoint: {fileID: 3685903158928884442}
+  flapJoint: {fileID: 7448954790411690260}
   flutterStartSpeed: 450
   flutterBreakSpeed: 500
 --- !u!1001 &5801945283681053640
