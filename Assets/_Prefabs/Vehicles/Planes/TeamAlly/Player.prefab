@@ -696,7 +696,7 @@ PrefabInstance:
     - target: {fileID: 1114165968676150723, guid: 0e53ee4811e36d246b51145335529d0f,
         type: 3}
       propertyPath: m_BreakForce
-      value: 12800
+      value: 12500
       objectReference: {fileID: 0}
     - target: {fileID: 4941106411592291615, guid: 0e53ee4811e36d246b51145335529d0f,
         type: 3}

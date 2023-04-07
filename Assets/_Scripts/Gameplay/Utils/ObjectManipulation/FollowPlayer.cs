@@ -10,6 +10,8 @@ public class FollowPlayer : MonoBehaviour
     Transform camTransform;    
     Rigidbody2D rb;
 
+    float size = 10;
+
     //Called instantly after initialization
     void Awake()
     {
@@ -24,8 +26,10 @@ public class FollowPlayer : MonoBehaviour
     //Called once per frame
     void LateUpdate()
     {
-        float size = Mathf.Clamp(Cam.orthographicSize * (1 - Input.GetAxis("Mouse ScrollWheel")), 5, 65);
-        Cam.orthographicSize = size;
+        size = Mathf.Clamp(size * (1 - Input.GetAxis("Mouse ScrollWheel")), 5, 65);
+
+        Cam.orthographicSize = Mathf.Lerp(Cam.orthographicSize, size, 0.03f);
+
         Vector3 playerPosition = player.position;
         float rotation = player.rotation.eulerAngles.z / 180 * Mathf.PI;
         Vector3 rotationVector = new Vector2(-Mathf.Cos(rotation), -Mathf.Sin(rotation));
