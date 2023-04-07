@@ -17,19 +17,19 @@ public class PlaneInfoDisplayer : MonoBehaviour
         uIManager = UIManager.Instance;
     }
 
-    static string BoolToSwitch(bool value) => value ? "on" : "off";
+    static string BoolToText(bool value) => value ? "on" : "off";
 
     void Update()
     {
         uIManager.VehicleInfo.text = (
             $"Throttle: {propellerMotor.Throttle}\n" +
             $"Speed: {Mathf.Floor(rb.velocity.magnitude * SPEED_MULTIPLIER)}\n" +
-            $"ALT: {transform.position.y}\n" +
+            $"ALT: {plane.transform.position.y:.}\n" +
             $"Ammo: {(gun != null ? gun.Bullets : 0)}\n" +
             $"Bombs: {(bombBay != null ? bombBay.BombCount : 0)}\n" +
-            $"Gear: {BoolToSwitch(!plane.GearUp)}\n" +
-            $"Brakes: {BoolToSwitch(plane.Brakes)}\n" +
-            $"Flaps: {BoolToSwitch(plane.Flaps)}\n"
+            $"Gear: {BoolToText(!plane.GearUp)}\n" +
+            $"Brakes: {BoolToText(plane.Brakes)}\n" +
+            $"Flaps: {BoolToText(plane.Flaps)}\n"
         );
     }
 }
