@@ -690,6 +690,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1114165968676150723, guid: 0e53ee4811e36d246b51145335529d0f,
         type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1114165968676150723, guid: 0e53ee4811e36d246b51145335529d0f,
+        type: 3}
       propertyPath: m_BreakForce
       value: 12800
       objectReference: {fileID: 0}
@@ -835,6 +840,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e53ee4811e36d246b51145335529d0f, type: 3}
+--- !u!255 &3685903158928884442 stripped
+FixedJoint2D:
+  m_CorrespondingSourceObject: {fileID: 1114165968676150723, guid: 0e53ee4811e36d246b51145335529d0f,
+    type: 3}
+  m_PrefabInstance: {fileID: 4346155538446753561}
+  m_PrefabAsset: {fileID: 0}
 --- !u!50 &4552402706020997122 stripped
 Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 251576280638523163, guid: 0e53ee4811e36d246b51145335529d0f,
@@ -847,6 +858,29 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4346155538446753561}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5145520589654686860 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8878893780034675605, guid: 0e53ee4811e36d246b51145335529d0f,
+    type: 3}
+  m_PrefabInstance: {fileID: 4346155538446753561}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &524523622511360237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5145520589654686860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc6013234623e09409924bdd23ae62a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxOffset: 0.2
+  rb: {fileID: 2969730616505239548}
+  wingJoint: {fileID: 3685903158928884442}
+  flutterStartSpeed: 450
+  flutterBreakSpeed: 500
 --- !u!1001 &5801945283681053640
 PrefabInstance:
   m_ObjectHideFlags: 0
